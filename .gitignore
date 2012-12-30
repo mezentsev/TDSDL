@@ -11,3 +11,10 @@
 *.lai
 *.la
 *.a
+
+*.pro
+*.pro.user
+*.exe
+
+release/*
+debug/*
