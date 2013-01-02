@@ -8,66 +8,105 @@
 #include <cstdlib>
 #include <ctime>
 
+#include "main.h"
+
 bool done;
-SDL_Surface * screen;
-SDL_Event event;
 
 #undef main
 
-int main ( int argc, char** argv )
-{
+App::App(){
+    this->running = true;
+}
+
+// Инициализация окна и связанных параметров
+bool App::Init(){
     if ( SDL_Init( SDL_INIT_VIDEO ) < 0 )
     {
         printf( "Unable to init SDL: %s\n", SDL_GetError() );
-        return 1;
-    }
-    srand(time(NULL));
-    atexit(SDL_Quit);
-    screen = SDL_SetVideoMode(550, 420, 16, SDL_HWSURFACE | SDL_DOUBLEBUF);
-    if ( !screen )
-    {
-        printf("Unable to set video mode: %s\n", SDL_GetError());
-        return 1;
+        return false;
     }
 
-    SDL_Flip(screen);
-    while (!done)
+    this->screen = SDL_SetVideoMode(550, 420, 16, SDL_HWSURFACE | SDL_DOUBLEBUF);
+    if ( !this->screen )
     {
+        printf("Unable to set video mode: %s\n", SDL_GetError());
+        return false;
+    }
+
+    return true;
+}
+
+// Запуск приложения
+int App::Execute(){
+    if(Init() == false) {
+        return -1;
+    }
+
+    SDL_Event event;
+
+    // Пока запущенно приложение будем считывать события и отрисовывать в цикле
+    while(this->running) {
+        // Ждём события клавиатуры, мыши и т.п.
         SDL_WaitEvent(&event);
-        switch(event.type)
+        this->Event(&event);
+
+        this->Loop();
+
+        // Отрисовка
+        this->Render();
+    }
+
+    this->Cleanup();
+    return 0;
+}
+
+// Обработчик событий
+void App::Event(SDL_Event* event){
+    switch(event->type)
+    {
+        case SDL_QUIT:
         {
-            case SDL_QUIT:
+            this->running = false;
+            break;
+        }
+        case SDL_KEYDOWN:
+        {
+            switch(event->key.keysym.sym)
             {
-                done = true;
-                break;
-            }
-            case SDL_KEYDOWN:
-            {
-                switch(event.key.keysym.sym)
+                case SDLK_ESCAPE:
                 {
-                    case SDLK_ESCAPE:
-                    {
-                        done = true;
-                        break;
-                    }
-                    case SDLK_b:
-                    {
-                        break;
-                    }
+                    this->running = false;
+                    break;
                 }
-                break;
-            }
-            case SDL_MOUSEBUTTONDOWN:
-            {
-                if (event.button.button = SDL_BUTTON_LEFT)
+                case SDLK_b:
                 {
-                    int x = event.button.x, y = event.button.y;
-                    SDL_Flip(screen);
+                    break;
                 }
-                break;
             }
+            break;
+        }
+        case SDL_MOUSEBUTTONDOWN:
+        {
+            if (event->button.button = SDL_BUTTON_LEFT)
+            {
+                int x = event->button.x, y = event->button.y;
+                SDL_Flip(screen);
+            }
+            break;
         }
     }
-    printf("Exited cleanly\n");
-    return 0;
+}
+
+void App::Loop() {}
+void App::Render() {}
+
+// Очистка
+void App::Cleanup() {
+    SDL_Quit();
+}
+
+int main ()
+{
+    App App;
+    return App.Execute();
 }

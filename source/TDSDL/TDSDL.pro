@@ -11,3 +11,6 @@ win32 {
 
 DEFINES += _WIN32 WIN32
 TEMPLATE = app
+
+HEADERS += \
+    main.h
