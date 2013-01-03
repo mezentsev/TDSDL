@@ -1,5 +1,6 @@
 SOURCES += \
-    main.cpp
+    main.cpp \
+    app.cpp
 
 win32 {
     INCLUDEPATH += "C:\SDL-1.2.15\include"
@@ -13,4 +14,4 @@ DEFINES += _WIN32 WIN32
 TEMPLATE = app
 
 HEADERS += \
-    main.h
+    app.h

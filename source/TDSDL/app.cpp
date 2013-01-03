@@ -1,21 +1,3 @@
-#ifdef _WIN32
-#include <cstdio>
-#elif linux
-#include <stdio.h>
-#endif
-
-#include "SDL/SDL.h"
-#include <cstdlib>
-#include <ctime>
-
-#include "app.h"
-
-bool done;
-
-#undef main
-
-<<<<<<< HEAD
-=======
 App::App(){
     this->running = true;
 }
@@ -91,6 +73,7 @@ void App::Event(SDL_Event* event){
         {
             if (event->button.button = SDL_BUTTON_LEFT)
             {
+                int x = event->button.x, y = event->button.y;
                 SDL_Flip(screen);
             }
             break;
@@ -107,11 +90,4 @@ void App::Render() {}
 // Функция просто отключает все использующиеся ресурсы и закрывает игру.
 void App::Cleanup() {
     SDL_Quit();
-}
-
->>>>>>> 3c5f404723a255b3768c1b6adaf4edd2cdcae2dc
-int main ()
-{
-    App App;
-    return App.Execute();
 }

@@ -1,3 +1,8 @@
+#ifndef APP_H
+#define APP_H
+
+#endif // APP_H
+
 #include <QObject>
 
 class App : public QObject {
