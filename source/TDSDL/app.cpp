@@ -1,11 +1,13 @@
 #include "app.h"
 
-App::App(){
+App::App()
+{
     this->running = true;
 }
 
 // Инициализация окна и связанных параметров
-bool App::Init(){
+bool App::Init()
+{
     if ( SDL_Init( SDL_INIT_VIDEO ) < 0 )
     {
         printf( "Unable to init SDL: %s\n", SDL_GetError() );
@@ -23,8 +25,10 @@ bool App::Init(){
 }
 
 // Запуск приложения
-int App::Execute(){
-    if (this->Init() == false) {
+int App::Execute()
+{
+    if (this->Init() == false)
+    {
         return -1;
     }
 
@@ -48,8 +52,9 @@ int App::Execute(){
 }
 
 // Функция обрабатывает все поступающие события от мышки, клавиатуры, джойстика и других устройств.
-void App::Event(SDL_Event* event){
-    switch(event->type)
+void App::Event(SDL_Event* event)
+{
+    switch (event->type)
     {
         case SDL_QUIT:
         {
@@ -58,7 +63,7 @@ void App::Event(SDL_Event* event){
         }
         case SDL_KEYDOWN:
         {
-            switch(event->key.keysym.sym)
+            switch (event->key.keysym.sym)
             {
                 case SDLK_ESCAPE:
                 {
