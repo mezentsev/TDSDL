@@ -14,11 +14,29 @@ Sprite::~Sprite()
 
 SDL_Surface *Sprite::Load(QString path)
 {
-    SDL_Surface *tmp = NULL;
-    return tmp;
+    SDL_Surface* tmp = NULL;
+
+    if((tmp = IMG_Load(path)) == NULL) {
+        return NULL;
+    }
+
+    this->sprite = SDL_DisplayFormat(tmp);
+    SDL_FreeSurface(tmp);
+
+    return this->sprite;
 }
 
-bool Sprite::Draw(SDL_Surface *src, SDL_Surface *dest, int x, int y)
+bool Sprite::Draw(SDL_Surface *dest, int x, int y)
 {
-    return false;
+    if(dest == NULL) {
+            return false;
+    }
+
+    SDL_Rect area;
+    area.x = x;
+    area.y = y;
+
+    SDL_BlitSurface(this->sprite, NULL, dest, &area);
+
+    return true;
 }
