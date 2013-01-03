@@ -1,3 +1,5 @@
+#include "app.h"
+
 App::App(){
     this->running = true;
 }
@@ -22,14 +24,15 @@ bool App::Init(){
 
 // Запуск приложения
 int App::Execute(){
-    if(Init() == false) {
+    if (this->Init() == false) {
         return -1;
     }
 
     SDL_Event event;
 
     // Пока запущенно приложение будем считывать события и отрисовывать в цикле
-    while(this->running) {
+    while (this->running)
+    {
         // Ждём события клавиатуры, мыши и т.п.
         SDL_WaitEvent(&event);
         this->Event(&event);
@@ -73,8 +76,7 @@ void App::Event(SDL_Event* event){
         {
             if (event->button.button = SDL_BUTTON_LEFT)
             {
-                int x = event->button.x, y = event->button.y;
-                SDL_Flip(screen);
+
             }
             break;
         }
@@ -82,12 +84,19 @@ void App::Event(SDL_Event* event){
 }
 
 // Функция обрабатывает обновление данных, например движение NPC по экрану, уменьшение здоровье персонажа и так далее.
-void App::Loop() {}
+void App::Loop()
+{
+
+}
 
 // Функция занимается отображением всего на экране. Она НЕ обрабатывает манипуляции с данными - этим занимается Loop.
-void App::Render() {}
+void App::Render()
+{
+    SDL_Flip(screen);
+}
 
 // Функция просто отключает все использующиеся ресурсы и закрывает игру.
-void App::Cleanup() {
+void App::Cleanup()
+{
     SDL_Quit();
 }
