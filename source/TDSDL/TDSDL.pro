@@ -1,9 +1,11 @@
 SOURCES += \
     main.cpp \
-    app.cpp
+    app.cpp \
+    sprite.cpp \
+    entity.cpp
 
 win32 {
-    INCLUDEPATH += "C:\SDL-1.2.15\include"
+    INCLUDEPATH += "C:\SDL-1.2.15\include" \
 
     LIBS += -L"C:\SDL-1.2.15\lib" \
             -lSDL \
@@ -14,4 +16,6 @@ DEFINES += _WIN32 WIN32
 TEMPLATE = app
 
 HEADERS += \
-    app.h
+    app.h \
+    sprite.h \
+    entity.h
