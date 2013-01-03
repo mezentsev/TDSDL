@@ -89,7 +89,6 @@ void App::Event(SDL_Event* event){
         {
             if (event->button.button = SDL_BUTTON_LEFT)
             {
-                int x = event->button.x, y = event->button.y;
                 SDL_Flip(screen);
             }
             break;
