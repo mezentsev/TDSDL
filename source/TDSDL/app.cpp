@@ -1,5 +1,19 @@
 #include "app.h"
 
+#define TICK_INTERVAL    30
+
+quint32 TimeLeft(void)
+{
+    static quint32 next_time = 0;
+    quint32 now;
+
+    now = SDL_GetTicks();
+    if ( next_time <= now ) {
+        next_time = now+TICK_INTERVAL;
+        return(0);
+    }
+    return(next_time-now);
+}
 
 /******************************************************/
 Entity ent;
@@ -20,20 +34,19 @@ bool App::Init()
         return false;
     }
 
-    this->screen = SDL_SetVideoMode(1920, 1080, 32, SDL_HWSURFACE | SDL_DOUBLEBUF | SDL_FULLSCREEN);
+    SDL_WM_SetCaption("TDSDL", "TDSDL");
+
+    this->screen = SDL_SetVideoMode(800, 600, 32, SDL_HWSURFACE | SDL_DOUBLEBUF );//| SDL_FULLSCREEN);
     if ( !this->screen )
     {
         printf("Unable to set video mode: %s\n", SDL_GetError());
         return false;
     }
 
-
-/******************************************************/
-    Sprite spr;
-    spr.Load("C:/abc.png");
-    ent.setSprite(&spr);
-/******************************************************/
-
+    // Выделяем память под спрайт и не забываем выгрузить в деструкторе Entity
+    Sprite * spr = new Sprite;
+    spr->Load("C:/abc.png");
+    ent.setSprite(spr);
 
     return true;
 }
@@ -108,15 +121,16 @@ void App::Loop()
 
 }
 
-
-
 // Функция занимается отображением всего на экране. Она НЕ обрабатывает манипуляции с данными - этим занимается Loop.
 void App::Render()
 {
-/******************************************************/
-    ent.setXY(ent.getX()+1,ent.getY()+1);
+    // Заливка фона
+    SDL_FillRect(screen, &screen->clip_rect, SDL_MapRGB(screen->format, 0, 0, 0));
+
+    quint32 left = TimeLeft();
+    ent.setXY(ent.getX() + left / 28, ent.getY() + left / 28);
     ent.refresh(screen);
-/******************************************************/
+
     SDL_Flip(screen);
 }
 

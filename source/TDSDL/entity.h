@@ -7,23 +7,23 @@
 class Entity
 {
 private:
-    Sprite sprite;
+    Sprite* sprite;
     //Animation anim;
     int x,y;
     int state;
 public:
-    Entity(Sprite sprite, int x, int y, int state);
+    Entity(Sprite* sprite, int x, int y, int state);
     Entity();
     ~Entity();
 
-    void setSprite(Sprite *sprite);
+    void setSprite(Sprite* sprite);
     void setXY(int x, int y);
     int getX();
     int getY();
     void setState(int state);
     int getState();
 
-    void refresh(SDL_Surface *dest);
+    void refresh(SDL_Surface* dest);
 };
 
 #endif // ENTITY_H

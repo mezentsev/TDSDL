@@ -1,4 +1,5 @@
 #include "sprite.h"
+#include <QDebug>
 
 Sprite::Sprite()
 {
@@ -14,8 +15,9 @@ Sprite::~Sprite()
 /******************************************************/
 }
 
-SDL_Surface *Sprite::Load(QString path)
+SDL_Surface* Sprite::Load(QString path)
 {
+    this->path = path;
     SDL_Surface* tmp = NULL;
 
     if((tmp = IMG_Load(path.toAscii().data())) == NULL) {
@@ -33,7 +35,6 @@ bool Sprite::Draw(SDL_Surface *dest, int x, int y)
     if(dest == NULL) {
             return false;
     }
-
     SDL_Rect area;
     area.x = x;
     area.y = y;

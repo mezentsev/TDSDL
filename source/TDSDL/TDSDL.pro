@@ -2,7 +2,8 @@ SOURCES += \
     main.cpp \
     app.cpp \
     sprite.cpp \
-    entity.cpp
+    entity.cpp \
+    timer.cpp
 
 win32 {
     INCLUDEPATH += "C:\SDL-1.2.15\include" \
@@ -19,4 +20,5 @@ TEMPLATE = app
 HEADERS += \
     app.h \
     sprite.h \
-    entity.h
+    entity.h \
+    timer.h
