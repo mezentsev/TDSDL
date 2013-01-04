@@ -16,7 +16,7 @@ SDL_Surface *Sprite::Load(QString path)
 {
     SDL_Surface* tmp = NULL;
 
-    if((tmp = IMG_Load(path)) == NULL) {
+    if((tmp = IMG_Load(path.toAscii().data())) == NULL) {
         return NULL;
     }
 

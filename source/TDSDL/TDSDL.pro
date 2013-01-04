@@ -9,7 +9,8 @@ win32 {
 
     LIBS += -L"C:\SDL-1.2.15\lib" \
             -lSDL \
-            -lSDLmain
+            -lSDLmain \
+            -lSDL_image
 }
 
 DEFINES += _WIN32 WIN32

@@ -3,6 +3,7 @@
 
 #include <QString>
 #include "SDL/SDL.h"
+#include "SDL/SDL_image.h"
 
 class Sprite
 {
