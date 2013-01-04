@@ -2,15 +2,15 @@
 
 Sprite::Sprite()
 {
-    this->sprite = NULL;
+    this->surface = NULL;
 }
 
 Sprite::~Sprite()
 {
 /******************************************************/
-    /*if (this->sprite)
-        SDL_FreeSurface(this->sprite);
-    this->sprite = NULL;*/
+    if (this->surface)
+        SDL_FreeSurface(this->surface);
+    this->surface = NULL;
 /******************************************************/
 }
 
@@ -22,10 +22,10 @@ SDL_Surface *Sprite::Load(QString path)
         return NULL;
     }
 
-    this->sprite = SDL_DisplayFormat(tmp);
+    this->surface = SDL_DisplayFormat(tmp);
     SDL_FreeSurface(tmp);
 
-    return this->sprite;
+    return this->surface;
 }
 
 bool Sprite::Draw(SDL_Surface *dest, int x, int y)
@@ -38,7 +38,7 @@ bool Sprite::Draw(SDL_Surface *dest, int x, int y)
     area.x = x;
     area.y = y;
 
-    SDL_BlitSurface(this->sprite, NULL, dest, &area);
+    SDL_BlitSurface(this->surface, NULL, dest, &area);
 
     return true;
 }

@@ -31,7 +31,7 @@ bool App::Init()
 /******************************************************/
     Sprite spr;
     spr.Load("C:/abc.png");
-    ent.setSprite(spr);
+    ent.setSprite(&spr);
 /******************************************************/
 
 
@@ -52,7 +52,7 @@ int App::Execute()
     while (this->running)
     {
         // Ждём события клавиатуры, мыши и т.п.
-        SDL_WaitEvent(&event);
+        SDL_PollEvent(&event);
         this->Event(&event);
 
         this->Loop();
@@ -114,8 +114,8 @@ void App::Loop()
 void App::Render()
 {
 /******************************************************/
-    ent.setCoordinates(ent.getX()+2,ent.getY()+2);
-    ent.refreshImage(screen);
+    ent.setXY(ent.getX()+1,ent.getY()+1);
+    ent.refresh(screen);
 /******************************************************/
     SDL_Flip(screen);
 }

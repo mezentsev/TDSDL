@@ -8,7 +8,7 @@
 class Sprite
 {
 private:
-    SDL_Surface* sprite;
+    SDL_Surface* surface;
     int x, y;
     QString path;
 public:

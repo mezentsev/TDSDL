@@ -16,14 +16,14 @@ public:
     Entity();
     ~Entity();
 
-    void setSprite(Sprite sprite);
-    void setCoordinates(int x, int y);
+    void setSprite(Sprite *sprite);
+    void setXY(int x, int y);
     int getX();
     int getY();
     void setState(int state);
     int getState();
 
-    void refreshImage(SDL_Surface *dest);
+    void refresh(SDL_Surface *dest);
 };
 
 #endif // ENTITY_H

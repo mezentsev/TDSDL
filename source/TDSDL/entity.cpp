@@ -2,10 +2,10 @@
 
 Entity::Entity(Sprite sprite, int x, int y, int state)
 {
-    this->sprite=sprite;
-    this->x=x;
-    this->y=y;
-    this->state=state;
+    this->sprite = sprite;
+    this->x      = x;
+    this->y      = y;
+    this->state  = state;
 }
 
 Entity::Entity()
@@ -17,15 +17,15 @@ Entity::~Entity()
 
 }
 
-void Entity::setSprite(Sprite sprite)
+void Entity::setSprite(Sprite *sprite)
 {
-    this->sprite=sprite;
+    this->sprite = *sprite;
 }
 
-void Entity::setCoordinates(int x, int y)
+void Entity::setXY(int x, int y)
 {
-    this->x=x;
-    this->y=y;
+    this->x = x;
+    this->y = y;
 }
 
 int Entity::getX()
@@ -40,7 +40,7 @@ int Entity::getY()
 
 void Entity::setState(int state)
 {
-    this->state=state;
+    this->state = state;
 }
 
 int Entity::getState()
@@ -50,7 +50,7 @@ int Entity::getState()
 
 
 
-void Entity::refreshImage(SDL_Surface *dest)
+void Entity::refresh(SDL_Surface *dest)
 {
     sprite.Draw(dest,x,y);
 }
