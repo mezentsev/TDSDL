@@ -2,6 +2,7 @@
 #define ENTITY_H
 
 #include "sprite.h"
+#include "SDL/SDL.h"
 
 class Entity
 {
@@ -10,10 +11,19 @@ private:
     //Animation anim;
     int x,y;
     int state;
-    int type;
 public:
-    Entity(Sprite sprite, int x, int y, int state, int type );
+    Entity(Sprite sprite, int x, int y, int state);
+    Entity();
     ~Entity();
+
+    void setSprite(Sprite sprite);
+    void setCoordinates(int x, int y);
+    int getX();
+    int getY();
+    void setState(int state);
+    int getState();
+
+    void refreshImage(SDL_Surface *dest);
 };
 
 #endif // ENTITY_H

@@ -3,6 +3,8 @@
 
 #include <QObject>
 #include "SDL/SDL.h"
+#include "sprite.h"
+#include "entity.h"
 
 class App : public QObject{
 private:

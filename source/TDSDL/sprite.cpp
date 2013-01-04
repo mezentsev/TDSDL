@@ -7,9 +7,11 @@ Sprite::Sprite()
 
 Sprite::~Sprite()
 {
-    if (this->sprite)
+/******************************************************/
+    /*if (this->sprite)
         SDL_FreeSurface(this->sprite);
-    this->sprite = NULL;
+    this->sprite = NULL;*/
+/******************************************************/
 }
 
 SDL_Surface *Sprite::Load(QString path)
