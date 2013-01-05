@@ -12,12 +12,11 @@ Map::Map(int width, int height, int cell_w, int cell_h)
 
 Map::~Map()
 {
+    qDeleteAll(this->routes.begin(), this->routes.end());
     this->routes.clear();
     delete [] this->type;
     delete [] this->image;
 }
-
-
 
 void Map::setCell(int x, int y, int type)
 {
@@ -49,8 +48,6 @@ int Map::getCell_h()
     return this->cell_h;
 }
 
-
-
 void Map::addRoute()
 {
     QList<QPoint> *list = new QList<QPoint>;
@@ -70,12 +67,12 @@ void Map::addPoint(int num, int x, int y)
     }
 }
 
-QList<QPoint> Map::getRoute(int num)
+QList<QPoint> * Map::getRoute(int num)
 {
-    return *this->routes[num];
+    return this->routes[num];
 }
 
 int Map::getType(int x, int y)
 {
-    return this->type[y*this->width+x];
+    return this->type[y * this->width + x];
 }

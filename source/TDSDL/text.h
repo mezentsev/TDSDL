@@ -4,6 +4,7 @@
 #include "app.h"
 
 // Класс работы с текстом
+// Нужна либа SDL_ttf
 class Text
 {
 private:

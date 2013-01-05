@@ -24,9 +24,10 @@ public:
     int getCell_w();
     int getCell_h();
 
+    // Добавляет новый маршрут (пустой для заполнения)
     void addRoute();
     void addPoint(int num, int x, int y);
-    QList<QPoint> getRoute(int num);
+    QList<QPoint> * getRoute(int num);
     int getType(int x, int y);
 };
 
