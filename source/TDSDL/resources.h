@@ -11,7 +11,11 @@ class Resources
 private:
     QMap<QString, T*> map;
     int id;
-public:
+public:    
+    Resources()
+    {
+        this->id = 1;
+    }
     Resources(T* res, QString name)
     {
         this->map[name] = res;
@@ -64,4 +68,5 @@ public:
     }
 
 };
+
 #endif // RESOURCES_H

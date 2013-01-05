@@ -17,6 +17,7 @@ quint32 TimeLeft(void)
 
 /******************************************************/
 Entity ent;
+Resources<Sprite> * _sprites = new Resources<Sprite>();
 /******************************************************/
 
 
@@ -46,12 +47,10 @@ bool App::Init()
     // Выделяем память под спрайт и не забываем выгрузить в деструкторе Entity
     Sprite * spr = new Sprite;
     spr->Load("C:/abc.png");
-    ent.setSprite(spr);
 
-    Resources<Sprite> * res = new Resources<Sprite>(spr, "first");
-    qDebug() << res->getResId("first");
-    //res->remRes("first");
-    //qDebug() << res->getResId("first");
+    // Добавляем спрайт в ресурсы
+    _sprites->add(spr, "firstWave");
+    ent.setSprite(_sprites->getRes("firstWave"));
 
     return true;
 }
@@ -142,5 +141,6 @@ void App::Render()
 // Функция просто отключает все использующиеся ресурсы и закрывает игру.
 void App::Cleanup()
 {
+    delete _sprites;
     SDL_Quit();
 }
