@@ -2,9 +2,12 @@
 #define APP_H
 
 #include <QObject>
+#include <QDebug>
 #include "SDL/SDL.h"
+#include "SDL/SDL_image.h"
 #include "sprite.h"
 #include "entity.h"
+#include "resources.h"
 
 class App : public QObject{
 private:

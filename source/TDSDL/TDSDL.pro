@@ -31,4 +31,5 @@ HEADERS += \
     e_tower.h \
     e_enemy.h \
     animation.h \
+    resources.h \
     map.h
