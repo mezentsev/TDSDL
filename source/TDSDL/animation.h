@@ -14,7 +14,7 @@ private:
     int type; //Тип анимации
     int curFrame;
 public:
-    Animation(Sprite * sprite, int w, int h, int cnt, int rate, int type);
+    Animation(Sprite * sprite, int cnt, int rate, int type);
     ~Animation();
 
     // Возвращает номер текущего кадра
@@ -22,7 +22,7 @@ public:
     void setCurFrame(int frame);
 
     // Цикл смены кадров
-    void animate();
+    Sprite * animate();
 };
 
 #endif // ANIMATION_H
