@@ -1,7 +1,7 @@
 #ifndef TEXT_H
 #define TEXT_H
 
-#include <QString>
+#include "app.h"
 
 // Класс работы с текстом
 class Text

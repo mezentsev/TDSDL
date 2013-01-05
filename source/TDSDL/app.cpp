@@ -48,6 +48,11 @@ bool App::Init()
     spr->Load("C:/abc.png");
     ent.setSprite(spr);
 
+    Resources<Sprite> * res = new Resources<Sprite>(spr, "first");
+    qDebug() << res->getResId("first");
+    res->remRes("first");
+    qDebug() << res->getResId("first");
+
     return true;
 }
 

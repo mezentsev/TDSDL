@@ -29,4 +29,5 @@ HEADERS += \
     text.h \
     e_tower.h \
     e_enemy.h \
-    animation.h
+    animation.h \
+    resources.h

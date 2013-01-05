@@ -2,7 +2,6 @@
 #define ENTITY_H
 
 #include "sprite.h"
-#include "SDL/SDL.h"
 
 class Entity
 {

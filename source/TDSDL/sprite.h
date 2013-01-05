@@ -1,9 +1,9 @@
 #ifndef SPRITE_H
 #define SPRITE_H
 
-#include <QString>
 #include "SDL/SDL.h"
 #include "SDL/SDL_image.h"
+#include <QString>
 
 class Sprite
 {

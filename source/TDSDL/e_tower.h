@@ -1,7 +1,7 @@
 #ifndef E_TOWER_H
 #define E_TOWER_H
 
-#include "entity.h"
+#include "app.h"
 
 class e_Tower : public Entity
 {
