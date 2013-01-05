@@ -7,7 +7,8 @@ SOURCES += \
     text.cpp \
     e_tower.cpp \
     e_enemy.cpp \
-    animation.cpp
+    animation.cpp \
+    map.cpp
 
 win32 {
     INCLUDEPATH += "C:\SDL-1.2.15\include" \
@@ -29,4 +30,5 @@ HEADERS += \
     text.h \
     e_tower.h \
     e_enemy.h \
-    animation.h
+    animation.h \
+    map.h
