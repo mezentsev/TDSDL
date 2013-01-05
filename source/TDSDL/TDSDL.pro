@@ -3,7 +3,11 @@ SOURCES += \
     app.cpp \
     sprite.cpp \
     entity.cpp \
-    timer.cpp
+    timer.cpp \
+    text.cpp \
+    e_tower.cpp \
+    e_enemy.cpp \
+    animation.cpp
 
 win32 {
     INCLUDEPATH += "C:\SDL-1.2.15\include" \
@@ -21,4 +25,8 @@ HEADERS += \
     app.h \
     sprite.h \
     entity.h \
-    timer.h
+    timer.h \
+    text.h \
+    e_tower.h \
+    e_enemy.h \
+    animation.h
