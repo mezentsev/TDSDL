@@ -50,8 +50,8 @@ bool App::Init()
 
     Resources<Sprite> * res = new Resources<Sprite>(spr, "first");
     qDebug() << res->getResId("first");
-    res->remRes("first");
-    qDebug() << res->getResId("first");
+    //res->remRes("first");
+    //qDebug() << res->getResId("first");
 
     return true;
 }
