@@ -6,13 +6,15 @@ Map::Map(int width, int height, int cell_w, int cell_h)
     this->height = height;
     this->cell_w = cell_w;
     this->cell_h = cell_h;
-    this->type  = new int[width*height];
+    this->type   = new int[width*height];
+    this->image  = new int[width*height];
 }
 
 Map::~Map()
 {
     this->routes.clear();
     delete [] this->type;
+    delete [] this->image;
 }
 
 
@@ -26,6 +28,28 @@ void Map::setMap(int *type)
 {
     this->type = type;
 }
+
+int Map::getWidth()
+{
+    return this->width;
+}
+
+int Map::getHeight()
+{
+    return this->height;
+}
+
+int Map::getCell_w()
+{
+    return this->cell_w;
+}
+
+int Map::getCell_h()
+{
+    return this->cell_h;
+}
+
+
 
 void Map::addRoute()
 {
@@ -55,4 +79,3 @@ int Map::getType(int x, int y)
 {
     return this->type[y*this->width+x];
 }
-

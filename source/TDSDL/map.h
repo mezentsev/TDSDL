@@ -10,6 +10,7 @@ private:
     int width,  height;
     int cell_w, cell_h;
     int *type;
+    int *image;
     QList<QList<QPoint>*> routes;
 
 public:
@@ -18,6 +19,10 @@ public:
 
     void setCell (int x, int y, int type);
     void setMap  (int *type);
+    int getWidth ();
+    int getHeight();
+    int getCell_w();
+    int getCell_h();
 
     void addRoute();
     void addPoint(int num, int x, int y);
