@@ -68,4 +68,5 @@ public:
         return false;
     }
 };
+
 #endif // RESOURCES_H

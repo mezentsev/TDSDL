@@ -8,7 +8,7 @@ Sprite::Sprite()
 Sprite::~Sprite()
 {
 /******************************************************/
-    if (this->surface)
+    if (this->surface != NULL)
         SDL_FreeSurface(this->surface);
     this->surface = NULL;
 /******************************************************/

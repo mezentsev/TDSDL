@@ -18,8 +18,8 @@ Entity::Entity()
 
 Entity::~Entity()
 {
-    if (this->sprite != NULL)
-        delete this->sprite;
+    //if (this->sprite != NULL)
+    //    delete this->sprite;
 }
 
 void Entity::setSprite(Sprite* sprite)

@@ -1,7 +1,7 @@
 #ifndef ANIMATION_H
 #define ANIMATION_H
 
-#include "app.h"
+#include "sprite.h"
 
 class Animation
 {
