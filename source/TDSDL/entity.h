@@ -29,7 +29,7 @@ public:
 
     bool addAnim(Animation * anim, QString name); //Привязывает анимацию с именем
     Entity * setAnim(QString name); // Устанавливает анимацию с именем name
-    bool animate(); //Проигрывает анимацию с именем this->animName
+    Sprite * animate(); //Проигрывает анимацию с именем this->animName
 };
 
 #endif // ENTITY_H

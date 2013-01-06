@@ -52,7 +52,7 @@ bool App::Init()
     Sprite * animSpr = new Sprite;
     animSpr->Load("abcd.png");
 
-    Animation * anim = new Animation(animSpr, 8, 50, 0);
+    Animation * anim = new Animation(animSpr, 8, 75, 0);
 
     // Добавляем спрайт в ресурсы
     _sprites->add(spr, "firstWave");

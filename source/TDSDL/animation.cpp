@@ -38,7 +38,7 @@ SDL_Rect* Animation::animate()
     if(this->oldTime + this->rate > SDL_GetTicks()) {
         SDL_Rect area;
         area.x = 0;
-        area.y = 0;
+        area.y = (this->h * this->curFrame / this->cnt);
         area.w = this->w;
         area.h = (this->h / this->cnt);
         return &area;
@@ -50,11 +50,11 @@ SDL_Rect* Animation::animate()
 
     SDL_Rect area;
     area.x = 0;
-    area.y = (this->h * this->curFrame / this->cnt);
+    area.y = (this->h * this->curFrame) / this->cnt;
     area.w = this->w;
     area.h = (this->h / this->cnt);
 
-    qDebug() << area.y;
+    //qDebug() << area.y;
     return &area;
 }
 

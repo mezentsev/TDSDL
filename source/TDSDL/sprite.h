@@ -16,7 +16,7 @@ public:
     Sprite();
     ~Sprite();
     SDL_Surface* Load(QString path);
-    bool Draw(SDL_Surface* dest, SDL_Rect a, SDL_Rect b);
+    bool Draw(SDL_Surface* dest, SDL_Rect* a, SDL_Rect* b);
 };
 
 #endif // SPRITE_H

@@ -35,16 +35,16 @@ SDL_Surface* Sprite::Load(QString path)
     return this->surface;
 }
 
-bool Sprite::Draw(SDL_Surface *dest, SDL_Rect a, SDL_Rect b)
+bool Sprite::Draw(SDL_Surface *dest, SDL_Rect* a, SDL_Rect* b)
 {
     if(dest == NULL) {
             return false;
     }
 
-    if (a.x == 0 || a.y == 0)
-        SDL_BlitSurface(this->surface, NULL, dest, &b);
+    if (a->x == -1 || a->y == -1)
+        SDL_BlitSurface(this->surface, NULL, dest, b);
     else
-        SDL_BlitSurface(this->surface, &a, dest, &b);
+        SDL_BlitSurface(this->surface, a, dest, b);
 
     return true;
 }

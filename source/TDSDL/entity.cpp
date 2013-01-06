@@ -63,16 +63,18 @@ int Entity::getState()
 
 void Entity::refresh(SDL_Surface *dest)
 {
-    this->animate();
+
     SDL_Rect destXY;
     destXY.x = this->x;
     destXY.y = this->y;
 
     SDL_Rect spriteXY;
-    spriteXY.x = this->spriteX;
+    spriteXY.x = 0;
     spriteXY.y = this->spriteY;
-
-    this->sprite->Draw(dest, spriteXY, destXY);
+    spriteXY.h = 64;
+    spriteXY.w = 64;
+    //qDebug() << spriteXY.y;
+    this->animate()->Draw(dest, &spriteXY, &destXY);
 }
 
 bool Entity::addAnim(Animation *anim, QString name)
@@ -87,16 +89,15 @@ Entity * Entity::setAnim(QString name)
     return this;
 }
 
-bool Entity::animate()
+Sprite * Entity::animate()
 {
     if (this->anim.contains(this->animName))
     {
         SDL_Rect* rct = this->anim[this->animName]->animate();
-        this->sprite = this->anim[this->animName]->getSprite();
+        //this->sprite = this->anim[this->animName]->getSprite();
         this->spriteX = rct->x;
-        //qDebug() << rct.y;
         this->spriteY = rct->y;
-        return true;
+        return this->anim[this->animName]->getSprite();
     }
-    return false;
+    return this->sprite;
 }
