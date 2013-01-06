@@ -1,8 +1,11 @@
 #include "sprite.h"
+#include <QDebug>
 
 Sprite::Sprite()
 {
     this->surface = NULL;
+    this->w = 0;
+    this->h = 0;
 }
 
 Sprite::~Sprite()
@@ -26,19 +29,22 @@ SDL_Surface* Sprite::Load(QString path)
     this->surface = SDL_DisplayFormat(tmp);
     SDL_FreeSurface(tmp);
 
+    this->w = this->surface->w;
+    this->h = this->surface->h;
+
     return this->surface;
 }
 
-bool Sprite::Draw(SDL_Surface *dest, int x, int y)
+bool Sprite::Draw(SDL_Surface *dest, SDL_Rect a, SDL_Rect b)
 {
     if(dest == NULL) {
             return false;
     }
-    SDL_Rect area;
-    area.x = x;
-    area.y = y;
 
-    SDL_BlitSurface(this->surface, NULL, dest, &area);
+    if (a.x == 0 || a.y == 0)
+        SDL_BlitSurface(this->surface, NULL, dest, &b);
+    else
+        SDL_BlitSurface(this->surface, &a, dest, &b);
 
     return true;
 }

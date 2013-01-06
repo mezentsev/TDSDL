@@ -12,10 +12,11 @@ private:
     int x, y;
     QString path;
 public:
+    int w, h;
     Sprite();
     ~Sprite();
     SDL_Surface* Load(QString path);
-    bool Draw(SDL_Surface* dest, int x, int y);
+    bool Draw(SDL_Surface* dest, SDL_Rect a, SDL_Rect b);
 };
 
 #endif // SPRITE_H

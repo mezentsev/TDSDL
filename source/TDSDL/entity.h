@@ -11,6 +11,7 @@ private:
     QMap<QString, Animation*> anim;
     int x,y;
     int state; //Состояние объекта (возможно enum)
+    int spriteX, spriteY; //смещение спрайта
     QString animName;
 public:
     Entity(Sprite* sprite, int x, int y, int state);

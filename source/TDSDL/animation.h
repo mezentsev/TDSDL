@@ -13,6 +13,7 @@ private:
     int rate; //Частота смены
     int type; //Тип анимации
     int curFrame;
+    int oldTime;
 public:
     Animation(Sprite * sprite, int cnt, int rate, int type);
     ~Animation();
@@ -22,7 +23,8 @@ public:
     void setCurFrame(int frame);
 
     // Цикл смены кадров
-    Sprite * animate();
+    SDL_Rect* animate();
+    Sprite * getSprite();
 };
 
 #endif // ANIMATION_H

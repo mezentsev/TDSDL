@@ -1,4 +1,5 @@
 #include "entity.h"
+#include <QDebug>
 
 Entity::Entity(Sprite* sprite, int x, int y, int state)
 {
@@ -7,6 +8,8 @@ Entity::Entity(Sprite* sprite, int x, int y, int state)
     this->y      = y;
     this->state  = state;
     this->animName = "";
+    this->spriteX = 0;
+    this->spriteY = 0;
 }
 
 Entity::Entity()
@@ -16,6 +19,8 @@ Entity::Entity()
     this->y      = 0;
     this->state  = 0;
     this->animName = "";
+    this->spriteX = 0;
+    this->spriteY = 0;
 }
 
 Entity::~Entity()
@@ -59,8 +64,15 @@ int Entity::getState()
 void Entity::refresh(SDL_Surface *dest)
 {
     this->animate();
-    this->anim[this->name]->animate()->Draw();
-    this->sprite->Draw(dest,x,y);
+    SDL_Rect destXY;
+    destXY.x = this->x;
+    destXY.y = this->y;
+
+    SDL_Rect spriteXY;
+    spriteXY.x = this->spriteX;
+    spriteXY.y = this->spriteY;
+
+    this->sprite->Draw(dest, spriteXY, destXY);
 }
 
 bool Entity::addAnim(Animation *anim, QString name)
@@ -79,7 +91,11 @@ bool Entity::animate()
 {
     if (this->anim.contains(this->animName))
     {
-        this->anim[this->animName]->animate();
+        SDL_Rect* rct = this->anim[this->animName]->animate();
+        this->sprite = this->anim[this->animName]->getSprite();
+        this->spriteX = rct->x;
+        //qDebug() << rct.y;
+        this->spriteY = rct->y;
         return true;
     }
     return false;

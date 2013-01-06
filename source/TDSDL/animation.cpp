@@ -1,10 +1,11 @@
 #include "animation.h"
+#include <QDebug>
 
 Animation::Animation(Sprite * sprite, int cnt, int rate, int type)
 {
     this->sprite = sprite;
-    this->w = sprite->surface->w;
-    this->h = sprite->surface->h;
+    this->w = sprite->w;
+    this->h = sprite->h;
     this->cnt = cnt;
     this->rate = rate;
     this->type = type;
@@ -32,13 +33,18 @@ void Animation::setCurFrame(int frame)
         this->curFrame = frame;
 }
 
-Sprite * Animation::animate()
+SDL_Rect* Animation::animate()
 {
     if(this->oldTime + this->rate > SDL_GetTicks()) {
-        return;
+        SDL_Rect area;
+        area.x = 0;
+        area.y = 0;
+        area.w = this->w;
+        area.h = (this->h / this->cnt);
+        return &area;
     }
 
-    this->oldTime = SDL_GetTicks();
+    this->oldTime += this->rate;
 
     this->setCurFrame(this->getCurFrame() + 1);
 
@@ -48,8 +54,11 @@ Sprite * Animation::animate()
     area.w = this->w;
     area.h = (this->h / this->cnt);
 
-    SDL_Surface* tmp = NULL;
-    SDL_BlitSurface(this->sprite->surface, &area, tmp, NULL);
+    qDebug() << area.y;
+    return &area;
+}
 
-    return tmp;
+Sprite *Animation::getSprite()
+{
+    return this->sprite;
 }

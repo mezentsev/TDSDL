@@ -18,6 +18,7 @@ quint32 TimeLeft(void)
 /******************************************************/
 Entity ent;
 Resources<Sprite> * _sprites = new Resources<Sprite>();
+Resources<Animation> * _anims = new Resources<Animation>();
 /******************************************************/
 
 
@@ -46,11 +47,19 @@ bool App::Init()
 
     // Выделяем память под спрайт и не забываем выгрузить в деструкторе Entity
     Sprite * spr = new Sprite;
-    spr->Load("C:/abc.png");
+    spr->Load("abc.png");
+
+    Sprite * animSpr = new Sprite;
+    animSpr->Load("abcd.png");
+
+    Animation * anim = new Animation(animSpr, 8, 50, 0);
 
     // Добавляем спрайт в ресурсы
     _sprites->add(spr, "firstWave");
+    _anims->add(anim, "run");
     ent.setSprite(_sprites->getRes("firstWave"));
+    ent.addAnim(_anims->getRes("run"), "run1");
+    ent.setAnim("run1")->animate();
 
     return true;
 }
@@ -142,5 +151,6 @@ void App::Render()
 void App::Cleanup()
 {
     delete _sprites;
+    delete _anims;
     SDL_Quit();
 }
