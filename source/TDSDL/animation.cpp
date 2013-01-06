@@ -33,7 +33,7 @@ void Animation::setCurFrame(int frame)
         this->curFrame = frame;
 }
 
-SDL_Rect* Animation::animate()
+SDL_Rect Animation::animate()
 {
     if(this->oldTime + this->rate > SDL_GetTicks()) {
         SDL_Rect area;
@@ -41,7 +41,7 @@ SDL_Rect* Animation::animate()
         area.y = (this->h * this->curFrame / this->cnt);
         area.w = this->w;
         area.h = (this->h / this->cnt);
-        return &area;
+        return area;
     }
 
     this->oldTime += this->rate;
@@ -55,7 +55,7 @@ SDL_Rect* Animation::animate()
     area.h = (this->h / this->cnt);
 
     //qDebug() << area.y;
-    return &area;
+    return area;
 }
 
 Sprite *Animation::getSprite()

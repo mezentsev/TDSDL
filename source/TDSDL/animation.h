@@ -23,7 +23,7 @@ public:
     void setCurFrame(int frame);
 
     // Цикл смены кадров
-    SDL_Rect* animate();
+    SDL_Rect animate();
     Sprite * getSprite();
 };
 

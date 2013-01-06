@@ -93,10 +93,10 @@ Sprite * Entity::animate()
 {
     if (this->anim.contains(this->animName))
     {
-        SDL_Rect* rct = this->anim[this->animName]->animate();
+        SDL_Rect rct = this->anim[this->animName]->animate();
         //this->sprite = this->anim[this->animName]->getSprite();
-        this->spriteX = rct->x;
-        this->spriteY = rct->y;
+        this->spriteX = rct.x;
+        this->spriteY = rct.y;
         return this->anim[this->animName]->getSprite();
     }
     return this->sprite;
