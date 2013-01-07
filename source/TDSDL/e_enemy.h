@@ -11,7 +11,7 @@ private:
     int type;
     QList<QPoint> route;
 public:
-    e_Enemy(int x, int y);
+    e_Enemy();
 
     void setRoute(QList<QPoint> route);
     void move(Map map);

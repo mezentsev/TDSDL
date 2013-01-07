@@ -15,19 +15,14 @@ quint32 TimeLeft(void)
     return(next_time-now);
 }
 
-/******************************************************/
-Entity ent;
-Resources<Sprite> * _sprites = new Resources<Sprite>();
-Resources<Animation> * _anims = new Resources<Animation>();
-
-Map *map;
-e_Ground *ground;
-/******************************************************/
-
-
 App::App()
 {
-    this->running = true;
+    this->_sprites = new Resources<Sprite>();
+    this->_anims   = new Resources<Animation>();
+    this->_enemies = new Resources<e_Enemy>();
+    this->_towers  = new Resources<e_Tower>();
+    this->_grounds = new Resources<e_Ground>();
+    this->running  = true;
 }
 
 // Инициализация окна и связанных параметров
@@ -64,42 +59,48 @@ bool App::Init()
     Animation * anim = new Animation(animSpr, 8, 75, 0);
 
     // Добавляем спрайт в ресурсы
-    _sprites->add(spr, "firstWave");
-    _sprites->add(spr_ground1, "green");
-    _sprites->add(spr_ground2, "road");
-    _sprites->add(spr_ground3, "water");
+    this->_sprites->add(spr, "firstWave");
+    this->_sprites->add(spr_ground1, "green");
+    this->_sprites->add(spr_ground2, "road");
+    this->_sprites->add(spr_ground3, "water");
+    this->_anims->add(anim, "run");
 
-    _anims->add(anim, "run");
-    ent.setSprite(_sprites->getRes("firstWave"));
-    ent.addAnim(_anims->getRes("run"), "run1");
-    ent.setAnim("run1")->animate();
+    e_Enemy *ent = new e_Enemy;
+    ent->setSprite(this->_sprites->getRes("firstWave"));
+    ent->addAnim(this->_anims->getRes("run"), "run1");
+    ent->setAnim("run1")->animate();
+    this->_enemies->add(ent,"dragon");
 
+    //считывание карты и создание сущностей земли
     this->readMap("maps/map.txt");
-    ground = new e_Ground[map->getWidth()*map->getHeight()];
-    for (int x=0; x<map->getWidth(); x++)
+    e_Ground *ground = new e_Ground[this->map->getWidth()*this->map->getHeight()];
+
+    //вот здесь содержится то, что хорошо бы упаковать в класс e_Ground
+    //здесь распределение картинок в зависимости от типа земли
+    for (int y=0; y<this->map->getHeight(); y++)
     {
-        for (int y=0; y<map->getHeight(); y++)
+        for (int x=0; x<this->map->getWidth(); x++)
         {
-            switch (map->getType(x,y))
+            switch (this->map->getType(x,y))
             {
                 case 0:
                 {
-                    ground[y*map->getWidth()+x].setSprite(_sprites->getRes("water"));
+                    ground[y*this->map->getWidth()+x].setSprite(this->_sprites->getRes("water"));
                     break;
                 }
                 case 1:
                 {
-                    ground[y*map->getWidth()+x].setSprite(_sprites->getRes("road"));
+                    ground[y*this->map->getWidth()+x].setSprite(this->_sprites->getRes("road"));
                     break;
                 }
                 case 2:
                 {
-                    ground[y*map->getWidth()+x].setSprite(_sprites->getRes("green"));
+                    ground[y*this->map->getWidth()+x].setSprite(this->_sprites->getRes("green"));
                     break;
                 }
             }
-
-            ground[y*map->getWidth()+x].setXY(x*60,y*60);
+            ground[y*this->map->getWidth()+x].setXY(x*60,y*60);
+            _grounds->add(&ground[y*this->map->getWidth()+x],QString::number(x)+","+QString::number(y));
         }
     }
 
@@ -180,24 +181,32 @@ void App::Loop()
 void App::Render()
 {
     // Заливка фона
-    SDL_FillRect(screen, &screen->clip_rect, SDL_MapRGB(screen->format, 0, 0, 0));
-
-    for (int i=0; i<map->getWidth()*map->getHeight(); i++)
-        ground[i].refresh(screen);
+    SDL_FillRect(this->screen, &this->screen->clip_rect, SDL_MapRGB(this->screen->format, 0, 0, 0));
 
     quint32 left = TimeLeft();
-    ent.setXY(ent.getX() + left / 28, ent.getY() + left / 28);
-    ent.refresh(screen);
 
-    SDL_Flip(screen);
+    for (int y=0; y<this->map->getHeight(); y++)
+        for (int x=0; x<this->map->getWidth(); x++)
+        {
+            _grounds->getRes(QString::number(x)+","+QString::number(y))->refresh(this->screen);
+        }
+
+    e_Enemy *ent = _enemies->getRes("dragon");
+    ent->setXY(ent->getX() + left / 28, ent->getY() + left / 28);
+    ent->refresh(this->screen);
+
+    SDL_Flip(this->screen);
 }
 
 // Функция просто отключает все использующиеся ресурсы и закрывает игру.
 void App::Cleanup()
 {
-    delete _sprites;
-    delete _anims;
-    delete ground;
+    delete this->_sprites;
+    delete this->_anims;
+    delete this->_enemies;
+    delete this->_towers;
+    delete this->_grounds;
+    delete this->map;
     SDL_Quit();
 }
 
@@ -209,15 +218,15 @@ void App::readMap(QString path)
     int width, height;
     fscanf(file,"%d",&width);
     fscanf(file,"%d",&height);
-    map = new Map(width,height);
+    this->map = new Map(width,height);
 
     int type;
-    for (int y=0; y<width; y++)
+    for (int y=0; y<height; y++)
     {
-        for (int x=0; x<height; x++)
+        for (int x=0; x<width; x++)
         {
             fscanf(file,"%d",&type);
-            map->setCell(x,y,type);
+            this->map->setCell(x,y,type);
         }
     }
 

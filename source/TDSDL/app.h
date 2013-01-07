@@ -8,6 +8,8 @@
 #include "sprite.h"
 #include "entity.h"
 #include "resources.h"
+#include "e_enemy.h"
+#include "e_tower.h"
 #include "e_ground.h"
 #include "map.h"
 
@@ -15,6 +17,14 @@ class App : public QObject{
 private:
     bool running;
     SDL_Surface * screen;
+
+    Resources<Sprite>    * _sprites;
+    Resources<Animation> * _anims;
+    Resources<e_Enemy>   * _enemies;
+    Resources<e_Tower>   * _towers;
+    Resources<e_Ground>  * _grounds;
+    Map *map;
+
 public:
     App();
     int Execute();

@@ -1,7 +1,8 @@
 #include "e_enemy.h"
 
-e_Enemy::e_Enemy(int x, int y)
+e_Enemy::e_Enemy()
 {
+    this->setXY(0,0);
 }
 
 void e_Enemy::setRoute(QList<QPoint> route)
