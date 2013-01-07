@@ -14,7 +14,7 @@ private:
     QList<QList<QPoint>*> routes;
 
 public:
-    Map (int width, int height, int cell_w, int cell_h);
+    Map (int width, int height);
     ~Map();
 
     void setCell (int x, int y, int type);

@@ -8,6 +8,8 @@
 #include "sprite.h"
 #include "entity.h"
 #include "resources.h"
+#include "e_ground.h"
+#include "map.h"
 
 class App : public QObject{
 private:
@@ -22,6 +24,8 @@ public:
     void Loop();
     void Render();
     void Cleanup();
+
+    void readMap(QString path);
 
 public slots:
     void setValue(int value);

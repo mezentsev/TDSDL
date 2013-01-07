@@ -1,11 +1,9 @@
 #include "map.h"
 
-Map::Map(int width, int height, int cell_w, int cell_h)
+Map::Map(int width, int height)
 {
     this->width  = width;
     this->height = height;
-    this->cell_w = cell_w;
-    this->cell_h = cell_h;
     this->type   = new int[width*height];
     this->image  = new int[width*height];
 }

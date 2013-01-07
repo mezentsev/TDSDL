@@ -19,6 +19,9 @@ quint32 TimeLeft(void)
 Entity ent;
 Resources<Sprite> * _sprites = new Resources<Sprite>();
 Resources<Animation> * _anims = new Resources<Animation>();
+
+Map *map;
+e_Ground *ground;
 /******************************************************/
 
 
@@ -47,19 +50,58 @@ bool App::Init()
 
     // Выделяем память под спрайт и не забываем выгрузить в деструкторе Entity
     Sprite * spr = new Sprite;
-    spr->Load("abc.png");
+    spr->Load("images/abc.png");
+    Sprite * spr_ground1 = new Sprite;
+    spr_ground1->Load("images/green.png");
+    Sprite * spr_ground2 = new Sprite;
+    spr_ground2->Load("images/road.png");
+    Sprite * spr_ground3 = new Sprite;
+    spr_ground3->Load("images/water.png");
 
     Sprite * animSpr = new Sprite;
-    animSpr->Load("abcd.png");
+    animSpr->Load("images/abcd.png");
 
     Animation * anim = new Animation(animSpr, 8, 75, 0);
 
     // Добавляем спрайт в ресурсы
     _sprites->add(spr, "firstWave");
+    _sprites->add(spr_ground1, "green");
+    _sprites->add(spr_ground2, "road");
+    _sprites->add(spr_ground3, "water");
+
     _anims->add(anim, "run");
     ent.setSprite(_sprites->getRes("firstWave"));
     ent.addAnim(_anims->getRes("run"), "run1");
     ent.setAnim("run1")->animate();
+
+    this->readMap("maps/map.txt");
+    ground = new e_Ground[map->getWidth()*map->getHeight()];
+    for (int x=0; x<map->getWidth(); x++)
+    {
+        for (int y=0; y<map->getHeight(); y++)
+        {
+            switch (map->getType(x,y))
+            {
+                case 0:
+                {
+                    ground[y*map->getWidth()+x].setSprite(_sprites->getRes("water"));
+                    break;
+                }
+                case 1:
+                {
+                    ground[y*map->getWidth()+x].setSprite(_sprites->getRes("road"));
+                    break;
+                }
+                case 2:
+                {
+                    ground[y*map->getWidth()+x].setSprite(_sprites->getRes("green"));
+                    break;
+                }
+            }
+
+            ground[y*map->getWidth()+x].setXY(x*60,y*60);
+        }
+    }
 
     return true;
 }
@@ -140,6 +182,9 @@ void App::Render()
     // Заливка фона
     SDL_FillRect(screen, &screen->clip_rect, SDL_MapRGB(screen->format, 0, 0, 0));
 
+    for (int i=0; i<map->getWidth()*map->getHeight(); i++)
+        ground[i].refresh(screen);
+
     quint32 left = TimeLeft();
     ent.setXY(ent.getX() + left / 28, ent.getY() + left / 28);
     ent.refresh(screen);
@@ -152,5 +197,29 @@ void App::Cleanup()
 {
     delete _sprites;
     delete _anims;
+    delete ground;
     SDL_Quit();
+}
+
+void App::readMap(QString path)
+{
+    FILE *file;
+    file = fopen(path.toStdString().c_str(),"r");
+
+    int width, height;
+    fscanf(file,"%d",&width);
+    fscanf(file,"%d",&height);
+    map = new Map(width,height);
+
+    int type;
+    for (int y=0; y<width; y++)
+    {
+        for (int x=0; x<height; x++)
+        {
+            fscanf(file,"%d",&type);
+            map->setCell(x,y,type);
+        }
+    }
+
+    fclose(file);
 }
