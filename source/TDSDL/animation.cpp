@@ -4,8 +4,8 @@
 Animation::Animation(Sprite * sprite, int cnt, int rate, int type)
 {
     this->sprite = sprite;
-    this->w = sprite->w;
-    this->h = sprite->h;
+    this->w = sprite->getW();
+    this->h = sprite->getH();
     this->cnt = cnt;
     this->rate = rate;
     this->type = type;

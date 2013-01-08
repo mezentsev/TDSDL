@@ -22,6 +22,8 @@ public:
     void setXY(int x, int y);
     int getX();
     int getY();
+    int getW();
+    int getH();
     void setState(int state);
     int getState();
 

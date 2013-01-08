@@ -10,11 +10,9 @@ Sprite::Sprite()
 
 Sprite::~Sprite()
 {
-/******************************************************/
     if (this->surface != NULL)
         SDL_FreeSurface(this->surface);
     this->surface = NULL;
-/******************************************************/
 }
 
 SDL_Surface* Sprite::Load(QString path)
@@ -22,11 +20,12 @@ SDL_Surface* Sprite::Load(QString path)
     this->path = path;
     SDL_Surface* tmp = NULL;
 
-    if((tmp = IMG_Load(path.toAscii().data())) == NULL) {
+    if ((tmp = IMG_Load(path.toAscii().data())) == NULL)
+    {
         return NULL;
     }
 
-    this->surface = SDL_DisplayFormat(tmp);
+    this->surface = SDL_DisplayFormatAlpha(tmp);
     SDL_FreeSurface(tmp);
 
     this->w = this->surface->w;
@@ -47,4 +46,14 @@ bool Sprite::Draw(SDL_Surface *dest, SDL_Rect* a, SDL_Rect* b)
         SDL_BlitSurface(this->surface, a, dest, b);
 
     return true;
+}
+
+int Sprite::getW()
+{
+    return this->w;
+}
+
+int Sprite::getH()
+{
+    return this->h;
 }

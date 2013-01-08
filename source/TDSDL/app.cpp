@@ -197,9 +197,12 @@ void App::Render()
     QMap<QString, Entity*>::iterator i;
     for (i = _entities->getBegin(); i != _entities->getEnd(); ++i)
     {
-        (*i)->setXY((*i)->getX() - this->camera->getX(), (*i)->getY() - this->camera->getY());
-        (*i)->refresh(this->screen);
-        (*i)->setXY((*i)->getX() + this->camera->getX(), (*i)->getY() + this->camera->getY());
+        if (((*i)->getX() + (*i)->getW() - this->camera->getX() >= 0) || ((*i)->getY() + (*i)->getH() - this->camera->getY() >= 0))
+        {
+            (*i)->setXY((*i)->getX() - this->camera->getX(), (*i)->getY() - this->camera->getY());
+            (*i)->refresh(this->screen);
+            (*i)->setXY((*i)->getX() + this->camera->getX(), (*i)->getY() + this->camera->getY());
+        }
         //qDebug() << ((e_Ground*)(*i))->getType();
     }
 

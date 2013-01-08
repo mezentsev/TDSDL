@@ -9,14 +9,16 @@ class Sprite
 {
 private:
     SDL_Surface* surface;
-    int x, y;
-    QString path;
-public:
     int w, h;
+    QString path;
+
+public:
     Sprite();
     ~Sprite();
     SDL_Surface* Load(QString path);
     bool Draw(SDL_Surface* dest, SDL_Rect* a, SDL_Rect* b);
+    int getW();
+    int getH();
 };
 
 #endif // SPRITE_H

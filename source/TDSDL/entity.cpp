@@ -51,6 +51,16 @@ int Entity::getY()
     return this->y;
 }
 
+int Entity::getW()
+{
+    return this->sprite->getW();
+}
+
+int Entity::getH()
+{
+    return this->sprite->getH();
+}
+
 void Entity::setState(int state)
 {
     this->state = state;
