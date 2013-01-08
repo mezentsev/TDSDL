@@ -12,17 +12,14 @@ class Resources
 {
 private:
     QMap<QString, T*> map;
-    int id;
 public:
     Resources()
     {
-        this->id = 1;
     }
 
     Resources(T* res, QString name)
     {
         this->map[name] = res;
-        this->id = 1;
     }
 
     ~Resources()
@@ -40,14 +37,6 @@ public:
             return true;
         }
         return false;
-    }
-
-    // Получить id по имени ресурса
-    int getResId(QString name)
-    {
-        if (this->map.contains(name))
-            return this->id;
-        return -1;
     }
 
     // Получить ресурс по имени или сказать, что его нет
@@ -68,6 +57,16 @@ public:
             return true;
         }
         return false;
+    }
+
+    typename QMap<QString, T*>::iterator getBegin()
+    {
+        return this->map.begin();
+    }
+
+    typename QMap<QString, T*>::iterator getEnd()
+    {
+        return this->map.end();
     }
 };
 

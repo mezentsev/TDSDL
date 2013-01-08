@@ -18,6 +18,7 @@ quint32 TimeLeft(void)
 App::App()
 {
     this->_sprites = new Resources<Sprite>();
+    this->_entity  = new Resources<Entity>();
     this->_anims   = new Resources<Animation>();
     this->_enemies = new Resources<e_Enemy>();
     this->_towers  = new Resources<e_Tower>();
@@ -191,9 +192,16 @@ void App::Render()
             _grounds->getRes(QString::number(x)+","+QString::number(y))->refresh(this->screen);
         }
 
-    e_Enemy *ent = _enemies->getRes("dragon");
-    ent->setXY(ent->getX() + left / 28, ent->getY() + left / 28);
-    ent->refresh(this->screen);
+    //
+    //e_Enemy *ent = _enemies->getRes("dragon");
+    //
+    // Выведем все ресурсы из Enemies
+    QMap<QString, e_Enemy*>::iterator i;
+    for (i = _enemies->getBegin(); i != _enemies->getEnd(); ++i)
+    {
+        (*i)->setXY((*i)->getX() + left / 28, (*i)->getY() + left / 28);
+        (*i)->refresh(this->screen);
+    }
 
     SDL_Flip(this->screen);
 }
@@ -207,11 +215,13 @@ void App::Cleanup()
     delete this->_towers;
     delete this->_grounds;
     delete this->map;
+    delete this->_entity;
     SDL_Quit();
 }
 
 void App::readMap(QString path)
 {
+    // TODO: Изменить код на кроссплатформенный (например Qt'шными средствами)
     FILE *file;
     file = fopen(path.toStdString().c_str(),"r");
 
