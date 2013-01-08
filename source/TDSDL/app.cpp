@@ -22,6 +22,7 @@ App::App()
     this->_enemies = new Resources<e_Enemy>();
     this->_towers  = new Resources<e_Tower>();
     this->_grounds = new Resources<e_Ground>();
+    this->camera   = new Camera;
     this->running  = true;
 }
 
@@ -73,7 +74,6 @@ bool App::Init()
 
     //считывание карты и создание сущностей земли
     this->readMap("maps/map.txt");
-    e_Ground *ground = new e_Ground[this->map->getWidth()*this->map->getHeight()];
 
     //вот здесь содержится то, что хорошо бы упаковать в класс e_Ground
     //здесь распределение картинок в зависимости от типа земли
@@ -81,26 +81,28 @@ bool App::Init()
     {
         for (int x=0; x<this->map->getWidth(); x++)
         {
+            e_Ground *ground = new e_Ground;
             switch (this->map->getType(x,y))
             {
                 case 0:
                 {
-                    ground[y*this->map->getWidth()+x].setSprite(this->_sprites->getRes("water"));
+                    ground->setSprite(this->_sprites->getRes("water"));
                     break;
                 }
                 case 1:
                 {
-                    ground[y*this->map->getWidth()+x].setSprite(this->_sprites->getRes("road"));
+                    ground->setSprite(this->_sprites->getRes("road"));
                     break;
                 }
                 case 2:
                 {
-                    ground[y*this->map->getWidth()+x].setSprite(this->_sprites->getRes("green"));
+                    ground->setSprite(this->_sprites->getRes("green"));
                     break;
                 }
             }
-            ground[y*this->map->getWidth()+x].setXY(x*60,y*60);
-            _grounds->add(&ground[y*this->map->getWidth()+x],QString::number(x)+","+QString::number(y));
+            ground->setXY(x*60,y*60);
+            this->_grounds->add(ground,QString::number(x)+","+QString::number(y));
+            ground = NULL;
         }
     }
 
@@ -153,6 +155,11 @@ void App::Event(SDL_Event* event)
                     this->running = false;
                     break;
                 }
+                case SDLK_RIGHT:
+                {
+                    qDebug()<<111;
+                    break;
+                }
                 case SDLK_b:
                 {
                     break;
@@ -174,7 +181,7 @@ void App::Event(SDL_Event* event)
 // Функция обрабатывает обновление данных, например движение NPC по экрану, уменьшение здоровье персонажа и так далее.
 void App::Loop()
 {
-
+    camera->translate(1,1);
 }
 
 // Функция занимается отображением всего на экране. Она НЕ обрабатывает манипуляции с данными - этим занимается Loop.
@@ -207,6 +214,7 @@ void App::Cleanup()
     delete this->_towers;
     delete this->_grounds;
     delete this->map;
+    delete this->camera;
     SDL_Quit();
 }
 

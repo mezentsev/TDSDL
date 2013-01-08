@@ -12,6 +12,7 @@
 #include "e_tower.h"
 #include "e_ground.h"
 #include "map.h"
+#include "camera.h"
 
 class App : public QObject{
 private:
@@ -23,7 +24,8 @@ private:
     Resources<e_Enemy>   * _enemies;
     Resources<e_Tower>   * _towers;
     Resources<e_Ground>  * _grounds;
-    Map *map;
+    Map    *map;
+    Camera *camera;
 
 public:
     App();

@@ -10,7 +10,8 @@ SOURCES += \
     animation.cpp \
     map.cpp \
     sound.cpp \
-    e_ground.cpp
+    e_ground.cpp \
+    camera.cpp
 
 win32 {
     INCLUDEPATH += "C:\SDL-1.2.15\include" \
@@ -36,4 +37,5 @@ HEADERS += \
     resources.h \
     map.h \
     sound.h \
-    e_ground.h
+    e_ground.h \
+    camera.h
