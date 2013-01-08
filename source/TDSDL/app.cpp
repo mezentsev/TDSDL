@@ -20,9 +20,6 @@ App::App()
     this->_sprites = new Resources<Sprite>();
     this->_entity  = new Resources<Entity>();
     this->_anims   = new Resources<Animation>();
-    this->_enemies = new Resources<e_Enemy>();
-    this->_towers  = new Resources<e_Tower>();
-    this->_grounds = new Resources<e_Ground>();
     this->running  = true;
 }
 
@@ -70,7 +67,7 @@ bool App::Init()
     ent->setSprite(this->_sprites->getRes("firstWave"));
     ent->addAnim(this->_anims->getRes("run"), "run1");
     ent->setAnim("run1")->animate();
-    this->_enemies->add(ent,"dragon");
+    this->_entity->add(ent,"dragon");
 
     //считывание карты и создание сущностей земли
     this->readMap("maps/map.txt");
@@ -100,8 +97,9 @@ bool App::Init()
                     break;
                 }
             }
+            ground[y*this->map->getWidth()+x].setType(1);
             ground[y*this->map->getWidth()+x].setXY(x*60,y*60);
-            _grounds->add(&ground[y*this->map->getWidth()+x],QString::number(x)+","+QString::number(y));
+            this->_entity->add(&ground[y*this->map->getWidth()+x],QString::number(x)+","+QString::number(y));
         }
     }
 
@@ -186,21 +184,13 @@ void App::Render()
 
     quint32 left = TimeLeft();
 
-    for (int y=0; y<this->map->getHeight(); y++)
-        for (int x=0; x<this->map->getWidth(); x++)
-        {
-            _grounds->getRes(QString::number(x)+","+QString::number(y))->refresh(this->screen);
-        }
-
-    //
-    //e_Enemy *ent = _enemies->getRes("dragon");
-    //
-    // Выведем все ресурсы из Enemies
-    QMap<QString, e_Enemy*>::iterator i;
-    for (i = _enemies->getBegin(); i != _enemies->getEnd(); ++i)
+    // Выведем все ресурсы из Entity
+    QMap<QString, Entity*>::iterator i;
+    for (i = _entity->getBegin(); i != _entity->getEnd(); ++i)
     {
         (*i)->setXY((*i)->getX() + left / 28, (*i)->getY() + left / 28);
         (*i)->refresh(this->screen);
+        //qDebug() << ((e_Ground*)(*i))->getType();
     }
 
     SDL_Flip(this->screen);
@@ -211,9 +201,6 @@ void App::Cleanup()
 {
     delete this->_sprites;
     delete this->_anims;
-    delete this->_enemies;
-    delete this->_towers;
-    delete this->_grounds;
     delete this->map;
     delete this->_entity;
     SDL_Quit();
