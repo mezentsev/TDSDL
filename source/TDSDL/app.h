@@ -20,6 +20,7 @@ private:
     SDL_Surface * screen;
 
     Resources<Sprite>    * _sprites;
+    Resources<Entity>    * _entities;
     Resources<Animation> * _anims;
     Resources<e_Enemy>   * _enemies;
     Resources<e_Tower>   * _towers;

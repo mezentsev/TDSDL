@@ -17,13 +17,14 @@ quint32 TimeLeft(void)
 
 App::App()
 {
-    this->_sprites = new Resources<Sprite>();
-    this->_anims   = new Resources<Animation>();
-    this->_enemies = new Resources<e_Enemy>();
-    this->_towers  = new Resources<e_Tower>();
-    this->_grounds = new Resources<e_Ground>();
-    this->camera   = new Camera;
-    this->running  = true;
+    this->_sprites  = new Resources<Sprite>();
+    this->_entities = new Resources<Entity>();
+    this->_anims    = new Resources<Animation>();
+    this->_enemies  = new Resources<e_Enemy>();
+    this->_towers   = new Resources<e_Tower>();
+    this->_grounds  = new Resources<e_Ground>();
+    this->camera    = new Camera();
+    this->running   = true;
 }
 
 // Инициализация окна и связанных параметров
@@ -120,6 +121,7 @@ int App::Execute()
     SDL_Event event;
 
     // Пока запущенно приложение будем считывать события и отрисовывать в цикле
+
     while (this->running)
     {
         // Ждём события клавиатуры, мыши и т.п.
@@ -181,7 +183,9 @@ void App::Event(SDL_Event* event)
 // Функция обрабатывает обновление данных, например движение NPC по экрану, уменьшение здоровье персонажа и так далее.
 void App::Loop()
 {
-    camera->translate(1,1);
+    quint32 left = TimeLeft();
+    camera->translate(left / 28, left / 28);
+    _enemies->getRes("dragon")->setXY(_enemies->getRes("dragon")->getX() + left / 28, _enemies->getRes("dragon")->getY() + left / 28);
 }
 
 // Функция занимается отображением всего на экране. Она НЕ обрабатывает манипуляции с данными - этим занимается Loop.
@@ -192,15 +196,24 @@ void App::Render()
 
     quint32 left = TimeLeft();
 
-    for (int y=0; y<this->map->getHeight(); y++)
-        for (int x=0; x<this->map->getWidth(); x++)
-        {
-            _grounds->getRes(QString::number(x)+","+QString::number(y))->refresh(this->screen);
-        }
+    // Выведем все ресурсы из _grounds
+    QMap<QString, e_Ground*>::iterator gr;
+    for (gr = _grounds->getBegin(); gr != _grounds->getEnd(); ++gr)
+    {
+        (*gr)->setXY((*gr)->getX() - this->camera->getX(), (*gr)->getY() - this->camera->getY());
+        (*gr)->refresh(this->screen);
+        (*gr)->setXY((*gr)->getX() + this->camera->getX(), (*gr)->getY() + this->camera->getY());
+    }
 
-    e_Enemy *ent = _enemies->getRes("dragon");
-    ent->setXY(ent->getX() + left / 28, ent->getY() + left / 28);
-    ent->refresh(this->screen);
+    //
+    // Выведем все ресурсы из _enemies
+    QMap<QString, e_Enemy*>::iterator i;
+    for (i = _enemies->getBegin(); i != _enemies->getEnd(); ++i)
+    {
+        (*i)->setXY((*i)->getX() - this->camera->getX(), (*i)->getY() - this->camera->getY());
+        (*i)->refresh(this->screen);
+        (*i)->setXY((*i)->getX() + this->camera->getX(), (*i)->getY() + this->camera->getY());
+    }
 
     SDL_Flip(this->screen);
 }
@@ -215,11 +228,14 @@ void App::Cleanup()
     delete this->_grounds;
     delete this->map;
     delete this->camera;
+    delete this->_entities;
+
     SDL_Quit();
 }
 
 void App::readMap(QString path)
 {
+    // TODO: Изменить код на кроссплатформенный (например Qt'шными средствами)
     FILE *file;
     file = fopen(path.toStdString().c_str(),"r");
 

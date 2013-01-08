@@ -2,7 +2,7 @@
 
 Camera::Camera()
 {
-    this->x = 0;
+    this->x = 5;
     this->y = 0;
 }
 
@@ -14,6 +14,16 @@ void Camera::moveTo(int x, int y)
 
 void Camera::translate(int dx, int dy)
 {
-    this->x = this->x + x;
-    this->y = this->y + y;
+    this->x = this->x + dx;
+    this->y = this->y + dy;
+}
+
+int Camera::getX()
+{
+    return this->x;
+}
+
+int Camera::getY()
+{
+    return this->y;
 }
