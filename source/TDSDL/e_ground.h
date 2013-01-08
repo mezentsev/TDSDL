@@ -10,6 +10,8 @@ private:
 
 public:    
     e_Ground();
+    void setType(int);
+    int getType();
 };
 
 #endif // E_GROUND_H

@@ -20,9 +20,6 @@ App::App()
     this->_sprites  = new Resources<Sprite>();
     this->_entities = new Resources<Entity>();
     this->_anims    = new Resources<Animation>();
-    this->_enemies  = new Resources<e_Enemy>();
-    this->_towers   = new Resources<e_Tower>();
-    this->_grounds  = new Resources<e_Ground>();
     this->camera    = new Camera();
     this->running   = true;
 }
@@ -71,7 +68,7 @@ bool App::Init()
     ent->setSprite(this->_sprites->getRes("firstWave"));
     ent->addAnim(this->_anims->getRes("run"), "run1");
     ent->setAnim("run1")->animate();
-    this->_enemies->add(ent,"dragon");
+    this->_entities->add(ent,"dragon");
 
     //считывание карты и создание сущностей земли
     this->readMap("maps/map.txt");
@@ -102,7 +99,7 @@ bool App::Init()
                 }
             }
             ground->setXY(x*60,y*60);
-            this->_grounds->add(ground,QString::number(x)+","+QString::number(y));
+            this->_entities->add(ground,QString::number(x)+","+QString::number(y));
             ground = NULL;
         }
     }
@@ -185,7 +182,7 @@ void App::Loop()
 {
     quint32 left = TimeLeft();
     camera->translate(left / 28, left / 28);
-    _enemies->getRes("dragon")->setXY(_enemies->getRes("dragon")->getX() + left / 28, _enemies->getRes("dragon")->getY() + left / 28);
+    _entities->getRes("dragon")->setXY(_entities->getRes("dragon")->getX() + left / 28, _entities->getRes("dragon")->getY() + left / 28);
 }
 
 // Функция занимается отображением всего на экране. Она НЕ обрабатывает манипуляции с данными - этим занимается Loop.
@@ -196,23 +193,14 @@ void App::Render()
 
     quint32 left = TimeLeft();
 
-    // Выведем все ресурсы из _grounds
-    QMap<QString, e_Ground*>::iterator gr;
-    for (gr = _grounds->getBegin(); gr != _grounds->getEnd(); ++gr)
-    {
-        (*gr)->setXY((*gr)->getX() - this->camera->getX(), (*gr)->getY() - this->camera->getY());
-        (*gr)->refresh(this->screen);
-        (*gr)->setXY((*gr)->getX() + this->camera->getX(), (*gr)->getY() + this->camera->getY());
-    }
-
-    //
-    // Выведем все ресурсы из _enemies
-    QMap<QString, e_Enemy*>::iterator i;
-    for (i = _enemies->getBegin(); i != _enemies->getEnd(); ++i)
+    // Выведем все ресурсы из Entity
+    QMap<QString, Entity*>::iterator i;
+    for (i = _entities->getBegin(); i != _entities->getEnd(); ++i)
     {
         (*i)->setXY((*i)->getX() - this->camera->getX(), (*i)->getY() - this->camera->getY());
         (*i)->refresh(this->screen);
         (*i)->setXY((*i)->getX() + this->camera->getX(), (*i)->getY() + this->camera->getY());
+        //qDebug() << ((e_Ground*)(*i))->getType();
     }
 
     SDL_Flip(this->screen);
@@ -223,12 +211,9 @@ void App::Cleanup()
 {
     delete this->_sprites;
     delete this->_anims;
-    delete this->_enemies;
-    delete this->_towers;
-    delete this->_grounds;
+    delete this->_entities;
     delete this->map;
     delete this->camera;
-    delete this->_entities;
 
     SDL_Quit();
 }

@@ -22,9 +22,9 @@ private:
     Resources<Sprite>    * _sprites;
     Resources<Entity>    * _entities;
     Resources<Animation> * _anims;
-    Resources<e_Enemy>   * _enemies;
-    Resources<e_Tower>   * _towers;
-    Resources<e_Ground>  * _grounds;
+//    Resources<e_Enemy>   * _enemies;
+//    Resources<e_Tower>   * _towers;
+//    Resources<e_Ground>  * _grounds;
     Map    *map;
     Camera *camera;
 
