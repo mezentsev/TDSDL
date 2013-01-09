@@ -34,11 +34,13 @@ SDL_Surface* Sprite::Load(QString path)
     return this->surface;
 }
 
-bool Sprite::Draw(SDL_Surface *dest, SDL_Rect* a, SDL_Rect* b)
+bool Sprite::Draw(SDL_Surface *dest, SDL_Rect* a, SDL_Rect* b, double angle, double scale)
 {
     if(dest == NULL) {
             return false;
     }
+
+    //rotozoomSurface(this->surface, angle, scale, SMOOTHING_ON )
 
     if (a->x == -1 || a->y == -1)
         SDL_BlitSurface(this->surface, NULL, dest, b);

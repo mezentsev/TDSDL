@@ -14,6 +14,7 @@
 #include "map.h"
 #include "camera.h"
 #include <QFile>
+#include "SDL/SDL_rotozoom.h"
 
 class App : public QObject{
 private:

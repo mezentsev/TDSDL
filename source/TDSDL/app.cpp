@@ -66,7 +66,7 @@ bool App::Init()
     this->_anims->add(anim, "run");
 
     e_Enemy *ent = new e_Enemy;
-    ent->setSprite(this->_sprites->getRes("firstWave"));
+    ent->setSprite(this->_sprites->getRes("firstWave"))->setHW(64,64);
     ent->addAnim(this->_anims->getRes("run"), "run1");
     ent->setAnim("run1")->animate();
     this->_entities->add(ent,"dragon");
@@ -104,7 +104,7 @@ bool App::Init()
                     break;
                 }
             }
-            ground->setXY(x*60,y*60);
+            ground->setXY(x*60,y*60)->setHW(60,60);
             this->_entities->add(ground,QString::number(x)+","+QString::number(y));
             ground = NULL;
         }
@@ -188,7 +188,7 @@ void App::Loop()
 {
     quint32 left = TimeLeft();
     this->_cameras->getRes("Cam1")->translate(left / 28, left / 28);
-    this->_entities->getRes("dragon")->setXY(_entities->getRes("dragon")->getX() + left / 28, _entities->getRes("dragon")->getY() + left / 28);
+    this->_entities->getRes("dragon")->setXY(_entities->getRes("dragon")->getX() + left / 27, _entities->getRes("dragon")->getY() + left / 27);
 }
 
 // Функция занимается отображением всего на экране. Она НЕ обрабатывает манипуляции с данными - этим занимается Loop.
@@ -208,7 +208,7 @@ void App::Render()
             (*i)->refresh(this->screen);
             (*i)->setXY((*i)->getX() + this->mainCamera->getX(), (*i)->getY() + this->mainCamera->getY());
         }
-        //qDebug() << ((e_Ground*)(*i))->getType();
+        //printf("%s",(*i)->get_name());
     }
 
     // Обновление экрана

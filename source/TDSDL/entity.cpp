@@ -1,7 +1,7 @@
 #include "entity.h"
 #include <QDebug>
 
-Entity::Entity(Sprite* sprite, int x, int y, int state)
+Entity::Entity(Sprite* sprite, int x, int y, int w, int h, int state)
 {
     this->sprite = sprite;
     this->x      = x;
@@ -10,6 +10,8 @@ Entity::Entity(Sprite* sprite, int x, int y, int state)
     this->animName = "";
     this->spriteX = 0;
     this->spriteY = 0;
+    this->w       = w;
+    this->h       = h;
 }
 
 Entity::Entity()
@@ -20,7 +22,9 @@ Entity::Entity()
     this->state  = 0;
     this->animName = "";
     this->spriteX = 0;
-    this->spriteY = 0;
+    this->spriteY = 0;    
+    this->w       = 0;
+    this->h       = 0;
 }
 
 Entity::~Entity()
@@ -30,15 +34,24 @@ Entity::~Entity()
     this->anim.clear(); //Простая очистка, деструктор вызывает класс ресурсов вручную
 }
 
-void Entity::setSprite(Sprite* sprite)
+Entity *  Entity::setSprite(Sprite* sprite)
 {
     this->sprite = sprite;
+    return this;
 }
 
-void Entity::setXY(int x, int y)
+Entity * Entity::setXY(int x, int y)
 {
     this->x = x;
     this->y = y;
+    return this;
+}
+
+Entity * Entity::setHW(int h, int w)
+{
+    this->h = h;
+    this->w = w;
+    return this;
 }
 
 int Entity::getX()
@@ -53,12 +66,12 @@ int Entity::getY()
 
 int Entity::getW()
 {
-    return this->sprite->getW();
+    return this->w;
 }
 
 int Entity::getH()
 {
-    return this->sprite->getH();
+    return this->h;
 }
 
 void Entity::setState(int state)
@@ -71,6 +84,18 @@ int Entity::getState()
     return this->state;
 }
 
+Entity * Entity::setAngle(double angle)
+{
+    this->_angle = angle;
+    return this;
+}
+
+Entity * Entity::setScale(double scale)
+{
+    this->_scale = scale;
+    return this;
+}
+
 void Entity::refresh(SDL_Surface *dest)
 {
 
@@ -81,10 +106,11 @@ void Entity::refresh(SDL_Surface *dest)
     SDL_Rect spriteXY;
     spriteXY.x = 0;
     spriteXY.y = this->spriteY;
-    spriteXY.h = 64;
-    spriteXY.w = 64;
+    spriteXY.h = this->h;
+    spriteXY.w = this->w;
+
     //qDebug() << spriteXY.y;
-    this->animate()->Draw(dest, &spriteXY, &destXY);
+    this->animate()->Draw(dest, &spriteXY, &destXY, this->_angle, this->_scale);
 }
 
 bool Entity::addAnim(Animation *anim, QString name)

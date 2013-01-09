@@ -4,6 +4,7 @@
 #include "SDL/SDL.h"
 #include "SDL/SDL_image.h"
 #include <QString>
+#include "SDL/SDL_rotozoom.h"
 
 class Sprite
 {
@@ -16,7 +17,7 @@ public:
     Sprite();
     ~Sprite();
     SDL_Surface* Load(QString path);
-    bool Draw(SDL_Surface* dest, SDL_Rect* a, SDL_Rect* b);
+    bool Draw(SDL_Surface* dest, SDL_Rect* a, SDL_Rect* b, double angle, double scale);
     int getW();
     int getH();
 };

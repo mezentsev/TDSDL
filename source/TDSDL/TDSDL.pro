@@ -19,7 +19,8 @@ win32 {
     LIBS += -L"C:\SDL-1.2.15\lib" \
             -lSDL \
             -lSDLmain \
-            -lSDL_image
+            -lSDL_image \
+            -llibgfxdll
 }
 
 DEFINES += _WIN32 WIN32
