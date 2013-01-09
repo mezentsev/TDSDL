@@ -13,6 +13,7 @@
 #include "e_ground.h"
 #include "map.h"
 #include "camera.h"
+#include "control.h"
 #include <QFile>
 #include "SDL/SDL_rotozoom.h"
 
@@ -26,8 +27,8 @@ private:
     Resources<Animation> * _anims;
     Resources<Map>       * _maps;
     Resources<Camera>   *  _cameras;
-//    Map    *map;
     Camera *mainCamera;
+    Control control;
 
 public:
     App();

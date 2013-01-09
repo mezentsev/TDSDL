@@ -55,7 +55,6 @@ bool App::Init()
 
     Sprite * animSpr = new Sprite;
     animSpr->Load("images/abcd.png");
-
     Animation * anim = new Animation(animSpr, 8, 75, 0);
 
     // Добавляем спрайт в ресурсы
@@ -110,6 +109,8 @@ bool App::Init()
         }
     }
 
+    this->control.setCamera(this->mainCamera);
+
     return true;
 }
 
@@ -128,8 +129,8 @@ int App::Execute()
     while (this->running)
     {
         // Ждём события клавиатуры, мыши и т.п.
-        SDL_PollEvent(&event);
-        this->Event(&event);
+        while (SDL_PollEvent(&event))
+            this->Event(&event);
 
         this->Loop();
 
@@ -146,40 +147,86 @@ void App::Event(SDL_Event* event)
 {
     switch (event->type)
     {
-        case SDL_QUIT:
+    case SDL_QUIT:
+    {
+        this->running = false;
+        break;
+    }
+    case SDL_KEYDOWN:
+    {
+        switch (event->key.keysym.sym)
+        {
+        case SDLK_ESCAPE:
         {
             this->running = false;
             break;
         }
-        case SDL_KEYDOWN:
+        case SDLK_RIGHT:
         {
-            switch (event->key.keysym.sym)
-            {
-                case SDLK_ESCAPE:
-                {
-                    this->running = false;
-                    break;
-                }
-                case SDLK_RIGHT:
-                {
-                    qDebug()<<111;
-                    break;
-                }
-                case SDLK_b:
-                {
-                    break;
-                }
-            }
+            this->control.cameraRight(true);
             break;
         }
-        case SDL_MOUSEBUTTONDOWN:
+        case SDLK_LEFT:
         {
-            if (event->button.button = SDL_BUTTON_LEFT)
-            {
+            this->control.cameraLeft(true);
+            break;
+        }
+        case SDLK_DOWN:
+        {
+            this->control.cameraDown(true);
+            break;
+        }
+        case SDLK_UP:
+        {
+            this->control.cameraUp(true);
+            break;
+        }
+        case SDLK_b:
+        {
+            break;
+        }
+        }
+        break;
+    }
+    case SDL_KEYUP:
+    {
+        switch (event->key.keysym.sym)
+        {
+        case SDLK_RIGHT:
+        {
+            this->control.cameraRight(false);
+            break;
+        }
+        case SDLK_LEFT:
+        {
+            this->control.cameraLeft(false);
+            break;
+        }
+        case SDLK_DOWN:
+        {
+            this->control.cameraDown(false);
+            break;
+        }
+        case SDLK_UP:
+        {
+            this->control.cameraUp(false);
+            break;
+        }
+        case SDLK_b:
+        {
+            break;
+        }
+        }
+        break;
+    }
+    case SDL_MOUSEBUTTONDOWN:
+    {
+        if (event->button.button = SDL_BUTTON_LEFT)
+        {
 
-            }
-            break;
         }
+        break;
+    }
     }
 }
 
@@ -187,8 +234,8 @@ void App::Event(SDL_Event* event)
 void App::Loop()
 {
     quint32 left = TimeLeft();
-    this->_cameras->getRes("Cam1")->translate(left / 28, left / 28);
-    this->_entities->getRes("dragon")->setXY(_entities->getRes("dragon")->getX() + left / 27, _entities->getRes("dragon")->getY() + left / 27);
+    this->_entities->getRes("dragon")->setXY(_entities->getRes("dragon")->getX() + left / 28, _entities->getRes("dragon")->getY() + left / 28);
+    control.events();
 }
 
 // Функция занимается отображением всего на экране. Она НЕ обрабатывает манипуляции с данными - этим занимается Loop.
