@@ -21,7 +21,8 @@ win32 {
             -lSDL \
             -lSDLmain \
             -lSDL_image \
-            -llibgfxdll
+            -llibgfxdll \
+            -lSDL_ttf
 }
 
 DEFINES += _WIN32 WIN32

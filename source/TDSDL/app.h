@@ -5,6 +5,8 @@
 #include <QDebug>
 #include "SDL/SDL.h"
 #include "SDL/SDL_image.h"
+#include "SDL/SDL_ttf.h"
+#include "SDL/SDL_rotozoom.h"
 #include "sprite.h"
 #include "entity.h"
 #include "resources.h"
@@ -14,8 +16,8 @@
 #include "map.h"
 #include "camera.h"
 #include "control.h"
+#include "text.h"
 #include <QFile>
-#include "SDL/SDL_rotozoom.h"
 
 class App : public QObject{
 private:
@@ -27,6 +29,7 @@ private:
     Resources<Animation> * _anims;
     Resources<Map>       * _maps;
     Resources<Camera>   *  _cameras;
+    Resources<Text>     *  _texts;
     Camera *mainCamera;
     Control control;
 

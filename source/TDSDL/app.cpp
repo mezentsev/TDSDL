@@ -22,13 +22,14 @@ App::App()
     this->_anims    = new Resources<Animation>();
     this->_cameras  = new Resources<Camera>();
     this->_maps     = new Resources<Map>();
+    this->_texts    = new Resources<Text>();
     this->running   = true;
 }
 
 // Инициализация окна и связанных параметров
 bool App::Init()
 {
-    if ( SDL_Init( SDL_INIT_VIDEO ) < 0 )
+    if ( SDL_Init( SDL_INIT_VIDEO ) < 0 || TTF_Init () < 0)
     {
         printf( "Unable to init SDL: %s\n", SDL_GetError() );
         return false;
@@ -68,7 +69,7 @@ bool App::Init()
     ent->setSprite(this->_sprites->getRes("firstWave"))->setHW(64,64);
     ent->addAnim(this->_anims->getRes("run"), "run1");
     ent->setAnim("run1")->animate();
-    this->_entities->add(ent,"dragon");
+    this->_entities->add(ent,"enemy_Dragon");
 
     //добавляем камеру и выбираем её в качестве главной
     Camera *cam = new Camera;
@@ -110,6 +111,9 @@ bool App::Init()
     }
 
     this->control.setCamera(this->mainCamera);
+
+    Text *text = new Text("Дракоша", "font/univers.ttf", 25, 0, -50, -25, 255, 0, 0, 0, 0);
+    this->_texts->add(text, "text_drakoXY");
 
     return true;
 }
@@ -234,7 +238,10 @@ void App::Event(SDL_Event* event)
 void App::Loop()
 {
     quint32 left = TimeLeft();
-    this->_entities->getRes("dragon")->setXY(_entities->getRes("dragon")->getX() + left / 28, _entities->getRes("dragon")->getY() + left / 28);
+    int x = _entities->getRes("enemy_Dragon")->getX() + left / 28;
+    int y = _entities->getRes("enemy_Dragon")->getY() + left / 28;
+    this->_entities->getRes("enemy_Dragon")->setXY(x,y);
+    this->_texts->getRes("text_drakoXY")->setXY(x-30,y-50)->setText("x: "+QString::number(x)+", y: "+QString::number(y));
     control.events();
 }
 
@@ -258,6 +265,19 @@ void App::Render()
         //printf("%s",(*i)->get_name());
     }
 
+    // Выведем все ресурсы из Text
+    QMap<QString, Text*>::iterator t;
+    for (t = _texts->getBegin(); t != _texts->getEnd(); ++t)
+    {
+        if (((*t)->getX() - this->mainCamera->getX() >= 0) && ((*t)->getY() + (*t)->getSize() - this->mainCamera->getY() >= 0)
+                && ((*t)->getX() - this->mainCamera->getX() <= this->screen->w) && ((*t)->getY() - this->mainCamera->getY() <= this->screen->h))
+        {
+            (*t)->setXY((*t)->getX() - this->mainCamera->getX(), (*t)->getY() - this->mainCamera->getY());
+            (*t)->refresh(this->screen);
+            (*t)->setXY((*t)->getX() + this->mainCamera->getX(), (*t)->getY() + this->mainCamera->getY());
+        }
+        //printf("%s",(*i)->get_name());
+    }
     // Обновление экрана
     SDL_Flip(this->screen);
 }
@@ -270,6 +290,7 @@ void App::Cleanup()
     delete this->_entities;
     delete this->_maps;
     delete this->_cameras;
+    delete this->_texts;
 
     SDL_Quit();
 }
