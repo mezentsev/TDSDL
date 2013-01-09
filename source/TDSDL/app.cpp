@@ -20,7 +20,8 @@ App::App()
     this->_sprites  = new Resources<Sprite>();
     this->_entities = new Resources<Entity>();
     this->_anims    = new Resources<Animation>();
-    this->camera    = new Camera();
+    this->_cameras  = new Resources<Camera>();
+    this->_maps     = new Resources<Map>();
     this->running   = true;
 }
 
@@ -70,17 +71,22 @@ bool App::Init()
     ent->setAnim("run1")->animate();
     this->_entities->add(ent,"dragon");
 
+    //добавляем камеру и выбираем её в качестве главной
+    Camera *cam = new Camera;
+    _cameras->add(cam,"Cam1");
+    mainCamera = cam;
+
     //считывание карты и создание сущностей земли
     this->readMap("maps/map.txt");
 
     //вот здесь содержится то, что хорошо бы упаковать в класс e_Ground
     //здесь распределение картинок в зависимости от типа земли
-    for (int y=0; y<this->map->getHeight(); y++)
+    for (int y=0; y<this->_maps->getRes("Ground")->getHeight(); y++)
     {
-        for (int x=0; x<this->map->getWidth(); x++)
+        for (int x=0; x<this->_maps->getRes("Ground")->getWidth(); x++)
         {
             e_Ground *ground = new e_Ground;
-            switch (this->map->getType(x,y))
+            switch (this->_maps->getRes("Ground")->getType(x,y))
             {
                 case 0:
                 {
@@ -181,8 +187,8 @@ void App::Event(SDL_Event* event)
 void App::Loop()
 {
     quint32 left = TimeLeft();
-    camera->translate(left / 28, left / 28);
-    _entities->getRes("dragon")->setXY(_entities->getRes("dragon")->getX() + left / 28, _entities->getRes("dragon")->getY() + left / 28);
+    this->_cameras->getRes("Cam1")->translate(left / 28, left / 28);
+    this->_entities->getRes("dragon")->setXY(_entities->getRes("dragon")->getX() + left / 28, _entities->getRes("dragon")->getY() + left / 28);
 }
 
 // Функция занимается отображением всего на экране. Она НЕ обрабатывает манипуляции с данными - этим занимается Loop.
@@ -191,21 +197,21 @@ void App::Render()
     // Заливка фона
     SDL_FillRect(this->screen, &this->screen->clip_rect, SDL_MapRGB(this->screen->format, 0, 0, 0));
 
-    quint32 left = TimeLeft();
-
     // Выведем все ресурсы из Entity
     QMap<QString, Entity*>::iterator i;
     for (i = _entities->getBegin(); i != _entities->getEnd(); ++i)
     {
-        if (((*i)->getX() + (*i)->getW() - this->camera->getX() >= 0) || ((*i)->getY() + (*i)->getH() - this->camera->getY() >= 0))
+        if (((*i)->getX() + (*i)->getW() - this->mainCamera->getX() >= 0) && ((*i)->getY() + (*i)->getH() - this->mainCamera->getY() >= 0)
+                && ((*i)->getX() - this->mainCamera->getX() <= this->screen->w) && ((*i)->getY() - this->mainCamera->getY() <= this->screen->h))
         {
-            (*i)->setXY((*i)->getX() - this->camera->getX(), (*i)->getY() - this->camera->getY());
+            (*i)->setXY((*i)->getX() - this->mainCamera->getX(), (*i)->getY() - this->mainCamera->getY());
             (*i)->refresh(this->screen);
-            (*i)->setXY((*i)->getX() + this->camera->getX(), (*i)->getY() + this->camera->getY());
+            (*i)->setXY((*i)->getX() + this->mainCamera->getX(), (*i)->getY() + this->mainCamera->getY());
         }
         //qDebug() << ((e_Ground*)(*i))->getType();
     }
 
+    // Обновление экрана
     SDL_Flip(this->screen);
 }
 
@@ -215,32 +221,45 @@ void App::Cleanup()
     delete this->_sprites;
     delete this->_anims;
     delete this->_entities;
-    delete this->map;
-    delete this->camera;
+    delete this->_maps;
+    delete this->_cameras;
 
     SDL_Quit();
 }
 
 void App::readMap(QString path)
 {
-    // TODO: Изменить код на кроссплатформенный (например Qt'шными средствами)
-    FILE *file;
-    file = fopen(path.toStdString().c_str(),"r");
+    QFile file(path);
+    if (!file.open(QIODevice::ReadOnly))
+    {
+        printf("Unable to open file\n");
+        return;
+    }
+    QTextStream in(&file);
+    // а вот то, что в комментах, нужно будет для бинарников
+    //QDataStream in(&file);
+    //in.setVersion(QDataStream::Qt_4_3);
 
     int width, height;
-    fscanf(file,"%d",&width);
-    fscanf(file,"%d",&height);
-    this->map = new Map(width,height);
+    in >> width;
+    in >> height;
 
-    int type;
+    // Инициализация карт и добавление их в ресурсы
+    Map *map1 = new Map(width,height);
+    Map *map2 = new Map(width,height);
+    Map *map3 = new Map(width,height);
+
+    this->_maps->add(map1,"Ground");
+    this->_maps->add(map2,"Enemy");
+    this->_maps->add(map3,"Tower");
+
+    int type;    
     for (int y=0; y<height; y++)
     {
         for (int x=0; x<width; x++)
         {
-            fscanf(file,"%d",&type);
-            this->map->setCell(x,y,type);
+            in >> type;
+            map1->setCell(x,y,type);
         }
     }
-
-    fclose(file);
 }

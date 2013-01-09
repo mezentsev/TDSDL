@@ -13,6 +13,7 @@
 #include "e_ground.h"
 #include "map.h"
 #include "camera.h"
+#include <QFile>
 
 class App : public QObject{
 private:
@@ -22,11 +23,10 @@ private:
     Resources<Sprite>    * _sprites;
     Resources<Entity>    * _entities;
     Resources<Animation> * _anims;
-//    Resources<e_Enemy>   * _enemies;
-//    Resources<e_Tower>   * _towers;
-//    Resources<e_Ground>  * _grounds;
-    Map    *map;
-    Camera *camera;
+    Resources<Map>       * _maps;
+    Resources<Camera>   *  _cameras;
+//    Map    *map;
+    Camera *mainCamera;
 
 public:
     App();
