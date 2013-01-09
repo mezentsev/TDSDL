@@ -2,7 +2,7 @@
 
 Camera::Camera()
 {
-    this->x = 5;
+    this->x = 0;
     this->y = 0;
 }
 
