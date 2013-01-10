@@ -14,6 +14,7 @@ private:
     int x,y;
     int r,g,b,a;
     int w; //ширина, в которую ужать
+    bool fixed; //привязана к экрану или нет
 
     TTF_Font *font;
 public:
@@ -29,8 +30,9 @@ public:
     void append(QString text);
     void setText(QString text);
     Text * setColor(int r, int g, int b, int a);
-    Text(QString text, QString font, int size, int style, int x, int y, int r, int g, int b, int a, int w);
+    Text(QString text, QString font, int size, int style, int x, int y, int r, int g, int b, int a, int w, bool fixed);
     bool refresh(SDL_Surface *dest);
+    bool reFix();
 };
 
 #endif // TEXT_H

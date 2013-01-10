@@ -18,6 +18,11 @@ void Camera::translate(int dx, int dy)
     this->y = this->y + dy;
 }
 
+void Camera::lateAdd(int dx, int dy)
+{
+    this->translate(dx, dy);
+}
+
 int Camera::getX()
 {
     return this->x;

@@ -86,4 +86,13 @@ void Control::moveCamera()
         camera->translate(0,1);
     if (keypress["cam_up"])
         camera->translate(0,-1);
+
+//    if (keypress["cam_right"])
+//        emit this->moveAdd(1,0);
+//    if (keypress["cam_left"])
+//        emit this->moveAdd(-1,0);
+//    if (keypress["cam_down"])
+//        emit this->moveAdd(0,1);
+//    if (keypress["cam_up"])
+//        emit this->moveAdd(0,1);
 }

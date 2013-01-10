@@ -112,7 +112,7 @@ bool App::Init()
 
     this->control.setCamera(this->mainCamera);
 
-    Text *text = new Text("Дракоша", "font/univers.ttf", 25, 0, -50, -25, 255, 0, 0, 0, 0);
+    Text *text = new Text("Дракоша", "font/univers.ttf", 25, 0, -50, -25, 255, 0, 0, 0, 0, false);
     this->_texts->add(text, "text_drakoXY");
 
     return true;
@@ -168,6 +168,7 @@ void App::Event(SDL_Event* event)
         case SDLK_RIGHT:
         {
             this->control.cameraRight(true);
+            //QObject::connect(this->control, SIGNAL(moveAdd(int, int)), *_cameras->getRes("cam1"), SLOT(lateAdd(int,int)));
             break;
         }
         case SDLK_LEFT:

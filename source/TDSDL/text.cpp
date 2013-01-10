@@ -1,6 +1,6 @@
 #include "text.h"
 
-Text::Text(QString text, QString font, int size, int style, int x, int y, int r, int g, int b, int a, int w = 0)
+Text::Text(QString text, QString font, int size, int style, int x, int y, int r, int g, int b, int a, int w = 0, bool fixed = false)
 {
     this->text = text;
     this->path = font;
@@ -13,6 +13,7 @@ Text::Text(QString text, QString font, int size, int style, int x, int y, int r,
     this->b = b;
     this->a = a;
     this->w = w;
+    this->fixed = fixed;
 
     this->font = TTF_OpenFont(font.toAscii().data(), size);
     if (!this->font)
@@ -56,6 +57,12 @@ bool Text::refresh(SDL_Surface *dest)
     SDL_FreeSurface(tmp);
 
     return true;
+}
+
+bool Text::reFix()
+{
+    this->fixed = !(this->fixed);
+    return this->fixed;
 }
 
 Text *Text::setXY(int x, int y)
