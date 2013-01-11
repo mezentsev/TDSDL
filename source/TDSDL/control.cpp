@@ -13,10 +13,10 @@ Control::~Control()
 
 }
 
-void Control::setEntities(Resources<Entity> *_entities)
-{
-    this->_entities = _entities;
-}
+//void Control::setEntities(Resources<Entity> *_entities)
+//{
+//    this->_entities = _entities;
+//}
 
 void Control::setCamera(Camera *camera)
 {

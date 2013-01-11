@@ -3,33 +3,29 @@
 
 #include <QObject>
 #include <QDebug>
-#include "SDL/SDL.h"
-#include "SDL/SDL_image.h"
-#include "SDL/SDL_ttf.h"
-#include "SDL/SDL_rotozoom.h"
-#include "sprite.h"
 #include "entity.h"
 #include "resources.h"
-#include "e_enemy.h"
-#include "e_tower.h"
-#include "e_ground.h"
+//#include "e_enemy.h"
+//#include "e_tower.h"
+//#include "e_ground.h"
 #include "map.h"
 #include "camera.h"
 #include "control.h"
-#include "text.h"
 #include <QFile>
+#include <SFML/Audio.hpp>
+#include <SFML/Graphics.hpp>
 
 class App : public QObject{
 private:
-    bool running;
-    SDL_Surface * screen;
+    sf::RenderWindow *screen;
 
-    Resources<Sprite>    * _sprites;
-    Resources<Entity>    * _entities;
-    Resources<Animation> * _anims;
-    Resources<Map>       * _maps;
-    Resources<Camera>   *  _cameras;
-    Resources<Text>     *  _texts;
+    Resources<sf::Image> * _images;
+    Resources<sf::Sprite> * _sprites;
+    Resources<Entity>     * _entities;
+//    Resources<Animation>  * _anims;
+    Resources<Map>        * _maps;
+    Resources<Camera>     * _cameras;
+//    Resources<sf::Text>       * _texts;
     Camera *mainCamera;
     Control control;
 
@@ -38,12 +34,12 @@ public:
     int Execute();
 
     bool Init();
-    void Event(SDL_Event* event);
+    void Event(sf::Event *event);
     void Loop();
     void Render();
     void Cleanup();
 
-    void readMap(QString path);
+//    void readMap(QString path);
 
 public slots:
     void setValue(int value);

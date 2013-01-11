@@ -2,15 +2,16 @@
 #define ENTITY_H
 
 #include "resources.h"
+//#include "animation.h"
+#include <SFML/Graphics.hpp>
 #include <QMap>
-#include "SDL/SDL_rotozoom.h"
 #include <typeinfo>
 
 class Entity
 {
 private:
-    Sprite* sprite;
-    QMap<QString, Animation*> anim;
+    sf::Sprite *sprite;
+    //QMap<QString, Animation*> anim;
     int x,y;
     int state; //Состояние объекта (возможно enum)
     int spriteX, spriteY; //смещение спрайта
@@ -19,11 +20,11 @@ private:
     double _angle;
     double _scale;
 public:
-    Entity(Sprite* sprite, int x, int y, int w, int h, int state);
+    Entity(sf::Sprite* sprite, int x, int y, int w, int h, int state);
     Entity();
     ~Entity();
 
-    Entity * setSprite(Sprite* sprite);
+    Entity * setSprite(sf::Sprite* sprite);
     Entity * setXY(int x, int y);
     Entity * setHW(int h, int w);
     int getX();
@@ -32,14 +33,14 @@ public:
     int getH();
     void setState(int state);
     int getState();
-    Entity * setAngle(double angle);
-    Entity * setScale(double s);
+//    Entity * setAngle(double angle);
+//    Entity * setScale(double s);
 
-    void refresh(SDL_Surface* dest);
+    void refresh(sf::RenderWindow *screen);
 
-    bool addAnim(Animation * anim, QString name); //Привязывает анимацию с именем
+    //bool addAnim(Animation * anim, QString name); //Привязывает анимацию с именем
     Entity * setAnim(QString name); // Устанавливает анимацию с именем name
-    Sprite * animate(); //Проигрывает анимацию с именем this->animName
+    sf::Sprite * animate(); //Проигрывает анимацию с именем this->animName
 
     virtual const char* get_name(){return typeid(*this).name();}
 };

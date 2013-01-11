@@ -1,7 +1,7 @@
 #include "entity.h"
 #include <QDebug>
 
-Entity::Entity(Sprite* sprite, int x, int y, int w, int h, int state)
+Entity::Entity(sf::Sprite* sprite, int x, int y, int w, int h, int state)
 {
     this->sprite = sprite;
     this->x      = x;
@@ -31,10 +31,10 @@ Entity::~Entity()
 {
     //if (this->sprite != NULL)
     //    delete this->sprite;
-    this->anim.clear(); //Простая очистка, деструктор вызывает класс ресурсов вручную
+    //this->anim.clear(); //Простая очистка, деструктор вызывает класс ресурсов вручную
 }
 
-Entity *  Entity::setSprite(Sprite* sprite)
+Entity *  Entity::setSprite(sf::Sprite* sprite)
 {
     this->sprite = sprite;
     return this;
@@ -84,56 +84,56 @@ int Entity::getState()
     return this->state;
 }
 
-Entity * Entity::setAngle(double angle)
+//Entity * Entity::setAngle(double angle)
+//{
+//    this->_angle = angle;
+//    return this;
+//}
+
+//Entity * Entity::setScale(double scale)
+//{
+//    this->_scale = scale;
+//    return this;
+//}
+
+void Entity::refresh(sf::RenderWindow *screen)
 {
-    this->_angle = angle;
-    return this;
-}
+    screen->Draw(*sprite);
+//    SDL_Rect destXY;
+//    destXY.x = this->x;
+//    destXY.y = this->y;
 
-Entity * Entity::setScale(double scale)
-{
-    this->_scale = scale;
-    return this;
-}
-
-void Entity::refresh(SDL_Surface *dest)
-{
-
-    SDL_Rect destXY;
-    destXY.x = this->x;
-    destXY.y = this->y;
-
-    SDL_Rect spriteXY;
-    spriteXY.x = 0;
-    spriteXY.y = this->spriteY;
-    spriteXY.h = this->h;
-    spriteXY.w = this->w;
+//    SDL_Rect spriteXY;
+//    spriteXY.x = 0;
+//    spriteXY.y = this->spriteY;
+//    spriteXY.h = this->h;
+//    spriteXY.w = this->w;
 
     //qDebug() << spriteXY.y;
-    this->animate()->Draw(dest, &spriteXY, &destXY, this->_angle, this->_scale);
+  //  this->animate()->Draw(dest, &spriteXY, &destXY, this->_angle, this->_scale);
 }
 
-bool Entity::addAnim(Animation *anim, QString name)
-{
-    this->anim[name] = anim;
-    return true;
-}
+//bool Entity::addAnim(Animation *anim, QString name)
+//{
+//    this->anim[name] = anim;
+//    return true;
+//}
 
-Entity * Entity::setAnim(QString name)
-{
-    this->animName = name;
-    return this;
-}
+//Entity * Entity::setAnim(QString name)
+//{
+//    this->animName = name;
+//    return this;
+//}
 
-Sprite * Entity::animate()
-{
-    if (this->anim.contains(this->animName))
-    {
-        SDL_Rect rct = this->anim[this->animName]->animate();
-        //this->sprite = this->anim[this->animName]->getSprite();
-        this->spriteX = rct.x;
-        this->spriteY = rct.y;
-        return this->anim[this->animName]->getSprite();
-    }
-    return this->sprite;
-}
+//Sprite * Entity::animate()
+//{
+//    if (this->anim.contains(this->animName))
+//    {
+//        SDL_Rect rct = this->anim[this->animName]->animate();
+//        //this->sprite = this->anim[this->animName]->getSprite();
+//        this->spriteX = rct.x;
+//        this->spriteY = rct.y;
+//        return this->anim[this->animName]->getSprite();
+//    }
+//    return this->sprite;
+//}

@@ -2,7 +2,7 @@
 #define CONTROL_H
 
 #include "resources.h";
-#include "entity.h"
+//#include "entity.h"
 #include "camera.h"
 #include <QMap>
 #include <QObject>
@@ -10,14 +10,14 @@
 class Control
 {
 private:
-    Resources<Entity> *_entities;
+    //Resources<Entity> *_entities;
     Camera *camera;
     QMap<QString, bool> keypress;
 
 public:
     Control();
     ~Control();
-    void setEntities(Resources<Entity> *_entities);
+   // void setEntities(Resources<Entity> *_entities);
     void setCamera  (Camera *camera);    
 
     void events();

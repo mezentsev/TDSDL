@@ -3,9 +3,6 @@
 
 #include <QMap>
 #include <QString>
-#include "sprite.h"
-#include "animation.h"
-#include "sound.h"
 
 template <typename T>
 class Resources
