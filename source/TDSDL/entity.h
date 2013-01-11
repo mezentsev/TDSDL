@@ -2,7 +2,7 @@
 #define ENTITY_H
 
 #include "resources.h"
-//#include "animation.h"
+#include "animation.h"
 #include <SFML/Graphics.hpp>
 #include <QMap>
 #include <typeinfo>
@@ -11,10 +11,10 @@ class Entity
 {
 private:
     sf::Sprite *sprite;
-    //QMap<QString, Animation*> anim;
+    QMap<QString, Animation*> anim;
     int x,y;
     int state; //Состояние объекта (возможно enum)
-    int spriteX, spriteY; //смещение спрайта
+    sf::IntRect rect; //спрайт
     int w,h;
     QString animName;
     double _angle;
@@ -24,7 +24,7 @@ public:
     Entity();
     ~Entity();
 
-    Entity * setSprite(sf::Sprite* sprite);
+    //Entity * setSprite(sf::Sprite* sprite);
     Entity * setXY(int x, int y);
     Entity * setHW(int h, int w);
     int getX();
@@ -33,14 +33,14 @@ public:
     int getH();
     void setState(int state);
     int getState();
-//    Entity * setAngle(double angle);
-//    Entity * setScale(double s);
+    Entity * setAngle(double angle);
+    Entity * setScale(double s);
 
     void refresh(sf::RenderWindow *screen);
 
-    //bool addAnim(Animation * anim, QString name); //Привязывает анимацию с именем
+    bool addAnim(Animation * anim, QString name); //Привязывает анимацию с именем
     Entity * setAnim(QString name); // Устанавливает анимацию с именем name
-    sf::Sprite * animate(); //Проигрывает анимацию с именем this->animName
+    sf::Sprite * animate(sf::RenderWindow *screen); //Проигрывает анимацию с именем this->animName
 
     virtual const char* get_name(){return typeid(*this).name();}
 };

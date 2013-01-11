@@ -7,13 +7,12 @@ class Animation
 {
 private:
     sf::Sprite * sprite;
-    int w;
-    int h;
+    sf::IntRect rect;
     int cnt; //Количество кадров
     int rate; //Частота смены
     int type; //Тип анимации
     int curFrame;
-    int oldTime;
+    float oldTime;
 public:
     Animation(sf::Sprite * sprite, int cnt, int rate, int type);
     ~Animation();
@@ -23,7 +22,7 @@ public:
     void setCurFrame(int frame);
 
     // Цикл смены кадров
-//    SDL_Rect animate();
+    sf::IntRect animate(sf::RenderWindow * screen);
     sf::Sprite * getSprite();
 };
 

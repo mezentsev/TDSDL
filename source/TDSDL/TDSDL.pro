@@ -2,15 +2,12 @@ SOURCES += \
     main.cpp \
     app.cpp \
     entity.cpp \
-    #timer.cpp \
     #e_tower.cpp \
     #e_enemy.cpp \
-    #animation.cpp \
+    animation.cpp \
     map.cpp \
-    #sound.cpp \
     #e_ground.cpp \
-    camera.cpp \
-    control.cpp
+    #control.cpp
 
 win32 {
     INCLUDEPATH += "C:\SFML\SFML-1.6\include"
@@ -29,13 +26,10 @@ TEMPLATE = app
 HEADERS += \
     app.h \
     entity.h \
-    #timer.h \
     #e_tower.h \
     #e_enemy.h \
-    #animation.h \
+    animation.h \
     resources.h \
     map.h \
-   # sound.h \
   #  e_ground.h \
-    camera.h \
-    control.h
+    #control.h

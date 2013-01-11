@@ -9,8 +9,8 @@
 //#include "e_tower.h"
 //#include "e_ground.h"
 #include "map.h"
-#include "camera.h"
-#include "control.h"
+//#include "camera.h"
+//#include "control.h"
 #include <QFile>
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
@@ -18,16 +18,16 @@
 class App : public QObject{
 private:
     sf::RenderWindow *screen;
+    sf::View *camera;
 
     Resources<sf::Image> * _images;
     Resources<sf::Sprite> * _sprites;
     Resources<Entity>     * _entities;
-//    Resources<Animation>  * _anims;
+    Resources<Animation>  * _anims;
     Resources<Map>        * _maps;
-    Resources<Camera>     * _cameras;
+    Resources<sf::View>     * _cameras;
 //    Resources<sf::Text>       * _texts;
-    Camera *mainCamera;
-    Control control;
+    //Control control;
 
 public:
     App();

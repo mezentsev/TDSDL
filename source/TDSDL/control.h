@@ -3,7 +3,6 @@
 
 #include "resources.h";
 //#include "entity.h"
-#include "camera.h"
 #include <QMap>
 #include <QObject>
 
@@ -11,7 +10,6 @@ class Control
 {
 private:
     //Resources<Entity> *_entities;
-    Camera *camera;
     QMap<QString, bool> keypress;
 
 public:

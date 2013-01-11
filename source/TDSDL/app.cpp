@@ -5,8 +5,8 @@ App::App()
     this->_images   = new Resources<sf::Image>();
     this->_sprites  = new Resources<sf::Sprite>();
     this->_entities = new Resources<Entity>();
-//    this->_anims    = new Resources<Animation>();
-//    this->_cameras  = new Resources<Camera>();
+    this->_anims    = new Resources<Animation>();
+    this->_cameras  = new Resources<sf::View>();
 //    this->_maps     = new Resources<Map>();
 //    this->_texts    = new Resources<sf::Text>();
 }
@@ -14,14 +14,35 @@ App::App()
 // Инициализация окна и связанных параметров
 bool App::Init()
 {
-    this->screen = new sf::RenderWindow(sf::VideoMode(800, 600, 32), "SFML window");
+    this->screen = new sf::RenderWindow(sf::VideoMode(800, 600, 32), "SFML window", sf::Style::Close);
+    this->camera = new sf::View();
+    this->_cameras->add(this->camera, "default");
+
+    this->camera->SetFromRect(sf::FloatRect(0,0,1920,1080));
+    this->screen->SetView(*this->camera);
+    this->camera->Move(-50, 20);
 
     // Выделяем память под спрайт и не забываем выгрузить в деструкторе Entity
     sf::Image *image = new sf::Image();
-    if (!image->LoadFromFile("images/abc.png")) return false;
-    _images->add(image,"dragon");
+    if (!image->LoadFromFile("images/abcd.png")) return false;
+    _images->add(image,"ani_dragon_runRight");
 
-    sf::Sprite *spr = new sf::Sprite(*_images->getRes("dragon"));
+    image = new sf::Image();
+    if (!image->LoadFromFile("images/abcde.png")) return false;
+    _images->add(image,"ani_dragon_runLeft");
+
+    // Добавляем спрайт в ресурсы
+    sf::Sprite *spr = new sf::Sprite(*_images->getRes("ani_dragon_runRight"));
+    this->_sprites->add(spr, "ani_dragon_runRight");
+
+    Animation * anim = new Animation(this->_sprites->getRes("ani_dragon_runRight"), 8, 75, 0);
+    this->_anims->add(anim, "ani_dragon_runRight");
+
+    Entity *ent = new Entity;
+    ent->addAnim(this->_anims->getRes("ani_dragon_runRight"), "runRight");
+    ent->setAnim("runRight");
+    this->_entities->add(ent,"enemy_Dragon");
+
 //    Sprite * spr_ground1 = new Sprite;
 //    spr_ground1->Load("images/green.png");
 //    Sprite * spr_ground2 = new Sprite;
@@ -33,19 +54,13 @@ bool App::Init()
 //    animSpr->Load("images/abcd.png");
 //    Animation * anim = new Animation(animSpr, 8, 75, 0);
 
-    // Добавляем спрайт в ресурсы
-    this->_sprites->add(spr, "firstWave");
+
 //    this->_sprites->add(spr_ground1, "green");
 //    this->_sprites->add(spr_ground2, "road");
 //    this->_sprites->add(spr_ground3, "water");
 //    this->_anims->add(anim, "run");
 
-    Entity *ent = new Entity;
-    ent->setSprite(this->_sprites->getRes("firstWave"))
-            ->setHW(64,64);
- //   ent->addAnim(this->_anims->getRes("run"), "run1");
- //   ent->setAnim("run1")->animate();
-    this->_entities->add(ent,"enemy_Dragon");
+
 /*
     //добавляем камеру и выбираем её в качестве главной
     Camera *cam = new Camera;
@@ -97,8 +112,9 @@ bool App::Init()
 // Запуск приложения
 int App::Execute()
 {
-    if (this->Init() == false)
+    if (!this->Init())
     {
+        printf("Error while init window");
         return -1;
     }
 
@@ -155,23 +171,23 @@ void App::Event(sf::Event *event)
         }
         case sf::Key::Right:
         {
-            this->control.cameraRight(true);
+            //this->control.cameraRight(true);
             //QObject::connect(this->control, SIGNAL(moveAdd(int, int)), *_cameras->getRes("cam1"), SLOT(lateAdd(int,int)));
             break;
         }
         case sf::Key::Left:
         {
-            this->control.cameraLeft(true);
+            //this->control.cameraLeft(true);
             break;
         }
         case sf::Key::Down:
         {
-            this->control.cameraDown(true);
+            //this->control.cameraDown(true);
             break;
         }
         case sf::Key::Up:
         {
-            this->control.cameraUp(true);
+            //this->control.cameraUp(true);
             break;
         }
         }
@@ -329,7 +345,6 @@ void App::Render()
 {
     // Clear screen
     this->screen->Clear();
-
     QMap<QString, Entity*>::iterator i;
     for (i = _entities->getBegin(); i != _entities->getEnd(); ++i)
     {
@@ -385,10 +400,10 @@ void App::Cleanup()
     delete this->screen;
     delete this->_images;
     delete this->_sprites;
-//    delete this->_anims;
+    delete this->_anims;
     delete this->_entities;
 //    delete this->_maps;
-//    delete this->_cameras;
+    delete this->_cameras;
 //    delete this->_texts;
 
 //    SDL_Quit();

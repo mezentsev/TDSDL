@@ -8,10 +8,7 @@ Entity::Entity(sf::Sprite* sprite, int x, int y, int w, int h, int state)
     this->y      = y;
     this->state  = state;
     this->animName = "";
-    this->spriteX = 0;
-    this->spriteY = 0;
-    this->w       = w;
-    this->h       = h;
+    this->rect = sprite->GetSubRect();
 }
 
 Entity::Entity()
@@ -21,10 +18,6 @@ Entity::Entity()
     this->y      = 0;
     this->state  = 0;
     this->animName = "";
-    this->spriteX = 0;
-    this->spriteY = 0;    
-    this->w       = 0;
-    this->h       = 0;
 }
 
 Entity::~Entity()
@@ -34,11 +27,12 @@ Entity::~Entity()
     //this->anim.clear(); //Простая очистка, деструктор вызывает класс ресурсов вручную
 }
 
-Entity *  Entity::setSprite(sf::Sprite* sprite)
-{
-    this->sprite = sprite;
-    return this;
-}
+//Entity *  Entity::setSprite(sf::Sprite* sprite)
+//{
+//    this->sprite = sprite;
+//    this->rect = sprite->GetSubRect();
+//    return this;
+//}
 
 Entity * Entity::setXY(int x, int y)
 {
@@ -98,42 +92,32 @@ int Entity::getState()
 
 void Entity::refresh(sf::RenderWindow *screen)
 {
-    screen->Draw(*sprite);
-//    SDL_Rect destXY;
-//    destXY.x = this->x;
-//    destXY.y = this->y;
-
-//    SDL_Rect spriteXY;
-//    spriteXY.x = 0;
-//    spriteXY.y = this->spriteY;
-//    spriteXY.h = this->h;
-//    spriteXY.w = this->w;
-
-    //qDebug() << spriteXY.y;
-  //  this->animate()->Draw(dest, &spriteXY, &destXY, this->_angle, this->_scale);
+    //screen->Draw(*sprite);
+    //qDebug() << this->rect.Top;
+    //this->animate()
+    screen->Draw(*this->animate(screen));//->Draw(dest, &spriteXY, &destXY, this->_angle, this->_scale);
 }
 
-//bool Entity::addAnim(Animation *anim, QString name)
-//{
-//    this->anim[name] = anim;
-//    return true;
-//}
+bool Entity::addAnim(Animation *anim, QString name)
+{
+    this->anim[name] = anim;
+    return true;
+}
 
-//Entity * Entity::setAnim(QString name)
-//{
-//    this->animName = name;
-//    return this;
-//}
+Entity * Entity::setAnim(QString name)
+{
+    this->animName = name;
+    return this;
+}
 
-//Sprite * Entity::animate()
-//{
-//    if (this->anim.contains(this->animName))
-//    {
-//        SDL_Rect rct = this->anim[this->animName]->animate();
-//        //this->sprite = this->anim[this->animName]->getSprite();
-//        this->spriteX = rct.x;
-//        this->spriteY = rct.y;
-//        return this->anim[this->animName]->getSprite();
-//    }
-//    return this->sprite;
-//}
+sf::Sprite * Entity::animate(sf::RenderWindow * screen)
+{
+    if (this->anim.contains(this->animName))
+    {
+        //this->sprite = this->anim[this->animName]->getSprite();
+        this->rect = this->anim[this->animName]->animate(screen);
+        this->anim[this->animName]->getSprite()->SetSubRect(this->rect);
+        return this->anim[this->animName]->getSprite();
+    }
+    return this->sprite;
+}

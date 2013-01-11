@@ -1,11 +1,10 @@
 #include "animation.h"
 #include <QDebug>
 
-Animation::Animation(Sprite * sprite, int cnt, int rate, int type)
+Animation::Animation(sf::Sprite * sprite, int cnt, int rate, int type)
 {
     this->sprite = sprite;
-    this->w = sprite->getW();
-    this->h = sprite->getH();
+    this->rect = sprite->GetSubRect();
     this->cnt = cnt;
     this->rate = rate;
     this->type = type;
@@ -15,9 +14,9 @@ Animation::Animation(Sprite * sprite, int cnt, int rate, int type)
 
 Animation::~Animation()
 {
-    if (this->sprite != NULL)
-        delete this->sprite;
-    this->sprite = NULL;
+//    if (this->sprite != NULL)
+//        delete this->sprite;
+//    this->sprite = NULL;
 }
 
 int Animation::getCurFrame()
@@ -33,32 +32,32 @@ void Animation::setCurFrame(int frame)
         this->curFrame = frame;
 }
 
-SDL_Rect Animation::animate()
+sf::IntRect Animation::animate(sf::RenderWindow * screen)
 {
-    if(this->oldTime + this->rate > SDL_GetTicks()) {
-        SDL_Rect area;
-        area.x = 0;
-        area.y = (this->h * this->curFrame / this->cnt);
-        area.w = this->w;
-        area.h = (this->h / this->cnt);
+    this->oldTime += screen->GetFrameTime() * 1000.f;
+    if(this->rate > this->oldTime)
+    {
+        sf::IntRect area;
+        area.Left = this->rect.Left;
+        area.Top = (this->rect.GetHeight() * this->curFrame) / this->cnt;
+        area.Right = this->rect.GetWidth();
+        area.Bottom = (this->rect.GetHeight() / this->cnt) + area.Top;
         return area;
     }
-
-    this->oldTime += this->rate;
+    this->oldTime = 0;
 
     this->setCurFrame(this->getCurFrame() + 1);
 
-    SDL_Rect area;
-    area.x = 0;
-    area.y = (this->h * this->curFrame) / this->cnt;
-    area.w = this->w;
-    area.h = (this->h / this->cnt);
+    sf::IntRect area;
+    area.Left = this->rect.Left;
+    area.Top = (this->rect.GetHeight() * this->curFrame) / this->cnt;
+    area.Right = this->rect.GetWidth();
+    area.Bottom = (this->rect.GetHeight() / this->cnt) + area.Top;
 
-    //qDebug() << area.y;
     return area;
 }
 
-Sprite *Animation::getSprite()
+sf::Sprite *Animation::getSprite()
 {
     return this->sprite;
 }
