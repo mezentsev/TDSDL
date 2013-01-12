@@ -7,7 +7,7 @@ SOURCES += \
     animation.cpp \
     map.cpp \
     #e_ground.cpp \
-    #control.cpp
+    control.cpp
 
 win32 {
     INCLUDEPATH += "C:\SFML\SFML-1.6\include"
@@ -32,4 +32,4 @@ HEADERS += \
     resources.h \
     map.h \
   #  e_ground.h \
-    #control.h
+    control.h

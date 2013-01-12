@@ -12,7 +12,8 @@ private:
     int rate; //Частота смены
     int type; //Тип анимации
     int curFrame;
-    float oldTime;
+    float sumTime;
+
 public:
     Animation(sf::Sprite * sprite, int cnt, int rate, int type);
     ~Animation();

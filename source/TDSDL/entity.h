@@ -12,7 +12,7 @@ class Entity
 private:
     sf::Sprite *sprite;
     QMap<QString, Animation*> anim;
-    int x,y;
+    float x,y;
     int state; //Состояние объекта (возможно enum)
     sf::IntRect rect; //спрайт
     int w,h;
@@ -25,10 +25,10 @@ public:
     ~Entity();
 
     //Entity * setSprite(sf::Sprite* sprite);
-    Entity * setXY(int x, int y);
+    Entity * setXY(float x, float y);
     Entity * setHW(int h, int w);
-    int getX();
-    int getY();
+    float getX();
+    float getY();
     int getW();
     int getH();
     void setState(int state);

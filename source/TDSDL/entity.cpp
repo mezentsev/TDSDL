@@ -13,7 +13,7 @@ Entity::Entity(sf::Sprite* sprite, int x, int y, int w, int h, int state)
 
 Entity::Entity()
 {
-    this->sprite = NULL;
+    this->sprite = new sf::Sprite;
     this->x      = 0;
     this->y      = 0;
     this->state  = 0;
@@ -22,9 +22,7 @@ Entity::Entity()
 
 Entity::~Entity()
 {
-    //if (this->sprite != NULL)
-    //    delete this->sprite;
-    //this->anim.clear(); //Простая очистка, деструктор вызывает класс ресурсов вручную
+    delete sprite;
 }
 
 //Entity *  Entity::setSprite(sf::Sprite* sprite)
@@ -34,10 +32,17 @@ Entity::~Entity()
 //    return this;
 //}
 
-Entity * Entity::setXY(int x, int y)
+Entity * Entity::setXY(float x, float y)
 {
     this->x = x;
     this->y = y;
+    if (sprite)
+        this->sprite->SetPosition(this->x,this->x);
+    QMap<QString, Animation*>::iterator i;
+    for (i = anim.begin(); i != anim.end(); ++i)
+    {
+        (*i)->getSprite()->SetPosition(x,y);
+    }
     return this;
 }
 
@@ -48,12 +53,12 @@ Entity * Entity::setHW(int h, int w)
     return this;
 }
 
-int Entity::getX()
+float Entity::getX()
 {
     return this->x;
 }
 
-int Entity::getY()
+float Entity::getY()
 {
     return this->y;
 }
@@ -112,6 +117,8 @@ Entity * Entity::setAnim(QString name)
 
 sf::Sprite * Entity::animate(sf::RenderWindow * screen)
 {
+    //Возвращает несуществующий спрайт в случае если анимация
+    //не существует, и падает!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     if (this->anim.contains(this->animName))
     {
         //this->sprite = this->anim[this->animName]->getSprite();

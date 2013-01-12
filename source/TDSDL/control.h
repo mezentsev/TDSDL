@@ -2,35 +2,23 @@
 #define CONTROL_H
 
 #include "resources.h";
-//#include "entity.h"
 #include <QMap>
 #include <QObject>
+#include "SFML/Window/Event.hpp"
 
-class Control
+class Control : public QObject
 {
-private:
-    //Resources<Entity> *_entities;
-    QMap<QString, bool> keypress;
+    Q_OBJECT
 
 public:
     Control();
     ~Control();
-   // void setEntities(Resources<Entity> *_entities);
-    void setCamera  (Camera *camera);    
-
-    void events();
-    void moveCamera();
-
-    void cameraLeft (bool down);
-    void cameraRight(bool down);
-    void cameraUp   (bool down);
-    void cameraDown (bool down);
+    void doControl(sf::Event *event);
 
 signals:
-    void moveAdd(int dx, int dy){};
+    void moveCamera(bool up, bool down, bool left, bool right);
+    void end();
 
-public slots:
-    void lateAdd(int dx, int dy);
 };
 
 #endif // CONTROL_H

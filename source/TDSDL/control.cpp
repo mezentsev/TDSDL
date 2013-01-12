@@ -2,97 +2,95 @@
 
 Control::Control()
 {
-    keypress["cam_right"] = false;
-    keypress["cam_left"]  = false;
-    keypress["cam_down"]  = false;
-    keypress["cam_up"]    = false;
 }
 
 Control::~Control()
 {
-
 }
 
-//void Control::setEntities(Resources<Entity> *_entities)
-//{
-//    this->_entities = _entities;
-//}
-
-void Control::setCamera(Camera *camera)
+void Control::doControl(sf::Event *event)
 {
-    this->camera = camera;
-}
-
-void Control::cameraLeft(bool down)
-{
-    if (down)
+    switch (event->Type)
     {
-        keypress["cam_left"] = true;
-    }
-    if (!down)
+    case sf::Event::Closed:
     {
-        keypress["cam_left"] = false;
+        end();
+        break;
     }
-}
-
-void Control::cameraRight(bool down)
-{
-    if (down)
+    case sf::Event::KeyPressed:
     {
-        keypress["cam_right"] = true;
+        switch (event->Key.Code)
+        {
+        case sf::Key::Escape:
+        {
+            end();
+            break;
+        }
+        case sf::Key::Right:
+        {
+            moveCamera(false,false,false,true);
+            break;
+        }
+        case sf::Key::Left:
+        {
+            moveCamera(false,false,true,false);
+            break;
+        }
+        case sf::Key::Down:
+        {
+            moveCamera(false,true,false,false);
+            break;
+        }
+        case sf::Key::Up:
+        {
+            moveCamera(true,false,false,false);
+            break;
+        }
+        }
+        break;
     }
-    if (!down)
+    case sf::Event::KeyReleased:
     {
-        keypress["cam_right"] = false;
+        switch (event->Key.Code)
+        {
+        case sf::Key::Right:
+        {
+            moveCamera(false,false,false,true);
+            break;
+        }
+        case sf::Key::Left:
+        {
+            moveCamera(false,false,true,false);
+            break;
+        }
+        case sf::Key::Down:
+        {
+            moveCamera(false,true,false,false);
+            break;
+        }
+        case sf::Key::Up:
+        {
+            moveCamera(true,false,false,false);
+            break;
+        }
+        }
+        break;
     }
-}
-
-void Control::cameraDown(bool down)
-{
-    if (down)
+    case sf::Event::MouseWheelMoved:
     {
-        keypress["cam_down"] = true;
+        break;
     }
-    if (!down)
+    case sf::Event::MouseMoved:
     {
-        keypress["cam_down"] = false;
+        break;
     }
-}
-
-void Control::cameraUp(bool down)
-{
-    if (down)
+    case sf::Event::MouseButtonPressed:
     {
-        keypress["cam_up"] = true;
+        break;
     }
-    if (!down)
+    case sf::Event::MouseButtonReleased:
     {
-        keypress["cam_up"] = false;
+        break;
     }
-}
-
-void Control::events()
-{
-    moveCamera();
-}
-
-void Control::moveCamera()
-{
-    if (keypress["cam_right"])
-        camera->translate(1,0);
-    if (keypress["cam_left"])
-        camera->translate(-1,0);
-    if (keypress["cam_down"])
-        camera->translate(0,1);
-    if (keypress["cam_up"])
-        camera->translate(0,-1);
-
-//    if (keypress["cam_right"])
-//        emit this->moveAdd(1,0);
-//    if (keypress["cam_left"])
-//        emit this->moveAdd(-1,0);
-//    if (keypress["cam_down"])
-//        emit this->moveAdd(0,1);
-//    if (keypress["cam_up"])
-//        emit this->moveAdd(0,1);
+    }
 }
