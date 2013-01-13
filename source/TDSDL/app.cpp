@@ -1,4 +1,4 @@
-#include "app.h"
+﻿#include "app.h"
 
 App::App()
 {
@@ -30,8 +30,7 @@ bool App::Init()
     camera->SetFromRect(sf::FloatRect(0,0,800,600));
     this->screen->SetView(*camera);
 
-
-    // Создаём картинку
+    /**********************  Загрузка изображений ************************/
     sf::Image *image = new sf::Image();
     if (!image->LoadFromFile("images/abcd.png")) return false;
     _images->add(image,"ani_dragon_runRight");
@@ -43,9 +42,10 @@ bool App::Init()
     image = new sf::Image();
     if (!image->LoadFromFile("images/abc.png")) return false;
     _images->add(image,"ani_dragon_stop");
+    /*********************************************************************/
 
 
-    // Создаём спрайт
+    /***************  Установка изображений справйтам  *******************/
     sf::Sprite *spr = new sf::Sprite(*_images->getRes("ani_dragon_runRight"));
     this->_sprites->add(spr, "ani_dragon_runRight");
 
@@ -54,9 +54,10 @@ bool App::Init()
 
     spr = new sf::Sprite(*_images->getRes("ani_dragon_stop"));
     this->_sprites->add(spr, "ani_dragon_stop");
+    /*********************************************************************/
 
 
-    // Создаём фнимацию
+    /***************  Создание анимаций из спрайта  **********************/
     Animation * anim = new Animation(this->_sprites->getRes("ani_dragon_runRight"), 8, 75, 0);
     this->_anims->add(anim, "ani_dragon_runRight");
 
@@ -65,17 +66,17 @@ bool App::Init()
 
     anim = new Animation(this->_sprites->getRes("ani_dragon_stop"), 1, 0, 0);
     this->_anims->add(anim, "ani_dragon_stop");
+    /*********************************************************************/
 
 
-    // Создаём сущность
-    Entity *ent = new Entity;
+    /***************  Создание сущности, назначение стандартной анимации ******************/
+    Entity *ent = new Entity(this->_anims->getRes("ani_dragon_stop"), 0, 0, 64, 64, 0);
     ent->addAnim(this->_anims->getRes("ani_dragon_runRight"), "runRight");
     ent->addAnim(this->_anims->getRes("ani_dragon_runLeft"), "runLeft");
     ent->addAnim(this->_anims->getRes("ani_dragon_stop"), "stop");
-    ent->setAnim("stop");
     this->_entities->add(ent,"enemy_Dragon");
-
-    connect(control, SIGNAL(moveEntity(bool,bool,bool,bool)), ent, SLOT(setMoving(bool,bool,bool,bool)));
+    /*********************************************************************/
+ //   connect(control, SIGNAL(moveEntity(bool,bool,bool,bool)), ent, SLOT(setMoving(bool,bool,bool,bool)));
 
 /*
     //считывание карты и создание сущностей земли
@@ -157,18 +158,14 @@ void App::Event(sf::Event *event)
 void App::Loop()
 {
     mainCamera->Move(1000 * (cam_right * freq - cam_left * freq), 1000 * (cam_down * freq - cam_up * freq));
-    QMap<QString, Entity*>::iterator i;
-    for (i = _entities->getBegin(); i != _entities->getEnd(); ++i)
-    {
-        (*i)->move(this->freq);
-    }
-    //    this->_texts->getRes("text_drakoXY")->setXY(x-30,y-50)->setText("x: "+QString::number(x)+", y: "+QString::number(y));
+    float x = _entities->getRes("enemy_Dragon")->getX() + 100 * freq;
+    float y = _entities->getRes("enemy_Dragon")->getY() + 100 * freq;
+    this->_entities->getRes("enemy_Dragon")->setXY(x,y);
 }
 
 // Функция занимается отображением всего на экране. Она НЕ обрабатывает манипуляции с данными - этим занимается Loop.
 void App::Render()
 {
-    // Clear screen
     this->screen->Clear();
 
     // Выведем все ресурсы из Entity
@@ -178,24 +175,7 @@ void App::Render()
         (*i)->refresh(this->screen);
     }
 
-    // Update the window
     this->screen->Display();
-
-//    // Выведем все ресурсы из Text
-//    QMap<QString, Text*>::iterator t;
-//    for (t = _texts->getBegin(); t != _texts->getEnd(); ++t)
-//    {
-//        if (((*t)->getX() - this->mainCamera->getX() >= 0) && ((*t)->getY() + (*t)->getSize() - this->mainCamera->getY() >= 0)
-//                && ((*t)->getX() - this->mainCamera->getX() <= this->screen->w) && ((*t)->getY() - this->mainCamera->getY() <= this->screen->h))
-//        {
-//            (*t)->setXY((*t)->getX() - this->mainCamera->getX(), (*t)->getY() - this->mainCamera->getY());
-//            (*t)->refresh(this->screen);
-//            (*t)->setXY((*t)->getX() + this->mainCamera->getX(), (*t)->getY() + this->mainCamera->getY());
-//        }
-//        //printf("%s",(*i)->get_name());
-//    }
-//    // Обновление экрана
-//    SDL_Flip(this->screen);
 }
 
 // Функция просто отключает все использующиеся ресурсы и закрывает игру.
@@ -224,8 +204,6 @@ void App::moveCamera(bool up, bool down, bool left, bool right)
     if (left)  cam_left  = !cam_left;
     if (right) cam_right = !cam_right;
 }
-
-
 
 //void App::readMap(QString path)
 //{

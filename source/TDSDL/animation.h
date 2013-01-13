@@ -1,4 +1,4 @@
-#ifndef ANIMATION_H
+﻿#ifndef ANIMATION_H
 #define ANIMATION_H
 
 #include "SFML/Graphics.hpp"
@@ -6,7 +6,7 @@
 class Animation
 {
 private:
-    sf::Sprite * sprite;
+    sf::Sprite sprite;
     sf::IntRect rect;
     int cnt; //Количество кадров
     int rate; //Частота смены
@@ -16,6 +16,7 @@ private:
 
 public:
     Animation(sf::Sprite * sprite, int cnt, int rate, int type);
+    Animation(Animation * anim);
     ~Animation();
 
     // Возвращает номер текущего кадра

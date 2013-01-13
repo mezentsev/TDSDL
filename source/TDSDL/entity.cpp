@@ -1,53 +1,44 @@
 #include "entity.h"
 #include <QDebug>
 
-/*Entity::Entity(sf::Sprite* sprite, int x, int y, int w, int h, int state)
+Entity::Entity(Animation * default_anim, int x, int y, int w, int h, int state)
 {
-    this->sprite = sprite;
     this->x      = x;
     this->y      = y;
     this->state  = state;
-    this->animName = "";
-    this->rect = sprite->GetSubRect();
-}*/
+    this->addAnim(default_anim, "default");
+    this->setDefault();
+
+    sf::IntRect rct;
+    rct.Left = 0;
+    rct.Top = 0;
+    rct.Bottom = h;
+    rct.Right = w;
+    this->rect = rct;
+}
 
 Entity::Entity()
 {
-    this->sprite = new sf::Sprite;
-    this->x      = 0;
-    this->y      = 0;
-    this->state  = 0;
-    this->animName = "";
-    this->moving.left  = false;
-    this->moving.right = false;
-    this->moving.up    = false;
-    this->moving.down  = false;
-    this->speed = 100;
+
 }
 
 Entity::~Entity()
 {
-    delete sprite;
+    qDeleteAll(this->anim.begin(), this->anim.end());
 }
-
-//Entity *  Entity::setSprite(sf::Sprite* sprite)
-//{
-//    this->sprite = sprite;
-//    this->rect = sprite->GetSubRect();
-//    return this;
-//}
 
 Entity * Entity::setXY(float x, float y)
 {
     this->x = x;
     this->y = y;
-    if (sprite)
-        this->sprite->SetPosition(this->x,this->x);
-    QMap<QString, Animation*>::iterator i;
-    for (i = anim.begin(); i != anim.end(); ++i)
-    {
-        (*i)->getSprite()->SetPosition(x,y);
-    }
+//    QMap<QString, Animation*>::iterator i;
+//    for (i = anim.begin(); i != anim.end(); ++i)
+//    {
+//        (*i)->getSprite()->SetPosition(x,y);
+//    }
+    if (!this->anim.contains(this->animName))
+        this->setDefault();
+    this->anim[this->animName]->getSprite()->SetPosition(x, y);
     return this;
 }
 
@@ -100,14 +91,6 @@ int Entity::getState()
 //    return this;
 //}
 
-void Entity::setMoving(bool up, bool down, bool left, bool right)
-{
-    if (up)    this->moving.up    = !this->moving.up;
-    if (down)  this->moving.down  = !this->moving.down;
-    if (left)  this->moving.left  = !this->moving.left;
-    if (right) this->moving.right = !this->moving.right;
-}
-
 void Entity::refresh(sf::RenderWindow *screen)
 {
     //screen->Draw(*sprite);
@@ -116,46 +99,37 @@ void Entity::refresh(sf::RenderWindow *screen)
     screen->Draw(*this->animate(screen));//->Draw(dest, &spriteXY, &destXY, this->_angle, this->_scale);
 }
 
-void Entity::move(float freq)
-{
-    if (this->moving.left)
-    {
-        this->setAnim("runLeft");
-        //float x = _entities->getRes("enemy_Dragon")->getX() - 100 * freq;
-    }
-    if (this->moving.right)
-    {
-        this->setAnim("runRight");
-        //float x = _entities->getRes("enemy_Dragon")->getX() - 100 * freq;
-    }
-    if (!(this->moving.up||this->moving.down||this->moving.left||this->moving.right))
-        this->setAnim("stop");
-
- //   this->setXY(x,y);
-}
-
 bool Entity::addAnim(Animation *anim, QString name)
 {
-    this->anim[name] = anim;
+    this->anim[name] = new Animation(anim);
+    //*this->anim[name] = *anim;
     return true;
 }
 
-Entity * Entity::setAnim(QString name)
+bool Entity::setAnim(QString name)
 {
-    this->animName = name;
-    return this;
+    if (this->anim.contains(name))
+    {
+        this->animName = name;
+        this->setXY(this->x, this->y);
+        return true;
+    }
+    return false;
+}
+
+void Entity::setDefault()
+{
+    this->animName = "default";
 }
 
 sf::Sprite * Entity::animate(sf::RenderWindow * screen)
 {
-    //Возвращает несуществующий спрайт в случае если анимация
-    //не существует, и падает!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    if (this->anim.contains(this->animName))
+    if (!this->anim.contains(this->animName))
     {
-        //this->sprite = this->anim[this->animName]->getSprite();
-        this->rect = this->anim[this->animName]->animate(screen);
-        this->anim[this->animName]->getSprite()->SetSubRect(this->rect);
-        return this->anim[this->animName]->getSprite();
+        this->setDefault();
     }
-    return this->sprite;
+
+    this->rect = this->anim[this->animName]->animate(screen);
+    this->anim[this->animName]->getSprite()->SetSubRect(this->rect);
+    return this->anim[this->animName]->getSprite();
 }

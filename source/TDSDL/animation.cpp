@@ -1,9 +1,9 @@
-#include "animation.h"
+﻿#include "animation.h"
 #include <QDebug>
 
 Animation::Animation(sf::Sprite * sprite, int cnt, int rate, int type)
 {
-    this->sprite = sprite;
+    this->sprite = *sprite;
     this->rect   = sprite->GetSubRect();
     this->cnt    = cnt;
     this->rate   = rate;
@@ -11,6 +11,11 @@ Animation::Animation(sf::Sprite * sprite, int cnt, int rate, int type)
 
     this->curFrame = 0;
     this->sumTime  = 0;
+}
+
+Animation::Animation(Animation *anim)
+{
+    *this = *anim;
 }
 
 Animation::~Animation()
@@ -57,5 +62,5 @@ sf::IntRect Animation::animate(sf::RenderWindow * screen)
 
 sf::Sprite *Animation::getSprite()
 {
-    return this->sprite;
+    return &this->sprite;
 }

@@ -1,4 +1,4 @@
-#ifndef ENTITY_H
+﻿#ifndef ENTITY_H
 #define ENTITY_H
 
 #include "resources.h"
@@ -13,15 +13,6 @@ class Entity : public QObject
     Q_OBJECT
 
 private:
-    struct Moving
-    {
-        bool left, right, up, down;
-    };
-
-    Moving moving;
-    float speed;
-
-    sf::Sprite *sprite;
     QMap<QString, Animation*> anim;
     float x,y;
     int state;  //Состояние объекта (возможно enum)
@@ -33,11 +24,10 @@ private:
     double _scale;
 
 public:
-   // Entity(sf::Sprite* sprite, int x, int y, int w, int h, int state);
+    Entity(Animation * default_anim, int x, int y, int w, int h, int state);
     Entity();
     ~Entity();
 
-    //Entity * setSprite(sf::Sprite* sprite);
     Entity * setXY(float x, float y);
     Entity * setHW(int h, int w);
     float getX();
@@ -52,14 +42,15 @@ public:
     void move(float freq);
 
     bool addAnim(Animation * anim, QString name); //Привязывает анимацию с именем
-    Entity * setAnim(QString name); // Устанавливает анимацию с именем name
+    bool setAnim(QString name); // Устанавливает анимацию с именем name
+    void setDefault();
     sf::Sprite * animate(sf::RenderWindow *screen); //Проигрывает анимацию с именем this->animName
 
     virtual const char* get_name(){return typeid(*this).name();}
 
 public slots:
     void setState(int state);
-    void setMoving(bool up, bool down, bool left, bool right);
+  //  void setMoving(bool up, bool down, bool left, bool right);
 };
 
 #endif // ENTITY_H

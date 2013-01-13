@@ -1,4 +1,5 @@
-#include "control.h"
+﻿#include "control.h"
+#include <QDebug>
 
 Control::Control()
 {
@@ -10,6 +11,12 @@ Control::~Control()
 
 void Control::doControl(sf::Event *event)
 {
+    bool left   = (event->Key.Code==sf::Key::Left)?true:false;
+    bool right  = (event->Key.Code==sf::Key::Right)?true:false;
+    bool up     = (event->Key.Code==sf::Key::Up)?true:false;
+    bool down   = (event->Key.Code==sf::Key::Down)?true:false;
+    bool esc    = (event->Key.Code==sf::Key::Escape)?true:false;
+
     switch (event->Type)
     {
     case sf::Event::Closed:
@@ -19,81 +26,13 @@ void Control::doControl(sf::Event *event)
     }
     case sf::Event::KeyPressed:
     {
-        switch (event->Key.Code)
-        {
-        case sf::Key::Escape:
-        {
-            end();
-            break;
-        }
-        case sf::Key::Right:
-        {
-            moveCamera(false,false,false,true);
-            break;
-        }
-        case sf::Key::Left:
-        {
-            moveCamera(false,false,true,false);
-            break;
-        }
-        case sf::Key::Down:
-        {
-            moveCamera(false,true,false,false);
-            break;
-        }
-        case sf::Key::Up:
-        {
-            moveCamera(true,false,false,false);
-            break;
-        }
-        case sf::Key::A:
-        {
-            moveEntity(false,false,true,false);
-            break;
-        }
-        case sf::Key::D:
-        {
-            moveEntity(false,false,false,true);
-            break;
-        }
-        }
+        if (esc) end();
+        emit moveCamera(up, down, left, right);
         break;
     }
     case sf::Event::KeyReleased:
     {
-        switch (event->Key.Code)
-        {
-        case sf::Key::Right:
-        {
-            moveCamera(false,false,false,true);
-            break;
-        }
-        case sf::Key::Left:
-        {
-            moveCamera(false,false,true,false);
-            break;
-        }
-        case sf::Key::Down:
-        {
-            moveCamera(false,true,false,false);
-            break;
-        }
-        case sf::Key::Up:
-        {
-            moveCamera(true,false,false,false);
-            break;
-        }
-        case sf::Key::A:
-        {
-            moveEntity(false,false,true,false);
-            break;
-        }
-        case sf::Key::D:
-        {
-            moveEntity(false,false,false,true);
-            break;
-        }
-        }
+        emit moveCamera(up, down, left, right);
         break;
     }
     case sf::Event::MouseWheelMoved:
