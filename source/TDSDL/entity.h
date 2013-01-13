@@ -1,4 +1,4 @@
-#ifndef ENTITY_H
+﻿#ifndef ENTITY_H
 #define ENTITY_H
 
 #include "resources.h"
@@ -10,7 +10,6 @@
 class Entity
 {
 private:
-    sf::Sprite *sprite;
     QMap<QString, Animation*> anim;
     float x,y;
     int state; //Состояние объекта (возможно enum)
@@ -20,7 +19,7 @@ private:
     double _angle;
     double _scale;
 public:
-    Entity(sf::Sprite* sprite, int x, int y, int w, int h, int state);
+    Entity(Animation * default_anim, int x, int y, int w, int h, int state);
     Entity();
     ~Entity();
 
@@ -39,7 +38,8 @@ public:
     void refresh(sf::RenderWindow *screen);
 
     bool addAnim(Animation * anim, QString name); //Привязывает анимацию с именем
-    Entity * setAnim(QString name); // Устанавливает анимацию с именем name
+    bool setAnim(QString name); // Устанавливает анимацию с именем name
+    void setDefault();
     sf::Sprite * animate(sf::RenderWindow *screen); //Проигрывает анимацию с именем this->animName
 
     virtual const char* get_name(){return typeid(*this).name();}

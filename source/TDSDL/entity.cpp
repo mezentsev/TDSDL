@@ -1,28 +1,24 @@
-#include "entity.h"
+﻿#include "entity.h"
 #include <QDebug>
 
-Entity::Entity(sf::Sprite* sprite, int x, int y, int w, int h, int state)
+Entity::Entity(Animation * default_anim, int x, int y, int w, int h, int state)
 {
-    this->sprite = sprite;
     this->x      = x;
     this->y      = y;
     this->state  = state;
-    this->animName = "";
-    this->rect = sprite->GetSubRect();
-}
+    this->addAnim(default_anim, "default");
+    this->setDefault();
 
-Entity::Entity()
-{
-    this->sprite = new sf::Sprite;
-    this->x      = 0;
-    this->y      = 0;
-    this->state  = 0;
-    this->animName = "";
+    sf::IntRect rct;
+    rct.Left = 0;
+    rct.Top = 0;
+    rct.Bottom = h;
+    rct.Right = w;
+    this->rect = rct;
 }
 
 Entity::~Entity()
 {
-    delete sprite;
 }
 
 //Entity *  Entity::setSprite(sf::Sprite* sprite)
@@ -36,13 +32,14 @@ Entity * Entity::setXY(float x, float y)
 {
     this->x = x;
     this->y = y;
-    if (sprite)
-        this->sprite->SetPosition(this->x,this->x);
-    QMap<QString, Animation*>::iterator i;
-    for (i = anim.begin(); i != anim.end(); ++i)
-    {
-        (*i)->getSprite()->SetPosition(x,y);
-    }
+//    QMap<QString, Animation*>::iterator i;
+//    for (i = anim.begin(); i != anim.end(); ++i)
+//    {
+//        (*i)->getSprite()->SetPosition(x,y);
+//    }
+    if (!this->anim.contains(this->animName))
+        this->setDefault();
+    this->anim[this->animName]->getSprite()->SetPosition(x, y);
     return this;
 }
 
@@ -105,26 +102,35 @@ void Entity::refresh(sf::RenderWindow *screen)
 
 bool Entity::addAnim(Animation *anim, QString name)
 {
-    this->anim[name] = anim;
+    this->anim[name] = new Animation(anim);
+    //*this->anim[name] = *anim;
     return true;
 }
 
-Entity * Entity::setAnim(QString name)
+bool Entity::setAnim(QString name)
 {
-    this->animName = name;
-    return this;
+    if (this->anim.contains(name))
+    {
+        this->animName = name;
+        this->setXY(this->x, this->y);
+        return true;
+    }
+    return false;
+}
+
+void Entity::setDefault()
+{
+    this->animName = "default";
 }
 
 sf::Sprite * Entity::animate(sf::RenderWindow * screen)
 {
-    //Возвращает несуществующий спрайт в случае если анимация
-    //не существует, и падает!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    if (this->anim.contains(this->animName))
+    if (!this->anim.contains(this->animName))
     {
-        //this->sprite = this->anim[this->animName]->getSprite();
-        this->rect = this->anim[this->animName]->animate(screen);
-        this->anim[this->animName]->getSprite()->SetSubRect(this->rect);
-        return this->anim[this->animName]->getSprite();
+        this->setDefault();
     }
-    return this->sprite;
+
+    this->rect = this->anim[this->animName]->animate(screen);
+    this->anim[this->animName]->getSprite()->SetSubRect(this->rect);
+    return this->anim[this->animName]->getSprite();
 }

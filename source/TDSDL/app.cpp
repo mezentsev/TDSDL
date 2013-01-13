@@ -1,4 +1,4 @@
-#include "app.h"
+﻿#include "app.h"
 
 App::App()
 {
@@ -30,8 +30,7 @@ bool App::Init()
     camera->SetFromRect(sf::FloatRect(0,0,800,600));
     this->screen->SetView(*camera);
 
-
-    // Выделяем память под спрайт и не забываем выгрузить в деструкторе Entity
+    /**********************  Загрузка изображений ************************/
     sf::Image *image = new sf::Image();
     if (!image->LoadFromFile("images/abcd.png")) return false;
     _images->add(image,"ani_dragon_runRight");
@@ -39,18 +38,29 @@ bool App::Init()
     image = new sf::Image();
     if (!image->LoadFromFile("images/abcde.png")) return false;
     _images->add(image,"ani_dragon_runLeft");
+    /*********************************************************************/
 
-    // Добавляем спрайт в ресурсы
+    /***************  Установка изображений справйтам  *******************/
     sf::Sprite *spr = new sf::Sprite(*_images->getRes("ani_dragon_runRight"));
     this->_sprites->add(spr, "ani_dragon_runRight");
 
+    spr = new sf::Sprite(*_images->getRes("ani_dragon_runLeft"));
+    this->_sprites->add(spr, "ani_dragon_runLeft");
+    /*********************************************************************/
+
+    /***************  Создание анимаций из спрайта  **********************/
     Animation * anim = new Animation(this->_sprites->getRes("ani_dragon_runRight"), 8, 75, 0);
     this->_anims->add(anim, "ani_dragon_runRight");
 
-    Entity *ent = new Entity;
-    ent->addAnim(this->_anims->getRes("ani_dragon_runRight"), "runRight");
-    ent->setAnim("runRight");
+    anim = new Animation(this->_sprites->getRes("ani_dragon_runLeft"), 8, 75, 0);
+    this->_anims->add(anim, "ani_dragon_runLeft");
+    /*********************************************************************/
+
+    /***************  Создание сущности, назначение стандартной анимации ******************/
+    Entity *ent = new Entity(this->_anims->getRes("ani_dragon_runRight"), 0, 0, 64, 64, 0);
+    ent->addAnim(this->_anims->getRes("ani_dragon_runLeft"),"ani_dragon_runLeft");
     this->_entities->add(ent,"enemy_Dragon");
+    /*********************************************************************/
 
 //    Sprite * spr_ground1 = new Sprite;
 //    spr_ground1->Load("images/green.png");
@@ -153,13 +163,11 @@ void App::Loop()
     float x = _entities->getRes("enemy_Dragon")->getX() + 100 * freq;
     float y = _entities->getRes("enemy_Dragon")->getY() + 100 * freq;
     this->_entities->getRes("enemy_Dragon")->setXY(x,y);
-//    this->_texts->getRes("text_drakoXY")->setXY(x-30,y-50)->setText("x: "+QString::number(x)+", y: "+QString::number(y));
 }
 
 // Функция занимается отображением всего на экране. Она НЕ обрабатывает манипуляции с данными - этим занимается Loop.
 void App::Render()
 {
-    // Clear screen
     this->screen->Clear();
 
     // Выведем все ресурсы из Entity
@@ -169,24 +177,7 @@ void App::Render()
         (*i)->refresh(this->screen);
     }
 
-    // Update the window
     this->screen->Display();
-
-//    // Выведем все ресурсы из Text
-//    QMap<QString, Text*>::iterator t;
-//    for (t = _texts->getBegin(); t != _texts->getEnd(); ++t)
-//    {
-//        if (((*t)->getX() - this->mainCamera->getX() >= 0) && ((*t)->getY() + (*t)->getSize() - this->mainCamera->getY() >= 0)
-//                && ((*t)->getX() - this->mainCamera->getX() <= this->screen->w) && ((*t)->getY() - this->mainCamera->getY() <= this->screen->h))
-//        {
-//            (*t)->setXY((*t)->getX() - this->mainCamera->getX(), (*t)->getY() - this->mainCamera->getY());
-//            (*t)->refresh(this->screen);
-//            (*t)->setXY((*t)->getX() + this->mainCamera->getX(), (*t)->getY() + this->mainCamera->getY());
-//        }
-//        //printf("%s",(*i)->get_name());
-//    }
-//    // Обновление экрана
-//    SDL_Flip(this->screen);
 }
 
 // Функция просто отключает все использующиеся ресурсы и закрывает игру.
@@ -215,8 +206,6 @@ void App::moveCamera(bool up, bool down, bool left, bool right)
     if (left)  cam_left  = !cam_left;
     if (right) cam_right = !cam_right;
 }
-
-
 
 //void App::readMap(QString path)
 //{
