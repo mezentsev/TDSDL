@@ -31,7 +31,7 @@ bool App::Init()
     this->screen->SetView(*camera);
 
 
-    // Выделяем память под спрайт и не забываем выгрузить в деструкторе Entity
+    // Создаём картинку
     sf::Image *image = new sf::Image();
     if (!image->LoadFromFile("images/abcd.png")) return false;
     _images->add(image,"ani_dragon_runRight");
@@ -40,35 +40,42 @@ bool App::Init()
     if (!image->LoadFromFile("images/abcde.png")) return false;
     _images->add(image,"ani_dragon_runLeft");
 
-    // Добавляем спрайт в ресурсы
+    image = new sf::Image();
+    if (!image->LoadFromFile("images/abc.png")) return false;
+    _images->add(image,"ani_dragon_stop");
+
+
+    // Создаём спрайт
     sf::Sprite *spr = new sf::Sprite(*_images->getRes("ani_dragon_runRight"));
     this->_sprites->add(spr, "ani_dragon_runRight");
 
+    spr = new sf::Sprite(*_images->getRes("ani_dragon_runLeft"));
+    this->_sprites->add(spr, "ani_dragon_runLeft");
+
+    spr = new sf::Sprite(*_images->getRes("ani_dragon_stop"));
+    this->_sprites->add(spr, "ani_dragon_stop");
+
+
+    // Создаём фнимацию
     Animation * anim = new Animation(this->_sprites->getRes("ani_dragon_runRight"), 8, 75, 0);
     this->_anims->add(anim, "ani_dragon_runRight");
 
+    anim = new Animation(this->_sprites->getRes("ani_dragon_runLeft"), 8, 75, 0);
+    this->_anims->add(anim, "ani_dragon_runLeft");
+
+    anim = new Animation(this->_sprites->getRes("ani_dragon_stop"), 1, 0, 0);
+    this->_anims->add(anim, "ani_dragon_stop");
+
+
+    // Создаём сущность
     Entity *ent = new Entity;
     ent->addAnim(this->_anims->getRes("ani_dragon_runRight"), "runRight");
-    ent->setAnim("runRight");
+    ent->addAnim(this->_anims->getRes("ani_dragon_runLeft"), "runLeft");
+    ent->addAnim(this->_anims->getRes("ani_dragon_stop"), "stop");
+    ent->setAnim("stop");
     this->_entities->add(ent,"enemy_Dragon");
 
-//    Sprite * spr_ground1 = new Sprite;
-//    spr_ground1->Load("images/green.png");
-//    Sprite * spr_ground2 = new Sprite;
-//    spr_ground2->Load("images/road.png");
-//    Sprite * spr_ground3 = new Sprite;
-//    spr_ground3->Load("images/water.png");
-
-//    Sprite * animSpr = new Sprite;
-//    animSpr->Load("images/abcd.png");
-//    Animation * anim = new Animation(animSpr, 8, 75, 0);
-
-
-//    this->_sprites->add(spr_ground1, "green");
-//    this->_sprites->add(spr_ground2, "road");
-//    this->_sprites->add(spr_ground3, "water");
-//    this->_anims->add(anim, "run");
-
+    connect(control, SIGNAL(moveEntity(bool,bool,bool,bool)), ent, SLOT(setMoving(bool,bool,bool,bool)));
 
 /*
     //считывание карты и создание сущностей земли
@@ -150,10 +157,12 @@ void App::Event(sf::Event *event)
 void App::Loop()
 {
     mainCamera->Move(1000 * (cam_right * freq - cam_left * freq), 1000 * (cam_down * freq - cam_up * freq));
-    float x = _entities->getRes("enemy_Dragon")->getX() + 100 * freq;
-    float y = _entities->getRes("enemy_Dragon")->getY() + 100 * freq;
-    this->_entities->getRes("enemy_Dragon")->setXY(x,y);
-//    this->_texts->getRes("text_drakoXY")->setXY(x-30,y-50)->setText("x: "+QString::number(x)+", y: "+QString::number(y));
+    QMap<QString, Entity*>::iterator i;
+    for (i = _entities->getBegin(); i != _entities->getEnd(); ++i)
+    {
+        (*i)->move(this->freq);
+    }
+    //    this->_texts->getRes("text_drakoXY")->setXY(x-30,y-50)->setText("x: "+QString::number(x)+", y: "+QString::number(y));
 }
 
 // Функция занимается отображением всего на экране. Она НЕ обрабатывает манипуляции с данными - этим занимается Loop.

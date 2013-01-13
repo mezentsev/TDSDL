@@ -1,7 +1,7 @@
 #include "entity.h"
 #include <QDebug>
 
-Entity::Entity(sf::Sprite* sprite, int x, int y, int w, int h, int state)
+/*Entity::Entity(sf::Sprite* sprite, int x, int y, int w, int h, int state)
 {
     this->sprite = sprite;
     this->x      = x;
@@ -9,7 +9,7 @@ Entity::Entity(sf::Sprite* sprite, int x, int y, int w, int h, int state)
     this->state  = state;
     this->animName = "";
     this->rect = sprite->GetSubRect();
-}
+}*/
 
 Entity::Entity()
 {
@@ -18,6 +18,11 @@ Entity::Entity()
     this->y      = 0;
     this->state  = 0;
     this->animName = "";
+    this->moving.left  = false;
+    this->moving.right = false;
+    this->moving.up    = false;
+    this->moving.down  = false;
+    this->speed = 100;
 }
 
 Entity::~Entity()
@@ -95,12 +100,38 @@ int Entity::getState()
 //    return this;
 //}
 
+void Entity::setMoving(bool up, bool down, bool left, bool right)
+{
+    if (up)    this->moving.up    = !this->moving.up;
+    if (down)  this->moving.down  = !this->moving.down;
+    if (left)  this->moving.left  = !this->moving.left;
+    if (right) this->moving.right = !this->moving.right;
+}
+
 void Entity::refresh(sf::RenderWindow *screen)
 {
     //screen->Draw(*sprite);
     //qDebug() << this->rect.Top;
     //this->animate()
     screen->Draw(*this->animate(screen));//->Draw(dest, &spriteXY, &destXY, this->_angle, this->_scale);
+}
+
+void Entity::move(float freq)
+{
+    if (this->moving.left)
+    {
+        this->setAnim("runLeft");
+        //float x = _entities->getRes("enemy_Dragon")->getX() - 100 * freq;
+    }
+    if (this->moving.right)
+    {
+        this->setAnim("runRight");
+        //float x = _entities->getRes("enemy_Dragon")->getX() - 100 * freq;
+    }
+    if (!(this->moving.up||this->moving.down||this->moving.left||this->moving.right))
+        this->setAnim("stop");
+
+ //   this->setXY(x,y);
 }
 
 bool Entity::addAnim(Animation *anim, QString name)

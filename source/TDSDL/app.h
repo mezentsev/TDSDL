@@ -17,6 +17,7 @@
 class App : public QObject
 {
     Q_OBJECT
+
 private:
     sf::RenderWindow *screen;
     sf::View *mainCamera;

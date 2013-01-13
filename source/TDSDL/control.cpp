@@ -46,6 +46,16 @@ void Control::doControl(sf::Event *event)
             moveCamera(true,false,false,false);
             break;
         }
+        case sf::Key::A:
+        {
+            moveEntity(false,false,true,false);
+            break;
+        }
+        case sf::Key::D:
+        {
+            moveEntity(false,false,false,true);
+            break;
+        }
         }
         break;
     }
@@ -71,6 +81,16 @@ void Control::doControl(sf::Event *event)
         case sf::Key::Up:
         {
             moveCamera(true,false,false,false);
+            break;
+        }
+        case sf::Key::A:
+        {
+            moveEntity(false,false,true,false);
+            break;
+        }
+        case sf::Key::D:
+        {
+            moveEntity(false,false,false,true);
             break;
         }
         }
