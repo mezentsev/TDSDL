@@ -1,13 +1,5 @@
-SOURCES += \
-    main.cpp \
-    app.cpp \
-    entity.cpp \
-    #e_tower.cpp \
-    #e_enemy.cpp \
-    animation.cpp \
-    map.cpp \
-    #e_ground.cpp \
-    control.cpp
+﻿DEFINES += _WIN32 WIN32
+TEMPLATE = app
 
 win32 {
     INCLUDEPATH += "C:\SFML\SFML-1.6\include"
@@ -17,11 +9,7 @@ win32 {
         -llibsfml-system \
         -llibsfml-window \
         -llibsfml-graphics
-
 }
-
-DEFINES += _WIN32 WIN32
-TEMPLATE = app
 
 HEADERS += \
     app.h \
@@ -32,4 +20,18 @@ HEADERS += \
     resources.h \
     map.h \
   #  e_ground.h \
-    control.h
+    control.h \
+    unit.h
+
+SOURCES += \
+    main.cpp \
+    app.cpp \
+    entity.cpp \
+    #e_tower.cpp \
+    #e_enemy.cpp \
+    animation.cpp \
+    map.cpp \
+    #e_ground.cpp \
+    control.cpp \
+    unit.cpp
+

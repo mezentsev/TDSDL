@@ -15,8 +15,7 @@ class Entity : public QObject
 private:
     QMap<QString, Animation*> anim;
     float x,y;
-    int state;  //Состояние объекта (возможно enum)
-    sf::IntRect rect; //спрайт
+
     int w,h;
     QString animName;
 
@@ -24,9 +23,12 @@ private:
     double _scale;
 
 public:
-    Entity(Animation * default_anim, int x, int y, int w, int h, int state);
+
+    Entity(Animation * default_anim, int x, int y, int w, int h);
     Entity();
     ~Entity();
+
+    sf::IntRect rect; //спрайт
 
     Entity * setXY(float x, float y);
     Entity * setHW(int h, int w);
@@ -47,10 +49,6 @@ public:
     sf::Sprite * animate(sf::RenderWindow *screen); //Проигрывает анимацию с именем this->animName
 
     virtual const char* get_name(){return typeid(*this).name();}
-
-public slots:
-    void setState(int state);
-  //  void setMoving(bool up, bool down, bool left, bool right);
 };
 
 #endif // ENTITY_H

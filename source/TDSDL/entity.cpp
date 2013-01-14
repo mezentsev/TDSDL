@@ -1,25 +1,34 @@
-#include "entity.h"
+﻿#include "entity.h"
 #include <QDebug>
 
-Entity::Entity(Animation * default_anim, int x, int y, int w, int h, int state)
+Entity::Entity(Animation * default_anim, int x, int y, int w, int h)
 {
     this->x      = x;
     this->y      = y;
-    this->state  = state;
     this->addAnim(default_anim, "default");
     this->setDefault();
 
     sf::IntRect rct;
     rct.Left = 0;
-    rct.Top = 0;
+    rct.Top  = 0;
     rct.Bottom = h;
-    rct.Right = w;
+    rct.Right  = w;
     this->rect = rct;
 }
 
 Entity::Entity()
 {
+    this->x      = 0;
+    this->y      = 0;
+    //this->addAnim(default_anim, "default");
+    //this->setDefault();
 
+    sf::IntRect rct;
+    rct.Left = 0;
+    rct.Top  = 0;
+    rct.Bottom = 64;
+    rct.Right  = 64;
+    this->rect = rct;
 }
 
 Entity::~Entity()
@@ -38,7 +47,7 @@ Entity * Entity::setXY(float x, float y)
 //    }
     if (!this->anim.contains(this->animName))
         this->setDefault();
-    this->anim[this->animName]->getSprite()->SetPosition(x, y);
+    if (anim[this->animName]) this->anim[this->animName]->getSprite()->SetPosition(x, y);
     return this;
 }
 
@@ -69,16 +78,6 @@ int Entity::getH()
     return this->h;
 }
 
-void Entity::setState(int state)
-{
-    this->state = state;
-}
-
-int Entity::getState()
-{
-    return this->state;
-}
-
 //Entity * Entity::setAngle(double angle)
 //{
 //    this->_angle = angle;
@@ -102,7 +101,6 @@ void Entity::refresh(sf::RenderWindow *screen)
 bool Entity::addAnim(Animation *anim, QString name)
 {
     this->anim[name] = new Animation(anim);
-    //*this->anim[name] = *anim;
     return true;
 }
 

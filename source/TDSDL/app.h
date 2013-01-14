@@ -1,9 +1,10 @@
-#ifndef APP_H
+﻿#ifndef APP_H
 #define APP_H
 
 #include <QObject>
 #include <QDebug>
 #include "entity.h"
+#include "unit.h"
 #include "resources.h"
 //#include "e_enemy.h"
 //#include "e_tower.h"
@@ -22,12 +23,12 @@ private:
     sf::RenderWindow *screen;
     sf::View *mainCamera;
 
-    Resources<sf::Image> * _images;
+    Resources<sf::Image>  * _images;
     Resources<sf::Sprite> * _sprites;
     Resources<Entity>     * _entities;
     Resources<Animation>  * _anims;
     Resources<Map>        * _maps;
-    Resources<sf::View>     * _cameras;
+    Resources<sf::View>   * _cameras;
 //    Resources<sf::Text>       * _texts;
     Control *control;
 

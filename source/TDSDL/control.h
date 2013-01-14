@@ -17,7 +17,7 @@ public:
 
 signals:
     void moveCamera(bool up, bool down, bool left, bool right);
-    void moveEntity(bool up, bool down, bool left, bool right);
+    void setEntControl(int state);
     void end();
 
 };

@@ -1,4 +1,4 @@
-//#ifdef _WIN32
+﻿//#ifdef _WIN32
 //#include <cstdio>
 //#elif linux
 //#include <stdio.h>
@@ -16,20 +16,3 @@ int main ()
     App App;
     return App.Execute();
 }
-
-//int main()
-//{
-//    // Create the main window
-//    sf::RenderWindow window(sf::VideoMode(800, 600), "SFML window");
-
-//    while (window.IsOpened())
-//    {
-//        // Clear screen
-//        window.Clear();
-
-//        // Update the window
-//        window.Display();
-//    }
-
-//    return EXIT_SUCCESS;
-//}
