@@ -24,7 +24,7 @@ public:
     void setCurFrame(int frame);
 
     // Цикл смены кадров
-    sf::IntRect animate(sf::RenderWindow * screen);
+    sf::IntRect animate(sf::Time);
     sf::Sprite * getSprite();
 };
 

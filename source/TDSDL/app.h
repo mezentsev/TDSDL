@@ -1,4 +1,4 @@
-#ifndef APP_H
+﻿#ifndef APP_H
 #define APP_H
 
 #include <QObject>
@@ -22,7 +22,7 @@ private:
     sf::RenderWindow *screen;
     sf::View *mainCamera;
 
-    Resources<sf::Image> * _images;
+    Resources<sf::Texture> * _textures;
     Resources<sf::Sprite> * _sprites;
     Resources<Entity>     * _entities;
     Resources<Animation>  * _anims;
@@ -30,10 +30,10 @@ private:
     Resources<sf::View>     * _cameras;
 //    Resources<sf::Text>       * _texts;
     Control *control;
+    sf::Clock clock;
+    sf::Time freq;
 
     bool cam_up, cam_down, cam_left, cam_right;
-
-    float freq;
 
 public:
     App();

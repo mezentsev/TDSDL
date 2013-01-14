@@ -4,7 +4,7 @@
 Animation::Animation(sf::Sprite * sprite, int cnt, int rate, int type)
 {
     this->sprite = *sprite;
-    this->rect   = sprite->GetSubRect();
+    this->rect   = sprite->getTextureRect();
     this->cnt    = cnt;
     this->rate   = rate;
     this->type   = type;
@@ -35,16 +35,16 @@ void Animation::setCurFrame(int frame)
         this->curFrame = frame;
 }
 
-sf::IntRect Animation::animate(sf::RenderWindow * screen)
+sf::IntRect Animation::animate(sf::Time time)
 {
-    this->sumTime += screen->GetFrameTime() * 1000.f;
+    this->sumTime += time.asSeconds() * 1000.f;
     if (this->rate > this->sumTime)
     {
         sf::IntRect area;
-        area.Left   =  this->rect.Left;
-        area.Top    = (this->rect.GetHeight() * this->curFrame) / this->cnt;
-        area.Right  =  this->rect.Right;
-        area.Bottom = (this->rect.GetHeight() / this->cnt) + area.Top;
+        area.left   =  this->rect.left;
+        area.top    = (this->rect.height * this->curFrame) / this->cnt;
+        area.width  =  this->rect.width;
+        area.height = (this->rect.height / this->cnt) + area.top;
         return area;
     }
     this->sumTime = this->sumTime - this->rate;
@@ -52,10 +52,10 @@ sf::IntRect Animation::animate(sf::RenderWindow * screen)
     this->setCurFrame(this->getCurFrame() + 1);
 
     sf::IntRect area;
-    area.Left   =  this->rect.Left;
-    area.Top    = (this->rect.GetHeight() * this->curFrame) / this->cnt;
-    area.Right  =  this->rect.Right;
-    area.Bottom = (this->rect.GetHeight() / this->cnt) + area.Top;
+    area.left   =  this->rect.left;
+    area.top    = (this->rect.height * this->curFrame) / this->cnt;
+    area.width  =  this->rect.width;
+    area.height = (this->rect.height / this->cnt) + area.top;
 
     return area;
 }

@@ -11,13 +11,13 @@ Control::~Control()
 
 void Control::doControl(sf::Event *event)
 {
-    bool left   = (event->Key.Code==sf::Key::Left)?true:false;
-    bool right  = (event->Key.Code==sf::Key::Right)?true:false;
-    bool up     = (event->Key.Code==sf::Key::Up)?true:false;
-    bool down   = (event->Key.Code==sf::Key::Down)?true:false;
-    bool esc    = (event->Key.Code==sf::Key::Escape)?true:false;
+    bool left   = (event->key.code==sf::Keyboard::Left)?true:false;
+    bool right  = (event->key.code==sf::Keyboard::Right)?true:false;
+    bool up     = (event->key.code==sf::Keyboard::Up)?true:false;
+    bool down   = (event->key.code==sf::Keyboard::Down)?true:false;
+    bool esc    = (event->key.code==sf::Keyboard::Escape)?true:false;
 
-    switch (event->Type)
+    switch (event->type)
     {
     case sf::Event::Closed:
     {
