@@ -33,9 +33,6 @@ private:
     Control *control;
     sf::Clock clock;
     sf::Time freq;
-    //float freq;
-
-    bool cam_up, cam_down, cam_left, cam_right;
 
 public:
     App();
@@ -50,7 +47,6 @@ public:
 //    void readMap(QString path);
 
 public slots:
-    void moveCamera(bool up, bool down, bool left, bool right);
     void Close();
 };
 

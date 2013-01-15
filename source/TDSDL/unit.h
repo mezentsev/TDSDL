@@ -20,7 +20,7 @@ private:
 */
 
 public:
-    Unit(Animation *anim);
+    Unit(Animation * default_anim, int x, int y, int w, int h);
     int  getState();
 
 public slots:

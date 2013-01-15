@@ -4,18 +4,12 @@ App::App()
 {
     this->screen = new sf::RenderWindow(sf::VideoMode(800, 600, 32), "SFML window", sf::Style::Close);
     this->control = new Control;
-    connect(this->control, SIGNAL(moveCamera(bool,bool,bool,bool)), this, SLOT(moveCamera(bool,bool,bool,bool)));
     connect(this->control, SIGNAL(end()), this, SLOT(Close()));
     this->_textures   = new Resources<sf::Texture>();
     this->_sprites    = new Resources<sf::Sprite>();
     this->_entities   = new Resources<Entity>();
     this->_anims      = new Resources<Animation>();
     this->_cameras    = new Resources<sf::View>();
-
-    cam_up    = false;
-    cam_down  = false;
-    cam_left  = false;
-    cam_right = false;
 //    this->_maps     = new Resources<Map>();
 //    this->_texts    = new Resources<sf::Text>();
 }
@@ -25,11 +19,9 @@ bool App::Init()
 {
     sf::View *camera = new sf::View();
     this->mainCamera = camera;
-    this->_cameras->add(camera, "default");
     camera->setSize(800,600);
     camera->setCenter(0,0);
-    //camera->setViewport(sf::FloatRect(400,300,800,600));
-  //  this->screen->setView(*camera);
+    this->_cameras->add(camera, "default");
 
     /**********************  Загрузка изображений ************************/
     sf::Texture *image = new sf::Texture();
@@ -111,7 +103,7 @@ bool App::Init()
 
 
     /***************  Создание сущности, назначение стандартной анимации ******************/
-    Unit *ent = new Unit(this->_anims->getRes("dragon_stayRight"));
+    Unit *ent = new Unit(this->_anims->getRes("dragon_stayRight"),0,0,64,64);
     ent->addAnim(this->_anims->getRes("dragon_runRight"), "runRight");
     ent->addAnim(this->_anims->getRes("dragon_runLeft"), "runLeft");
     ent->addAnim(this->_anims->getRes("dragon_stayLeft"), "stayLeft");
@@ -119,7 +111,7 @@ bool App::Init()
     ent->addAnim(this->_anims->getRes("dragon_jumpLeft"), "jumpLeft");
     ent->addAnim(this->_anims->getRes("dragon_jumpRight"), "jumpRight");
     ent->addAnim(this->_anims->getRes("dragon_jumpUp"), "jumpUp");
-    this->_entities->add(ent,"enemy_Dragon");
+    this->_entities->add(ent,"player");
     /*********************************************************************/
 
     connect(this->control, SIGNAL(setEntControl(int)), ent, SLOT(setControl(int)));
@@ -208,7 +200,7 @@ void App::Event(sf::Event *event)
 // Функция обрабатывает обновление данных, например движение NPC по экрану, уменьшение здоровье персонажа и так далее.
 void App::Loop()
 {
-    mainCamera->move(1000*(cam_right * freq.asSeconds() - cam_left * freq.asSeconds()), 1000*(cam_down * freq.asSeconds() - cam_up * freq.asSeconds()));
+    //mainCamera->setCenter(_entities->getRes("player")->getX(),_entities->getRes("player")->getY());
 }
 
 // Функция занимается отображением всего на экране. Она НЕ обрабатывает манипуляции с данными - этим занимается Loop.
@@ -244,14 +236,6 @@ void App::Cleanup()
 void App::Close()
 {
     this->screen->close();
-}
-
-void App::moveCamera(bool up, bool down, bool left, bool right)
-{
-    if (up)    cam_up    = !cam_up;
-    if (down)  cam_down  = !cam_down;
-    if (left)  cam_left  = !cam_left;
-    if (right) cam_right = !cam_right;
 }
 
 //void App::readMap(QString path)

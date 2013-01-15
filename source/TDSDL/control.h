@@ -16,7 +16,7 @@ public:
     void doControl(sf::Event *event);
 
 signals:
-    void moveCamera(bool up, bool down, bool left, bool right);
+    void setCamControl(int state);
     void setEntControl(int state);
     void end();
 

@@ -16,21 +16,6 @@ Entity::Entity(Animation * default_anim, int x, int y, int w, int h)
     this->rect = rct;
 }
 
-Entity::Entity()
-{
-    this->x      = 0;
-    this->y      = 0;
-    //this->addAnim(default_anim, "default");
-    //this->setDefault();
-
-    sf::IntRect rct;
-    rct.left = 0;
-    rct.top = 0;
-    rct.height = 64;
-    rct.width = 64;
-    this->rect = rct;
-}
-
 Entity::~Entity()
 {
     qDeleteAll(this->anim.begin(), this->anim.end());

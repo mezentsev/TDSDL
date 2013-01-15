@@ -2,10 +2,8 @@
 
 #include <QDebug>
 
-Unit::Unit(Animation *anim)
+Unit::Unit(Animation *default_anim, int x, int y, int w, int h) : Entity(default_anim,x,y,w,h)
 {
-    this->addAnim(anim, "default");
-    this->setDefault();
     this->setState(1);
 }
 
@@ -14,26 +12,26 @@ void Unit::setControl(int state)
     if (this->state == 0)
     {
         if (state == 2 || state == 3 || state == 6)
-            setState(state);
+            this->setState(state);
     }
     else if (this->state == 1)
     {
         if (state == 2 || state == 3 || state == 6)
-            setState(state);
+            this->setState(state);
     }
     else if (this->state == 2)
     {
         if (state == 0 || state == 3)
-            setState(state);
+            this->setState(state);
         if (state == 6)
-            setState(4);
+            this->setState(4);
     }
     else if (this->state == 3)
     {
         if (state == 1 || state == 2)
             this->setState(state);
         if (state == 6)
-            setState(5);
+            this->setState(5);
     }
     else if (this->state == 4)
     {

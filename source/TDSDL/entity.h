@@ -22,7 +22,6 @@ private:
 public:
 
     Entity(Animation * default_anim, int x, int y, int w, int h);
-    Entity();
     ~Entity();
 
     sf::IntRect rect; //спрайт

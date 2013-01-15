@@ -11,11 +11,6 @@ Control::~Control()
 
 void Control::doControl(sf::Event *event)
 {
-    bool left   = (event->key.code==sf::Keyboard::Left)?true:false;
-    bool right  = (event->key.code==sf::Keyboard::Right)?true:false;
-    bool up     = (event->key.code==sf::Keyboard::Up)?true:false;
-    bool down   = (event->key.code==sf::Keyboard::Down)?true:false;
-
     switch (event->type)
     {
     case sf::Event::Closed:
@@ -25,12 +20,16 @@ void Control::doControl(sf::Event *event)
     }
     case sf::Event::KeyPressed:
     {
+        if (event->key.code == sf::Keyboard::Up)    emit setCamControl(1);
+        if (event->key.code == sf::Keyboard::Down)  emit setCamControl(3);
+        if (event->key.code == sf::Keyboard::Left)  emit setCamControl(5);
+        if (event->key.code == sf::Keyboard::Right) emit setCamControl(7);
+
         if (event->key.code == sf::Keyboard::Escape) emit end();
         if (event->key.code == sf::Keyboard::W) emit setEntControl(6);
         if (event->key.code == sf::Keyboard::A) emit setEntControl(2);
         if (event->key.code == sf::Keyboard::D) emit setEntControl(3);
 
-        emit moveCamera(up, down, left, right);
         break;
     }
     case sf::Event::KeyReleased:
@@ -38,7 +37,6 @@ void Control::doControl(sf::Event *event)
         if (event->key.code == sf::Keyboard::A) emit setEntControl(0);
         if (event->key.code == sf::Keyboard::D) emit setEntControl(1);
 
-        emit moveCamera(up, down, left, right);
         break;
     }
     case sf::Event::MouseWheelMoved:
