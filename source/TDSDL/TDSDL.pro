@@ -2,9 +2,9 @@
 TEMPLATE = app
 
 win32 {
-    INCLUDEPATH += "C:\SFML\SFML-1.6\include"
+    INCLUDEPATH += "C:\SFML\SFML-2.0\include"
 
-    LIBS += -L"C:\SFML\SFML-1.6\lib" \
+    LIBS += -L"C:\SFML\SFML-2.0\lib" \
         -llibsfml-main \
         -llibsfml-system \
         -llibsfml-window \
@@ -34,4 +34,3 @@ SOURCES += \
     #e_ground.cpp \
     control.cpp \
     unit.cpp
-

@@ -4,13 +4,13 @@
 #include <QObject>
 #include <QDebug>
 #include "entity.h"
-#include "unit.h"
 #include "resources.h"
 //#include "e_enemy.h"
 //#include "e_tower.h"
 //#include "e_ground.h"
 #include "map.h"
 #include "control.h"
+#include "unit.h"
 #include <QFile>
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
@@ -23,18 +23,19 @@ private:
     sf::RenderWindow *screen;
     sf::View *mainCamera;
 
-    Resources<sf::Image>  * _images;
-    Resources<sf::Sprite> * _sprites;
-    Resources<Entity>     * _entities;
-    Resources<Animation>  * _anims;
-    Resources<Map>        * _maps;
-    Resources<sf::View>   * _cameras;
+    Resources<sf::Texture> * _textures;
+    Resources<sf::Sprite>  * _sprites;
+    Resources<Entity>      * _entities;
+    Resources<Animation>   * _anims;
+    Resources<Map>         * _maps;
+    Resources<sf::View>    * _cameras;
 //    Resources<sf::Text>       * _texts;
     Control *control;
+    sf::Clock clock;
+    sf::Time freq;
+    //float freq;
 
     bool cam_up, cam_down, cam_left, cam_right;
-
-    float freq;
 
 public:
     App();

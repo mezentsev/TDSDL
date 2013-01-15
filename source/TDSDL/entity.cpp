@@ -9,10 +9,10 @@ Entity::Entity(Animation * default_anim, int x, int y, int w, int h)
     this->setDefault();
 
     sf::IntRect rct;
-    rct.Left = 0;
-    rct.Top  = 0;
-    rct.Bottom = h;
-    rct.Right  = w;
+    rct.left = 0;
+    rct.top = 0;
+    rct.height = h;
+    rct.width = w;
     this->rect = rct;
 }
 
@@ -24,10 +24,10 @@ Entity::Entity()
     //this->setDefault();
 
     sf::IntRect rct;
-    rct.Left = 0;
-    rct.Top  = 0;
-    rct.Bottom = 64;
-    rct.Right  = 64;
+    rct.left = 0;
+    rct.top = 0;
+    rct.height = 64;
+    rct.width = 64;
     this->rect = rct;
 }
 
@@ -40,14 +40,9 @@ Entity * Entity::setXY(float x, float y)
 {
     this->x = x;
     this->y = y;
-//    QMap<QString, Animation*>::iterator i;
-//    for (i = anim.begin(); i != anim.end(); ++i)
-//    {
-//        (*i)->getSprite()->SetPosition(x,y);
-//    }
     if (!this->anim.contains(this->animName))
         this->setDefault();
-    if (anim[this->animName]) this->anim[this->animName]->getSprite()->SetPosition(x, y);
+    this->anim[this->animName]->getSprite()->setPosition(x, y);
     return this;
 }
 
@@ -78,24 +73,9 @@ int Entity::getH()
     return this->h;
 }
 
-//Entity * Entity::setAngle(double angle)
-//{
-//    this->_angle = angle;
-//    return this;
-//}
-
-//Entity * Entity::setScale(double scale)
-//{
-//    this->_scale = scale;
-//    return this;
-//}
-
-void Entity::refresh(sf::RenderWindow *screen)
+sf::Sprite * Entity::refresh(sf::Time time)
 {
-    //screen->Draw(*sprite);
-    //qDebug() << this->rect.Top;
-    //this->animate()
-    screen->Draw(*this->animate(screen));//->Draw(dest, &spriteXY, &destXY, this->_angle, this->_scale);
+    return this->animate(time);
 }
 
 bool Entity::addAnim(Animation *anim, QString name)
@@ -120,14 +100,14 @@ void Entity::setDefault()
     this->animName = "default";
 }
 
-sf::Sprite * Entity::animate(sf::RenderWindow * screen)
+sf::Sprite * Entity::animate(sf::Time time)
 {
     if (!this->anim.contains(this->animName))
     {
         this->setDefault();
     }
 
-    this->rect = this->anim[this->animName]->animate(screen);
-    this->anim[this->animName]->getSprite()->SetSubRect(this->rect);
+    this->rect = this->anim[this->animName]->animate(time);
+    this->anim[this->animName]->getSprite()->setTextureRect(this->rect);
     return this->anim[this->animName]->getSprite();
 }

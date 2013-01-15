@@ -21,11 +21,11 @@ private:
 
 public:
     Unit(Animation *anim);
+    int  getState();
 
 public slots:
     void setControl(int state);
-    void setState(int state);
-    int  getState();
+    void setState(int state);    
 };
 
 #endif // UNIT_H

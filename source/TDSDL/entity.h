@@ -19,9 +19,6 @@ private:
     int w,h;
     QString animName;
 
-    double _angle;
-    double _scale;
-
 public:
 
     Entity(Animation * default_anim, int x, int y, int w, int h);
@@ -36,17 +33,14 @@ public:
     float getY();
     int getW();
     int getH();
-    int getState();
-    Entity * setAngle(double angle);
-    Entity * setScale(double s);
 
-    void refresh(sf::RenderWindow *screen);
+    sf::Sprite * refresh(sf::Time);
     void move(float freq);
 
     bool addAnim(Animation * anim, QString name); //Привязывает анимацию с именем
     bool setAnim(QString name); // Устанавливает анимацию с именем name
     void setDefault();
-    sf::Sprite * animate(sf::RenderWindow *screen); //Проигрывает анимацию с именем this->animName
+    sf::Sprite * animate(sf::Time); //Проигрывает анимацию с именем this->animName
 
     virtual const char* get_name(){return typeid(*this).name();}
 };

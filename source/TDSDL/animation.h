@@ -8,9 +8,9 @@ class Animation
 private:
     sf::Sprite sprite;
     sf::IntRect rect;
-    int cnt; //Количество кадров
-    int rate; //Частота смены
-    int type; //Тип анимации
+    int   cnt;  //Количество кадров
+    float rate; //Скорость анимации, кадры/сек
+    int   type; //Тип анимации
     int curFrame;
     float sumTime;
 
@@ -24,7 +24,7 @@ public:
     void setCurFrame(int frame);
 
     // Цикл смены кадров
-    sf::IntRect animate(sf::RenderWindow * screen);
+    sf::IntRect animate(sf::Time);
     sf::Sprite * getSprite();
 };
 

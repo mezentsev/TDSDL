@@ -6,11 +6,11 @@ App::App()
     this->control = new Control;
     connect(this->control, SIGNAL(moveCamera(bool,bool,bool,bool)), this, SLOT(moveCamera(bool,bool,bool,bool)));
     connect(this->control, SIGNAL(end()), this, SLOT(Close()));
-    this->_images   = new Resources<sf::Image>();
-    this->_sprites  = new Resources<sf::Sprite>();
-    this->_entities = new Resources<Entity>();
-    this->_anims    = new Resources<Animation>();
-    this->_cameras  = new Resources<sf::View>();
+    this->_textures   = new Resources<sf::Texture>();
+    this->_sprites    = new Resources<sf::Sprite>();
+    this->_entities   = new Resources<Entity>();
+    this->_anims      = new Resources<Animation>();
+    this->_cameras    = new Resources<sf::View>();
 
     cam_up    = false;
     cam_down  = false;
@@ -26,85 +26,86 @@ bool App::Init()
     sf::View *camera = new sf::View();
     this->mainCamera = camera;
     this->_cameras->add(camera, "default");
-
-    camera->SetFromRect(sf::FloatRect(0,0,800,600));
-    this->screen->SetView(*camera);
+    camera->setSize(800,600);
+    camera->setCenter(0,0);
+    //camera->setViewport(sf::FloatRect(400,300,800,600));
+  //  this->screen->setView(*camera);
 
     /**********************  Загрузка изображений ************************/
-    sf::Image *image = new sf::Image();
-    if (!image->LoadFromFile("images/dragon_runLeft.png")) return false;
-    _images->add(image,"dragon_runLeft");
+    sf::Texture *image = new sf::Texture();
+    if (!image->loadFromFile("images/dragon_runLeft.png")) return false;
+    _textures->add(image,"dragon_runLeft");
 
-    image = new sf::Image();
-    if (!image->LoadFromFile("images/dragon_runRight.png")) return false;
-    _images->add(image,"dragon_runRight");
+    image = new sf::Texture();
+    if (!image->loadFromFile("images/dragon_runRight.png")) return false;
+    _textures->add(image,"dragon_runRight");
 
-    image = new sf::Image();
-    if (!image->LoadFromFile("images/dragon_stayLeft.png")) return false;
-    _images->add(image,"dragon_stayLeft");
+    image = new sf::Texture();
+    if (!image->loadFromFile("images/dragon_stayLeft.png")) return false;
+    _textures->add(image,"dragon_stayLeft");
 
-    image = new sf::Image();
-    if (!image->LoadFromFile("images/dragon_stayRight.png")) return false;
-    _images->add(image,"dragon_stayRight");
+    image = new sf::Texture();
+    if (!image->loadFromFile("images/dragon_stayRight.png")) return false;
+    _textures->add(image,"dragon_stayRight");
 
-    image = new sf::Image();
-    if (!image->LoadFromFile("images/dragon_jumpLeft.png")) return false;
-    _images->add(image,"dragon_jumpLeft");
+    image = new sf::Texture();
+    if (!image->loadFromFile("images/dragon_jumpLeft.png")) return false;
+    _textures->add(image,"dragon_jumpLeft");
 
-    image = new sf::Image();
-    if (!image->LoadFromFile("images/dragon_jumpRight.png")) return false;
-    _images->add(image,"dragon_jumpRight");
+    image = new sf::Texture();
+    if (!image->loadFromFile("images/dragon_jumpRight.png")) return false;
+    _textures->add(image,"dragon_jumpRight");
 
-    image = new sf::Image();
-    if (!image->LoadFromFile("images/dragon_jumpUp.png")) return false;
-    _images->add(image,"dragon_jumpUp");
+    image = new sf::Texture();
+    if (!image->loadFromFile("images/dragon_jumpUp.png")) return false;
+    _textures->add(image,"dragon_jumpUp");
     /*********************************************************************/
 
 
     /***************  Установка изображений справйтам  *******************/
-    sf::Sprite *spr = new sf::Sprite(*_images->getRes("dragon_runLeft"));
+    sf::Sprite *spr = new sf::Sprite(*_textures->getRes("dragon_runLeft"));
     this->_sprites->add(spr, "dragon_runLeft");
 
-    spr = new sf::Sprite(*_images->getRes("dragon_runRight"));
+    spr = new sf::Sprite(*_textures->getRes("dragon_runRight"));
     this->_sprites->add(spr, "dragon_runRight");
 
-    spr = new sf::Sprite(*_images->getRes("dragon_stayLeft"));
+    spr = new sf::Sprite(*_textures->getRes("dragon_stayLeft"));
     this->_sprites->add(spr, "dragon_stayLeft");
 
-    spr = new sf::Sprite(*_images->getRes("dragon_stayRight"));
+    spr = new sf::Sprite(*_textures->getRes("dragon_stayRight"));
     this->_sprites->add(spr, "dragon_stayRight");
 
-    spr = new sf::Sprite(*_images->getRes("dragon_jumpLeft"));
+    spr = new sf::Sprite(*_textures->getRes("dragon_jumpLeft"));
     this->_sprites->add(spr, "dragon_jumpLeft");
 
-    spr = new sf::Sprite(*_images->getRes("dragon_jumpRight"));
+    spr = new sf::Sprite(*_textures->getRes("dragon_jumpRight"));
     this->_sprites->add(spr, "dragon_jumpRight");
 
-    spr = new sf::Sprite(*_images->getRes("dragon_jumpUp"));
+    spr = new sf::Sprite(*_textures->getRes("dragon_jumpUp"));
     this->_sprites->add(spr, "dragon_jumpUp");
     /*********************************************************************/
 
 
     /***************  Создание анимаций из спрайта  **********************/
-    Animation * anim = new Animation(this->_sprites->getRes("dragon_runLeft"), 8, 75, 0);
+    Animation * anim = new Animation(this->_sprites->getRes("dragon_runLeft"), 8, 8, 0);
     this->_anims->add(anim, "dragon_runLeft");
 
-    anim = new Animation(this->_sprites->getRes("dragon_runRight"), 8, 75, 0);
+    anim = new Animation(this->_sprites->getRes("dragon_runRight"), 8, 8, 0);
     this->_anims->add(anim, "dragon_runRight");
 
-    anim = new Animation(this->_sprites->getRes("dragon_stayLeft"), 1, 0, 0);
+    anim = new Animation(this->_sprites->getRes("dragon_stayLeft"), 1, 1, 0);
     this->_anims->add(anim, "dragon_stayLeft");
 
-    anim = new Animation(this->_sprites->getRes("dragon_stayRight"), 1, 0, 0);
+    anim = new Animation(this->_sprites->getRes("dragon_stayRight"), 1, 1, 0);
     this->_anims->add(anim, "dragon_stayRight");
 
-    anim = new Animation(this->_sprites->getRes("dragon_jumpLeft"), 1, 0, 0);
+    anim = new Animation(this->_sprites->getRes("dragon_jumpLeft"), 1, 1, 0);
     this->_anims->add(anim, "dragon_jumpLeft");
 
-    anim = new Animation(this->_sprites->getRes("dragon_jumpRight"), 1, 0, 0);
+    anim = new Animation(this->_sprites->getRes("dragon_jumpRight"), 1, 1, 0);
     this->_anims->add(anim, "dragon_jumpRight");
 
-    anim = new Animation(this->_sprites->getRes("dragon_jumpUp"), 1, 0, 0);
+    anim = new Animation(this->_sprites->getRes("dragon_jumpUp"), 1, 1, 0);
     this->_anims->add(anim, "dragon_jumpUp");
     /*********************************************************************/
 
@@ -176,17 +177,22 @@ int App::Execute()
     }
 
     sf::Event event;
-    while (this->screen->IsOpened())
+    while (this->screen->isOpen())
     {
-        freq = screen->GetFrameTime();
-        while (this->screen->GetEvent(event))
+        this->freq = clock.getElapsedTime();
+
+        clock.restart();
+
+        this->screen->clear();
+
+        while (this->screen->pollEvent(event))
         {
             this->Event(&event);
         }
 
         this->Loop();
 
-        this->Render();
+        this->Render();        
     }
 
     this->Cleanup();
@@ -202,25 +208,23 @@ void App::Event(sf::Event *event)
 // Функция обрабатывает обновление данных, например движение NPC по экрану, уменьшение здоровье персонажа и так далее.
 void App::Loop()
 {
-    mainCamera->Move(1000 * (cam_right * freq - cam_left * freq), 1000 * (cam_down * freq - cam_up * freq));
-//    float x = _entities->getRes("enemy_Dragon")->getX() + 100 * freq;
-//    float y = _entities->getRes("enemy_Dragon")->getY() + 100 * freq;
-//    this->_entities->getRes("enemy_Dragon")->setXY(x,y);
+    mainCamera->move(1000*(cam_right * freq.asSeconds() - cam_left * freq.asSeconds()), 1000*(cam_down * freq.asSeconds() - cam_up * freq.asSeconds()));
 }
 
 // Функция занимается отображением всего на экране. Она НЕ обрабатывает манипуляции с данными - этим занимается Loop.
 void App::Render()
 {
-    this->screen->Clear();
+    // Обновляем камеру экрана
+    this->screen->setView(*mainCamera);
 
     // Выведем все ресурсы из Entity
     QMap<QString, Entity*>::iterator i;
     for (i = _entities->getBegin(); i != _entities->getEnd(); ++i)
     {
-        (*i)->refresh(this->screen);
+        this->screen->draw(*(*i)->refresh(this->freq));
     }
 
-    this->screen->Display();
+    this->screen->display();
 }
 
 // Функция просто отключает все использующиеся ресурсы и закрывает игру.
@@ -228,7 +232,7 @@ void App::Cleanup()
 {
     delete this->screen;
     delete this->_sprites;
-    delete this->_images;
+    delete this->_textures;
 
     delete this->_anims;
     delete this->_entities;
@@ -239,7 +243,7 @@ void App::Cleanup()
 
 void App::Close()
 {
-    this->screen->Close();
+    this->screen->close();
 }
 
 void App::moveCamera(bool up, bool down, bool left, bool right)
