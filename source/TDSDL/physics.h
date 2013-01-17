@@ -14,7 +14,7 @@ private:
     float maxSpeed;
     float mas;
     float x, y;
-    QList<QPair(float x, float y)> vertex; // Вершины против часовой
+    QList< QPair<float, float> > vertex; // Вершины против часовой
 
     b2BodyType type; //тип объекта (static/dynamic)
     QString data; // Инфа по объекту

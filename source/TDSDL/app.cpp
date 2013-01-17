@@ -2,7 +2,7 @@
 
 App::App()
 {
-    this->screen = new sf::RenderWindow(sf::VideoMode(800, 600, 32), "SFML window", sf::Style::Close);
+    this->screen = new sf::RenderWindow(sf::VideoMode(800, 600, 32), "SFML window", sf::Style::Close, sf::ContextSettings(0,0,8));
     this->control = new Control;
     connect(this->control, SIGNAL(end()), this, SLOT(Close()));
     this->_textures   = new Resources<sf::Texture>();
@@ -19,30 +19,37 @@ bool App::Load()
     /**********************  Загрузка изображений ************************/
     sf::Texture *image = new sf::Texture();
     if (!image->loadFromFile("images/dragon_runLeft.png")) return false;
+    image->setSmooth(true);
     _textures->add(image,"dragon_runLeft");
 
     image = new sf::Texture();
     if (!image->loadFromFile("images/dragon_runRight.png")) return false;
+    image->setSmooth(true);
     _textures->add(image,"dragon_runRight");
 
     image = new sf::Texture();
     if (!image->loadFromFile("images/dragon_stayLeft.png")) return false;
+    image->setSmooth(true);
     _textures->add(image,"dragon_stayLeft");
 
     image = new sf::Texture();
     if (!image->loadFromFile("images/dragon_stayRight.png")) return false;
+    image->setSmooth(true);
     _textures->add(image,"dragon_stayRight");
 
     image = new sf::Texture();
     if (!image->loadFromFile("images/dragon_jumpLeft.png")) return false;
+    image->setSmooth(true);
     _textures->add(image,"dragon_jumpLeft");
 
     image = new sf::Texture();
     if (!image->loadFromFile("images/dragon_jumpRight.png")) return false;
+    image->setSmooth(true);
     _textures->add(image,"dragon_jumpRight");
 
     image = new sf::Texture();
     if (!image->loadFromFile("images/dragon_jumpUp.png")) return false;
+    image->setSmooth(true);
     _textures->add(image,"dragon_jumpUp");
     /*********************************************************************/
 
