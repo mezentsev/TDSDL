@@ -178,6 +178,7 @@ void App::Render()
     for (i = _entities->getBegin(); i != _entities->getEnd(); ++i)
     {
         this->screen->draw(*(*i)->refresh(this->freq));
+        //qDebug() << abi::__cxa_demangle(typeid(*i).name(),0,0,0);
     }
 
     this->screen->display();

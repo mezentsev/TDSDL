@@ -13,6 +13,7 @@
 #include <QFile>
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
+#include "cxxabi.h"
 
 class App : public QObject
 {
