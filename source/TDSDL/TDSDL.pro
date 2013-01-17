@@ -24,7 +24,8 @@ HEADERS += \
     map.h \
   #  e_ground.h \
     control.h \
-    unit.h
+    unit.h \
+    physics.h
 
 SOURCES += \
     main.cpp \
@@ -36,4 +37,5 @@ SOURCES += \
     map.cpp \
     #e_ground.cpp \
     control.cpp \
-    unit.cpp
+    unit.cpp \
+    physics.cpp
