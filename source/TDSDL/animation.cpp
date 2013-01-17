@@ -37,25 +37,25 @@ void Animation::setCurFrame(int frame)
 
 sf::IntRect Animation::animate(sf::Time time)
 {
-    this->sumTime += time.asSeconds() * 1000.f;
-    if (this->rate > this->sumTime)
+    this->sumTime += time.asSeconds();
+    if ((1 / this->rate) > this->sumTime)
     {
         sf::IntRect area;
         area.left   =  this->rect.left;
         area.top    = (this->rect.height * this->curFrame) / this->cnt;
         area.width  =  this->rect.width;
-        area.height = (this->rect.height / this->cnt) + area.top;
+        area.height = (this->rect.height / this->cnt);
         return area;
     }
-    this->sumTime = this->sumTime - this->rate;
 
+    this->sumTime = this->sumTime - 1 / this->rate;
     this->setCurFrame(this->getCurFrame() + 1);
 
     sf::IntRect area;
     area.left   =  this->rect.left;
     area.top    = (this->rect.height * this->curFrame) / this->cnt;
     area.width  =  this->rect.width;
-    area.height = (this->rect.height / this->cnt) + area.top;
+    area.height = (this->rect.height / this->cnt);
 
     return area;
 }

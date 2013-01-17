@@ -1,26 +1,13 @@
 ﻿#include "entity.h"
 #include <QDebug>
 
-Entity::Entity(Animation * default_anim, int x, int y, int w, int h, int state)
+Entity::Entity(Animation * default_anim, int x, int y, int w, int h)
 {
     this->x      = x;
     this->y      = y;
-    this->state  = state;
     this->addAnim(default_anim, "default");
     this->setDefault();
 
-    sf::IntRect rct;
-    rct.left = 0;
-    rct.top = 0;
-    rct.height = h;
-    rct.width = w;
-    this->rect = rct;
-}
-
-Entity::Entity()
-{
-    this->x      = 0;
-    this->y      = 0;
     sf::IntRect rct;
     rct.left = 0;
     rct.top = 0;
@@ -71,19 +58,9 @@ int Entity::getH()
     return this->h;
 }
 
-void Entity::setState(int state)
-{
-    this->state = state;
-}
-
-int Entity::getState()
-{
-    return this->state;
-}
-
 sf::Sprite * Entity::refresh(sf::Time time)
 {
-    this->animate(time);
+    return this->animate(time);
 }
 
 bool Entity::addAnim(Animation *anim, QString name)

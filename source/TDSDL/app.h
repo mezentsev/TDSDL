@@ -10,6 +10,7 @@
 //#include "e_ground.h"
 #include "map.h"
 #include "control.h"
+#include "unit.h"
 #include <QFile>
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
@@ -24,17 +25,15 @@ private:
     sf::View *mainCamera;
 
     Resources<sf::Texture> * _textures;
-    Resources<sf::Sprite> * _sprites;
-    Resources<Entity>     * _entities;
-    Resources<Animation>  * _anims;
-    Resources<Map>        * _maps;
-    Resources<sf::View>     * _cameras;
+    Resources<sf::Sprite>  * _sprites;
+    Resources<Entity>      * _entities;
+    Resources<Animation>   * _anims;
+    Resources<Map>         * _maps;
+    Resources<sf::View>    * _cameras;
 //    Resources<sf::Text>       * _texts;
     Control *control;
     sf::Clock clock;
     sf::Time freq;
-
-    bool cam_up, cam_down, cam_left, cam_right;
 
 public:
     App();
@@ -49,7 +48,6 @@ public:
 //    void readMap(QString path);
 
 public slots:
-    void moveCamera(bool up, bool down, bool left, bool right);
     void Close();
 };
 

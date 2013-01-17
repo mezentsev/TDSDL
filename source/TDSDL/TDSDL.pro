@@ -2,14 +2,16 @@
 TEMPLATE = app
 
 win32 {
-    INCLUDEPATH += "C:\SFML\SFML-2.0\include"
+    INCLUDEPATH += "C:\SFML\SFML-2.0\include" \
+                   "C:\BOX2D\include"
 
     LIBS += -L"C:\SFML\SFML-2.0\lib" \
         -llibsfml-main \
         -llibsfml-system \
         -llibsfml-window \
-        -llibsfml-graphics
-
+        -llibsfml-graphics \
+        -L"C:\BOX2D\lib" \
+        -llibBox2D
 }
 
 HEADERS += \
@@ -21,7 +23,8 @@ HEADERS += \
     resources.h \
     map.h \
   #  e_ground.h \
-    control.h
+    control.h \
+    unit.h
 
 SOURCES += \
     main.cpp \
@@ -32,4 +35,5 @@ SOURCES += \
     animation.cpp \
     map.cpp \
     #e_ground.cpp \
-    control.cpp
+    control.cpp \
+    unit.cpp
