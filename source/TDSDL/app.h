@@ -41,6 +41,7 @@ public:
     int Execute();
 
     bool Init();
+    bool Load();
     void Event(sf::Event *event);
     void Loop();
     void Render();

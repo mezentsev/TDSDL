@@ -8,7 +8,9 @@ class Unit : public Entity
     Q_OBJECT
 
 private:
-    int state; //Состояние объекта (возможно enum)
+
+    STATE state;
+    //Состояние объекта (возможно enum)
 /*    0 - смотрит влево
       1 - смотрит вправо
       2 - двигается влево
@@ -25,7 +27,7 @@ public:
 
 public slots:
     void setControl(int state);
-    void setState(int state);    
+    void setState(STATE state);
 };
 
 #endif // UNIT_H

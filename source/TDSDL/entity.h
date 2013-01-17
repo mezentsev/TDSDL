@@ -20,6 +20,16 @@ private:
     QString animName;
 
 public:
+    enum STATE{
+        LOOK_LEFT,
+        LOOK_RIGHT,
+        WALK_LEFT,
+        WALK_RIGHT,
+        JUMP_LEFT,
+        JUMP_RIGHT,
+        JUMP,
+        HITLER_CAPUT
+    };
 
     Entity(Animation * default_anim, int x, int y, int w, int h);
     ~Entity();

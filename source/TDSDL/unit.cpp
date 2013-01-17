@@ -4,53 +4,54 @@
 
 Unit::Unit(Animation *default_anim, int x, int y, int w, int h) : Entity(default_anim,x,y,w,h)
 {
-    this->setState(1);
+    this->setState(LOOK_RIGHT);
 }
 
 void Unit::setControl(int state)
 {
-    if (this->state == 0)
+    STATE st = STATE(state);
+    if (this->state == LOOK_LEFT)
     {
-        if (state == 2 || state == 3 || state == 6)
-            this->setState(state);
+        if (st == WALK_LEFT || st == WALK_RIGHT || st == JUMP)
+            this->setState(st);
     }
-    else if (this->state == 1)
+    else if (this->state == LOOK_RIGHT)
     {
-        if (state == 2 || state == 3 || state == 6)
-            this->setState(state);
+        if (st == WALK_LEFT || st == WALK_RIGHT || st == JUMP)
+            this->setState(st);
     }
-    else if (this->state == 2)
+    else if (this->state == WALK_LEFT)
     {
-        if (state == 0 || state == 3)
-            this->setState(state);
-        if (state == 6)
-            this->setState(4);
+        if (st == LOOK_LEFT || st == WALK_RIGHT)
+            this->setState(st);
+        if (st == JUMP)
+            this->setState(JUMP_LEFT);
     }
-    else if (this->state == 3)
+    else if (this->state == WALK_RIGHT)
     {
-        if (state == 1 || state == 2)
-            this->setState(state);
-        if (state == 6)
-            this->setState(5);
+        if (st == LOOK_RIGHT || st == WALK_LEFT)
+            this->setState(st);
+        if (st == JUMP)
+            this->setState(JUMP_RIGHT);
     }
-    else if (this->state == 4)
+    else if (this->state == JUMP_LEFT)
     {
 
     }
 }
 
-void Unit::setState(int state)
+void Unit::setState(STATE state)
 {
     this->state = state;
     QString name;
-    if (this->state == 0) name = "stayLeft";
-    if (this->state == 1) name = "stayRight";
-    if (this->state == 2) name = "runLeft";
-    if (this->state == 3) name = "runRight";
-    if (this->state == 4) name = "jumpLeft";
-    if (this->state == 5) name = "jumpRight";
-    if (this->state == 6) name = "jumpUp";
-    if (this->state == 7) name = "mostPainfulDeath";
+    if (this->state == LOOK_LEFT) name = "stayLeft";
+    if (this->state == LOOK_RIGHT) name = "stayRight";
+    if (this->state == WALK_LEFT) name = "runLeft";
+    if (this->state == WALK_RIGHT) name = "runRight";
+    if (this->state == JUMP_LEFT) name = "jumpLeft";
+    if (this->state == JUMP_RIGHT) name = "jumpRight";
+    if (this->state == JUMP) name = "jumpUp";
+    if (this->state == HITLER_CAPUT) name = "mostPainfulDeath";
     setAnim(name);
 }
 

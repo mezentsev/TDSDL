@@ -14,15 +14,8 @@ App::App()
 //    this->_texts    = new Resources<sf::Text>();
 }
 
-// Инициализация окна и связанных параметров
-bool App::Init()
+bool App::Load()
 {
-    sf::View *camera = new sf::View();
-    this->mainCamera = camera;
-    camera->setSize(800,600);
-    camera->setCenter(0,0);
-    this->_cameras->add(camera, "default");
-
     /**********************  Загрузка изображений ************************/
     sf::Texture *image = new sf::Texture();
     if (!image->loadFromFile("images/dragon_runLeft.png")) return false;
@@ -101,6 +94,19 @@ bool App::Init()
     this->_anims->add(anim, "dragon_jumpUp");
     /*********************************************************************/
 
+    return true;
+}
+
+// Инициализация окна и связанных параметров
+bool App::Init()
+{
+    sf::View *camera = new sf::View();
+    this->mainCamera = camera;
+    camera->setSize(this->screen->getSize().x, this->screen->getSize().y);
+    camera->setCenter(0,0);
+    this->_cameras->add(camera, "default");
+
+    if (!this->Load()) return 0;
 
     /***************  Создание сущности, назначение стандартной анимации ******************/
     Unit *ent = new Unit(this->_anims->getRes("dragon_stayRight"),0,0,64,64);
@@ -120,41 +126,7 @@ bool App::Init()
     //считывание карты и создание сущностей земли
     this->readMap("maps/map.txt");
 
-    //вот здесь содержится то, что хорошо бы упаковать в класс e_Ground
-    //здесь распределение картинок в зависимости от типа земли
-    for (int y=0; y<this->_maps->getRes("Ground")->getHeight(); y++)
-    {
-        for (int x=0; x<this->_maps->getRes("Ground")->getWidth(); x++)
-        {
-            e_Ground *ground = new e_Ground;
-            switch (this->_maps->getRes("Ground")->getType(x,y))
-            {
-                case 0:
-                {
-                    ground->setSprite(this->_sprites->getRes("water"));
-                    break;
-                }
-                case 1:
-                {
-                    ground->setSprite(this->_sprites->getRes("road"));
-                    break;
-                }
-                case 2:
-                {
-                    ground->setSprite(this->_sprites->getRes("green"));
-                    break;
-                }
-            }
-            ground->setXY(x*60,y*60)->setHW(60,60);
-            this->_entities->add(ground,QString::number(x)+","+QString::number(y));
-            ground = NULL;
-        }
-    }
-
     this->control.setCamera(this->mainCamera);
-
-    Text *text = new Text("Дракоша", "font/univers.ttf", 25, 0, -50, -25, 255, 0, 0, 0, 0, false);
-    this->_texts->add(text, "text_drakoXY");
 */
     return true;
 }

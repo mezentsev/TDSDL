@@ -74,6 +74,7 @@ bool Entity::setAnim(QString name)
     if (this->anim.contains(name))
     {
         this->animName = name;
+        this->anim[this->animName]->setCurFrame(0);
         this->setXY(this->x, this->y);
         return true;
     }
