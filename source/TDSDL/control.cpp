@@ -1,5 +1,5 @@
 ﻿#include "control.h"
-#include "entity.h"
+#include "unit.h"
 #include <QDebug>
 
 Control::Control()
@@ -27,16 +27,16 @@ void Control::doControl(sf::Event *event)
 //        if (event->key.code == sf::Keyboard::Right) emit setCamControl(7);
 
         if (event->key.code == sf::Keyboard::Escape) emit end();
-        if (event->key.code == sf::Keyboard::Up) emit setEntControl(Entity::JUMP);
-        if (event->key.code == sf::Keyboard::Left) emit setEntControl(Entity::WALK_LEFT);
-        if (event->key.code == sf::Keyboard::Right) emit setEntControl(Entity::WALK_RIGHT);
+        if (event->key.code == sf::Keyboard::Up) emit setEntControl(Unit::JUMP);
+        if (event->key.code == sf::Keyboard::Left) emit setEntControl(Unit::WALK_LEFT);
+        if (event->key.code == sf::Keyboard::Right) emit setEntControl(Unit::WALK_RIGHT);
 
         break;
     }
     case sf::Event::KeyReleased:
     {
-        if (event->key.code == sf::Keyboard::Left) emit setEntControl(Entity::LOOK_LEFT);
-        if (event->key.code == sf::Keyboard::Right) emit setEntControl(Entity::LOOK_RIGHT);
+        if (event->key.code == sf::Keyboard::Left) emit setEntControl(Unit::LOOK_LEFT);
+        if (event->key.code == sf::Keyboard::Right) emit setEntControl(Unit::LOOK_RIGHT);
 
         break;
     }

@@ -1,8 +1,11 @@
 ﻿#include "app.h"
+#include "Box2D/Box2D.h"
 
 App::App()
 {
     this->screen = new sf::RenderWindow(sf::VideoMode(800, 600, 32), "SFML window", sf::Style::Close, sf::ContextSettings(0,0,8));
+    this->screen->setFramerateLimit(60); // Ограничение для правильной работы физ.движка
+    this->screen->setVerticalSyncEnabled(true);
     this->control = new Control;
     connect(this->control, SIGNAL(end()), this, SLOT(Close()));
     this->_textures   = new Resources<sf::Texture>();
@@ -12,6 +15,10 @@ App::App()
     this->_cameras    = new Resources<sf::View>();
 //    this->_maps     = new Resources<Map>();
 //    this->_texts    = new Resources<sf::Text>();
+
+    this->world = new b2World(b2Vec2(0.f, 9.8f));
+
+    this->SCALE = 30.f;
 }
 
 bool App::Load()
@@ -116,15 +123,19 @@ bool App::Init()
     if (!this->Load()) return 0;
 
     /***************  Создание сущности, назначение стандартной анимации ******************/
-    Unit *ent = new Unit(this->_anims->getRes("dragon_stayRight"),0,0,64,64);
+    Unit *ent = new Unit(this->_anims->getRes("dragon_stayRight"),0,0,64,64,this->world, this->SCALE);
     ent->addAnim(this->_anims->getRes("dragon_runRight"), "runRight");
     ent->addAnim(this->_anims->getRes("dragon_runLeft"), "runLeft");
     ent->addAnim(this->_anims->getRes("dragon_stayLeft"), "stayLeft");
     ent->addAnim(this->_anims->getRes("dragon_stayRight"), "stayRight");
     ent->addAnim(this->_anims->getRes("dragon_jumpLeft"), "jumpLeft");
     ent->addAnim(this->_anims->getRes("dragon_jumpRight"), "jumpRight");
-    ent->addAnim(this->_anims->getRes("dragon_jumpUp"), "jumpUp");
+    //ent->addAnim(this->_anims->getRes("dragon_jumpUp"), "jumpUp");
     this->_entities->add(ent,"player");
+
+    Unit *ent2 = new Unit(this->_anims->getRes("dragon_jumpUp"),0,150,64,64, this->world, this->SCALE);
+    ent->phys.setType(b2_staticBody);
+    this->_entities->add(ent2,"dnishe");
     /*********************************************************************/
 
     connect(this->control, SIGNAL(setEntControl(int)), ent, SLOT(setControl(int)));
@@ -150,6 +161,8 @@ int App::Execute()
     sf::Event event;
     while (this->screen->isOpen())
     {
+        this->world->Step(1/60.f, 8, 3);
+
         this->freq = clock.getElapsedTime();
 
         clock.restart();
@@ -179,6 +192,25 @@ void App::Event(sf::Event *event)
 // Функция обрабатывает обновление данных, например движение NPC по экрану, уменьшение здоровье персонажа и так далее.
 void App::Loop()
 {
+    QMap<QString, Entity*>::iterator i;
+    for (i = _entities->getBegin(); i != _entities->getEnd(); ++i)
+    {
+        float x = (*i)->phys.getpHbody()->GetPosition().x * this->SCALE;
+        float y = (*i)->phys.getpHbody()->GetPosition().y * this->SCALE;
+        (*i)->setXY(x, y);
+    }
+//    int BodyCount = 0;
+//    for (b2Body* BodyIterator = this->world->GetBodyList(); BodyIterator != 0; BodyIterator = BodyIterator->GetNext())
+//    {
+//        if (BodyIterator->GetUserData() == "ХЬЮДЖ")
+//        {
+//            float x = BodyIterator->GetPosition().x;
+//            float y = BodyIterator->GetPosition().y;
+//            ->setXY(x, y);
+//            BodyCount++;
+//        }
+
+//    }
     //mainCamera->setCenter(_entities->getRes("player")->getX(),_entities->getRes("player")->getY());
 }
 
@@ -210,7 +242,7 @@ void App::Cleanup()
     delete this->_entities;
     //delete this->_maps;
     delete this->_cameras;
-    //delete this->_texts;
+    delete this->world;
 }
 
 void App::Close()

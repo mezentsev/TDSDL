@@ -6,28 +6,27 @@
 class Unit : public Entity
 {
     Q_OBJECT
-
-private:
-
-    STATE state;
-    //Состояние объекта (возможно enum)
-/*    0 - смотрит влево
-      1 - смотрит вправо
-      2 - двигается влево
-      3 - двигается вправо
-      4 - прыжок влево
-      5 - прыжок вправо
-      6 - прыжок вверх
-      7 - казнь через повешение
-*/
-
 public:
-    Unit(Animation * default_anim, int x, int y, int w, int h);
+    enum STATE{
+        LOOK_LEFT,
+        LOOK_RIGHT,
+        WALK_LEFT,
+        WALK_RIGHT,
+        JUMP_LEFT,
+        JUMP_RIGHT,
+        JUMP,
+        HITLER_CAPUT
+    };
+
+    Unit(Animation * default_anim, int x, int y, int w, int h, b2World * world, float SCALE);
     int  getState();
 
 public slots:
     void setControl(int state);
     void setState(STATE state);
+
+private:
+    STATE state;
 };
 
 #endif // UNIT_H

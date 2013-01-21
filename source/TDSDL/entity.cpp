@@ -1,12 +1,14 @@
 ﻿#include "entity.h"
 #include <QDebug>
 
-Entity::Entity(Animation * default_anim, int x, int y, int w, int h)
+Entity::Entity(Animation * default_anim, int x, int y, int w, int h, b2World * world, float SCALE)
 {
     this->x      = x;
     this->y      = y;
     this->addAnim(default_anim, "default");
     this->setDefault();
+
+    this->SCALE = SCALE;
 
     sf::IntRect rct;
     rct.left = 0;
@@ -14,6 +16,8 @@ Entity::Entity(Animation * default_anim, int x, int y, int w, int h)
     rct.height = h;
     rct.width = w;
     this->rect = rct;
+
+    this->phys.setWorld(world);
 }
 
 Entity::~Entity()

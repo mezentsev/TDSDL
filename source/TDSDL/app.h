@@ -14,6 +14,7 @@
 #include <QFile>
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
+#include <Box2D/Box2D.h>
 #include "cxxabi.h"
 
 class App : public QObject
@@ -34,6 +35,11 @@ private:
     Control *control;
     sf::Clock clock;
     sf::Time freq;
+
+    b2World * world; // Этот мир
+                     // Обычный мальчик
+                     // Коробки
+    float SCALE;
 
 public:
     App();

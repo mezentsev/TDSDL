@@ -3,6 +3,7 @@
 
 #include "resources.h"
 #include "animation.h"
+#include "physics.h"
 #include <SFML/Graphics.hpp>
 #include <QMap>
 #include <typeinfo>
@@ -11,7 +12,6 @@
 class Entity : public QObject
 {
     Q_OBJECT
-
 private:
     QMap<QString, Animation*> anim;
     float x,y;
@@ -19,19 +19,12 @@ private:
     int w,h;
     QString animName;
 
-public:
-    enum STATE{
-        LOOK_LEFT,
-        LOOK_RIGHT,
-        WALK_LEFT,
-        WALK_RIGHT,
-        JUMP_LEFT,
-        JUMP_RIGHT,
-        JUMP,
-        HITLER_CAPUT
-    };
+    float SCALE;
 
-    Entity(Animation * default_anim, int x, int y, int w, int h);
+public:
+    Physics phys;
+
+    Entity(Animation * default_anim, int x, int y, int w, int h, b2World * world, float SCALE);
     ~Entity();
 
     sf::IntRect rect; //спрайт

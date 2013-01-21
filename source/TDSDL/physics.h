@@ -6,14 +6,14 @@
 #include <QList>
 #include <QPair>
 
-class physics : public QObject
+class Physics : public QObject
 {
     Q_OBJECT
 private:
     float curSpeed;
     float maxSpeed;
-    float mas;
     float x, y;
+    float w, h;
     QList< QPair<float, float> > vertex; // Вершины против часовой
 
     b2BodyType type; //тип объекта (static/dynamic)
@@ -21,8 +21,9 @@ private:
     float density; // Плотность
     float friction; // Сопротивление
 
-    b2Body* Body;
-
+    b2World     * pHworld;
+    b2Body      * pHbody;
+    b2Fixture   * pHfixture;
 public:
     enum BODY_TYPE{
         GROUND,
@@ -37,11 +38,17 @@ public:
         WOOD,
         STONE,
         INK,
-        OIL
+        OIL,
+        BUTTER
     };
 
-    physics();
-    ~physics();
+    Physics();
+    ~Physics();
+    void setWorld(b2World *);
+    void setShape(float x, float y, float w, float h);
+    void createBody(void * data, float SCALE = 30.f);
+    void setType(b2BodyType type);
+    b2Body * getpHbody();
 };
 
 #endif // PHYSICS_H
