@@ -14,15 +14,25 @@ public:
         WALK_RIGHT,
         JUMP_LEFT,
         JUMP_RIGHT,
-        JUMP,
+        FALL_LEFT,
+        FALL_RIGHT,
         HITLER_CAPUT
+    };
+
+    enum ORDER{
+        MOVE_LEFT,
+        MOVE_RIGHT,
+        STOP_LEFT,
+        STOP_RIGHT,
+        JUMP
     };
 
     Unit(Animation * default_anim, int x, int y, int w, int h, b2World * world, Physics::B2_BODY_TYPE type, float SCALE);
     int  getState();
+    void doPhysics(float scale);
 
 public slots:
-    void setControl(int state);
+    void setControl(Unit::ORDER order);
     void setState(STATE state);
 
 private:

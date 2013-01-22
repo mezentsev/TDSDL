@@ -61,10 +61,16 @@ bool App::Load()
     _textures->add(image,"dragon_jumpRight");
 
     image = new sf::Texture();
-    if (!image->loadFromFile("images/dragon_jumpUp.png")) return false;
+    if (!image->loadFromFile("images/dragon_fallLeft.png")) return false;
     image->setSmooth(true);
     image->setRepeated(true);
-    _textures->add(image,"dragon_jumpUp");
+    _textures->add(image,"dragon_fallLeft");
+
+    image = new sf::Texture();
+    if (!image->loadFromFile("images/dragon_fallRight.png")) return false;
+    image->setSmooth(true);
+    image->setRepeated(true);
+    _textures->add(image,"dragon_fallRight");
     /*********************************************************************/
 
 
@@ -87,8 +93,11 @@ bool App::Load()
     spr = new sf::Sprite(*_textures->getRes("dragon_jumpRight"));
     this->_sprites->add(spr, "dragon_jumpRight");
 
-    spr = new sf::Sprite(*_textures->getRes("dragon_jumpUp"));
-    this->_sprites->add(spr, "dragon_jumpUp");
+    spr = new sf::Sprite(*_textures->getRes("dragon_fallLeft"));
+    this->_sprites->add(spr, "dragon_fallLeft");
+
+    spr = new sf::Sprite(*_textures->getRes("dragon_fallRight"));
+    this->_sprites->add(spr, "dragon_fallRight");
     /*********************************************************************/
 
 
@@ -111,8 +120,11 @@ bool App::Load()
     anim = new Animation(this->_sprites->getRes("dragon_jumpRight"), 1, 1, 0);
     this->_anims->add(anim, "dragon_jumpRight");
 
-    anim = new Animation(this->_sprites->getRes("dragon_jumpUp"), 1, 1, 0);
-    this->_anims->add(anim, "dragon_jumpUp");
+    anim = new Animation(this->_sprites->getRes("dragon_fallLeft"), 1, 1, 0);
+    this->_anims->add(anim, "dragon_fallLeft");
+
+    anim = new Animation(this->_sprites->getRes("dragon_fallRight"), 1, 1, 0);
+    this->_anims->add(anim, "dragon_fallRight");
     /*********************************************************************/
 
     return true;
@@ -137,20 +149,21 @@ bool App::Init()
     ent->addAnim(this->_anims->getRes("dragon_stayRight"), "stayRight");
     ent->addAnim(this->_anims->getRes("dragon_jumpLeft"), "jumpLeft");
     ent->addAnim(this->_anims->getRes("dragon_jumpRight"), "jumpRight");
-    ent->addAnim(this->_anims->getRes("dragon_jumpUp"), "jumpUp");
+    ent->addAnim(this->_anims->getRes("dragon_fallLeft"), "fallLeft");
+    ent->addAnim(this->_anims->getRes("dragon_fallRight"), "fallRight");
     this->_entities->add(ent,"player");
 
-    ent = new Unit(this->_anims->getRes("dragon_jumpUp"),-1,200,100,64, this->world, Physics::STATIC, this->SCALE);
+    ent = new Unit(this->_anims->getRes("dragon_fallLeft"),-1,200,100,64, this->world, Physics::STATIC, this->SCALE);
     this->_entities->add(ent,"dnishe1");
 
-    ent = new Unit(this->_anims->getRes("dragon_jumpUp"),-180,200,100,64, this->world, Physics::STATIC, this->SCALE);
+    ent = new Unit(this->_anims->getRes("dragon_fallLeft"),-180,200,100,64, this->world, Physics::STATIC, this->SCALE);
     this->_entities->add(ent,"dnishe2");
 
-    ent = new Unit(this->_anims->getRes("dragon_jumpUp"),180,200,100,64, this->world, Physics::STATIC, this->SCALE);
+    ent = new Unit(this->_anims->getRes("dragon_fallLeft"),180,200,100,64, this->world, Physics::STATIC, this->SCALE);
     this->_entities->add(ent,"dnishe3");
     /*********************************************************************/
 
-    connect(this->control, SIGNAL(setEntControl(int)), this->_entities->getRes("player"), SLOT(setControl(int)));
+    connect(this->control, SIGNAL(setEntControl(Unit::ORDER)), this->_entities->getRes("player"), SLOT(setControl(Unit::ORDER)));
 
 /*
     //считывание карты и создание сущностей земли
@@ -207,9 +220,10 @@ void App::Loop()
     QMap<QString, Entity*>::iterator i;
     for (i = _entities->getBegin(); i != _entities->getEnd(); ++i)
     {
-        float x = (*i)->phys.getpHbody()->GetPosition().x * this->SCALE;
-        float y = (*i)->phys.getpHbody()->GetPosition().y * this->SCALE;
-        (*i)->setXY(x, y);
+        ((Unit*)(*i))->doPhysics(this->SCALE);
+//        float x = (*i)->phys.getpHbody()->GetPosition().x * this->SCALE;
+//        float y = (*i)->phys.getpHbody()->GetPosition().y * this->SCALE;
+//        (*i)->setXY(x, y);
     }
 //    int BodyCount = 0;
 //    for (b2Body* BodyIterator = this->world->GetBodyList(); BodyIterator != 0; BodyIterator = BodyIterator->GetNext())

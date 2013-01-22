@@ -68,6 +68,7 @@ void Physics::createBody(void * data, float SCALE)
     FixtureDef.friction = this->friction;
     FixtureDef.shape = &Shape;
     this->pHfixture = this->pHbody->CreateFixture(&FixtureDef);
+    this->pHfixture->SetRestitution(0);
 }
 
 //void CreateGround()

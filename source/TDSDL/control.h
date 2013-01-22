@@ -5,6 +5,7 @@
 #include <QMap>
 #include <QObject>
 #include "SFML/Window/Event.hpp"
+#include "unit.h"
 
 class Control : public QObject
 {
@@ -17,7 +18,8 @@ public:
 
 signals:
     void setCamControl(int state);
-    void setEntControl(int state);
+   // void setEntControl(int state);
+    void setEntControl(Unit::ORDER order);
     void end();
 
 };
