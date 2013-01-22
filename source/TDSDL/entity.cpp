@@ -6,9 +6,7 @@ Entity::Entity(Animation * default_anim, int x, int y, int w, int h, b2World * w
     this->x      = x;
     this->y      = y;
     this->addAnim(default_anim, "default");
-    this->setDefault();    
-    this->setXY(this->x, this->y);
-
+    this->setDefault();
     this->SCALE = SCALE;
 
     sf::IntRect rct;
@@ -100,8 +98,10 @@ sf::Sprite * Entity::animate(sf::Time time)
     {
         this->setDefault();
     }
-
-    this->rect = this->anim[this->animName]->animate(time);
-    this->anim[this->animName]->getSprite()->setTextureRect(this->rect);
+    sf::IntRect rct;
+    rct = this->anim[this->animName]->animate(time);
+    rct.width = this->rect.width;
+    rct.height = this->rect.height;
+    this->anim[this->animName]->getSprite()->setTextureRect(rct);
     return this->anim[this->animName]->getSprite();
 }

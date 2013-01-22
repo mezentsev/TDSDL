@@ -27,36 +27,43 @@ bool App::Load()
     sf::Texture *image = new sf::Texture();
     if (!image->loadFromFile("images/dragon_runLeft.png")) return false;
     image->setSmooth(true);
+    image->setRepeated(true);
     _textures->add(image,"dragon_runLeft");
 
     image = new sf::Texture();
     if (!image->loadFromFile("images/dragon_runRight.png")) return false;
     image->setSmooth(true);
+    image->setRepeated(true);
     _textures->add(image,"dragon_runRight");
 
     image = new sf::Texture();
     if (!image->loadFromFile("images/dragon_stayLeft.png")) return false;
     image->setSmooth(true);
+    image->setRepeated(true);
     _textures->add(image,"dragon_stayLeft");
 
     image = new sf::Texture();
     if (!image->loadFromFile("images/dragon_stayRight.png")) return false;
     image->setSmooth(true);
+    image->setRepeated(true);
     _textures->add(image,"dragon_stayRight");
 
     image = new sf::Texture();
     if (!image->loadFromFile("images/dragon_jumpLeft.png")) return false;
     image->setSmooth(true);
+    image->setRepeated(true);
     _textures->add(image,"dragon_jumpLeft");
 
     image = new sf::Texture();
     if (!image->loadFromFile("images/dragon_jumpRight.png")) return false;
     image->setSmooth(true);
+    image->setRepeated(true);
     _textures->add(image,"dragon_jumpRight");
 
     image = new sf::Texture();
     if (!image->loadFromFile("images/dragon_jumpUp.png")) return false;
     image->setSmooth(true);
+    image->setRepeated(true);
     _textures->add(image,"dragon_jumpUp");
     /*********************************************************************/
 
@@ -133,12 +140,17 @@ bool App::Init()
     ent->addAnim(this->_anims->getRes("dragon_jumpUp"), "jumpUp");
     this->_entities->add(ent,"player");
 
-    Unit *ent2 = new Unit(this->_anims->getRes("dragon_jumpUp"),-100,200,800,64, this->world, Physics::STATIC, this->SCALE);
-    //ent->phys.setType(b2_staticBody);
-    this->_entities->add(ent2,"dnishe");
+    ent = new Unit(this->_anims->getRes("dragon_jumpUp"),-1,200,100,64, this->world, Physics::STATIC, this->SCALE);
+    this->_entities->add(ent,"dnishe1");
+
+    ent = new Unit(this->_anims->getRes("dragon_jumpUp"),-180,200,100,64, this->world, Physics::STATIC, this->SCALE);
+    this->_entities->add(ent,"dnishe2");
+
+    ent = new Unit(this->_anims->getRes("dragon_jumpUp"),180,200,100,64, this->world, Physics::STATIC, this->SCALE);
+    this->_entities->add(ent,"dnishe3");
     /*********************************************************************/
 
-    connect(this->control, SIGNAL(setEntControl(int)), ent, SLOT(setControl(int)));
+    connect(this->control, SIGNAL(setEntControl(int)), this->_entities->getRes("player"), SLOT(setControl(int)));
 
 /*
     //считывание карты и создание сущностей земли
