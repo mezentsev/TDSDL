@@ -1,7 +1,7 @@
 ﻿#include "entity.h"
 #include <QDebug>
 
-Entity::Entity(Animation * default_anim, int x, int y, int w, int h, b2World * world, float SCALE)
+Entity::Entity(Animation * default_anim, int x, int y, int w, int h, b2World * world, Physics::B2_BODY_TYPE type, float SCALE)
 {
     this->x      = x;
     this->y      = y;
@@ -19,6 +19,9 @@ Entity::Entity(Animation * default_anim, int x, int y, int w, int h, b2World * w
     this->rect = rct;
 
     this->phys.setWorld(world);
+    this->phys.setType(type);
+    this->phys.setShape(x, y, w, h);
+    this->phys.createBody((void *)x);
 }
 
 Entity::~Entity()

@@ -123,7 +123,7 @@ bool App::Init()
     if (!this->Load()) return 0;
 
     /***************  Создание сущности, назначение стандартной анимации ******************/
-    Unit *ent = new Unit(this->_anims->getRes("dragon_stayRight"),0,0,64,64,this->world, this->SCALE);
+    Unit *ent = new Unit(this->_anims->getRes("dragon_stayRight"),0,0,64,64, this->world, Physics::DYNAMIC, this->SCALE);
     ent->addAnim(this->_anims->getRes("dragon_runRight"), "runRight");
     ent->addAnim(this->_anims->getRes("dragon_runLeft"), "runLeft");
     ent->addAnim(this->_anims->getRes("dragon_stayLeft"), "stayLeft");
@@ -133,7 +133,7 @@ bool App::Init()
     ent->addAnim(this->_anims->getRes("dragon_jumpUp"), "jumpUp");
     this->_entities->add(ent,"player");
 
-    Unit *ent2 = new Unit(this->_anims->getRes("dragon_jumpUp"),100,150,64,64, this->world, this->SCALE);
+    Unit *ent2 = new Unit(this->_anims->getRes("dragon_jumpUp"),-100,200,800,64, this->world, Physics::STATIC, this->SCALE);
     //ent->phys.setType(b2_staticBody);
     this->_entities->add(ent2,"dnishe");
     /*********************************************************************/

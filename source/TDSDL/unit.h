@@ -18,7 +18,7 @@ public:
         HITLER_CAPUT
     };
 
-    Unit(Animation * default_anim, int x, int y, int w, int h, b2World * world, float SCALE);
+    Unit(Animation * default_anim, int x, int y, int w, int h, b2World * world, Physics::B2_BODY_TYPE type, float SCALE);
     int  getState();
 
 public slots:

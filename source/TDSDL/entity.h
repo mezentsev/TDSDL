@@ -24,7 +24,7 @@ private:
 public:
     Physics phys;
 
-    Entity(Animation * default_anim, int x, int y, int w, int h, b2World * world, float SCALE);
+    Entity(Animation * default_anim, int x, int y, int w, int h, b2World * world, Physics::B2_BODY_TYPE type, float SCALE);
     ~Entity();
 
     sf::IntRect rect; //спрайт

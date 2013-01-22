@@ -14,6 +14,7 @@ Physics::Physics()
     this->h = 0.f;
     this->pHworld = NULL;
     this->pHbody = NULL;
+
 }
 
 Physics::~Physics()
@@ -46,9 +47,9 @@ void Physics::setShape(float x, float y, float w, float h)
     this->h = h;
 }
 
-void Physics::setType(b2BodyType type)
+void Physics::setType(B2_BODY_TYPE type)
 {
-    this->type = type;
+    this->type = (b2BodyType)type;
 }
 
 void Physics::createBody(void * data, float SCALE)

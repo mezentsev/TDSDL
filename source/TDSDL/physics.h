@@ -42,12 +42,17 @@ public:
         BUTTER
     };
 
+    enum B2_BODY_TYPE{
+        DYNAMIC = b2_dynamicBody,
+        STATIC  = b2_staticBody
+    };
+
     Physics();
     ~Physics();
     void setWorld(b2World *);
     void setShape(float x, float y, float w, float h);
     void createBody(void * data, float SCALE = 30.f);
-    void setType(b2BodyType type);
+    void setType(B2_BODY_TYPE type);
     b2Body * getpHbody();
 };
 
