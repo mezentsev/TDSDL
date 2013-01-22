@@ -5,9 +5,8 @@
 Unit::Unit(Animation *default_anim, int x, int y, int w, int h, b2World * world, float SCALE) : Entity(default_anim,x,y,w,h,world,SCALE)
 {
     this->setState(LOOK_RIGHT);
-
     this->phys.setShape(x, y, w, h);
-    this->phys.createBody((void *)h);
+    this->phys.createBody((void *)x);
 }
 
 void Unit::setControl(int state)

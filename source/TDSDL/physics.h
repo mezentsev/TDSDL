@@ -17,7 +17,7 @@ private:
     QList< QPair<float, float> > vertex; // Вершины против часовой
 
     b2BodyType type; //тип объекта (static/dynamic)
-    QString data; // Инфа по объекту
+    void * data; // Инфа по объекту
     float density; // Плотность
     float friction; // Сопротивление
 

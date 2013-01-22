@@ -130,11 +130,11 @@ bool App::Init()
     ent->addAnim(this->_anims->getRes("dragon_stayRight"), "stayRight");
     ent->addAnim(this->_anims->getRes("dragon_jumpLeft"), "jumpLeft");
     ent->addAnim(this->_anims->getRes("dragon_jumpRight"), "jumpRight");
-    //ent->addAnim(this->_anims->getRes("dragon_jumpUp"), "jumpUp");
+    ent->addAnim(this->_anims->getRes("dragon_jumpUp"), "jumpUp");
     this->_entities->add(ent,"player");
 
-    Unit *ent2 = new Unit(this->_anims->getRes("dragon_jumpUp"),0,150,64,64, this->world, this->SCALE);
-    ent->phys.setType(b2_staticBody);
+    Unit *ent2 = new Unit(this->_anims->getRes("dragon_jumpUp"),100,150,64,64, this->world, this->SCALE);
+    //ent->phys.setType(b2_staticBody);
     this->_entities->add(ent2,"dnishe");
     /*********************************************************************/
 

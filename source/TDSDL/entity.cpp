@@ -6,7 +6,8 @@ Entity::Entity(Animation * default_anim, int x, int y, int w, int h, b2World * w
     this->x      = x;
     this->y      = y;
     this->addAnim(default_anim, "default");
-    this->setDefault();
+    this->setDefault();    
+    this->setXY(this->x, this->y);
 
     this->SCALE = SCALE;
 

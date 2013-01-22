@@ -29,12 +29,7 @@ b2Body * Physics::getpHbody()
 {
     for (b2Body* BodyIterator = this->pHworld->GetBodyList(); BodyIterator != 0; BodyIterator = BodyIterator->GetNext())
     {
-
-        if (BodyIterator->GetUserData() == (void *)64)
-        {
-            return BodyIterator;
-        }
-        if (BodyIterator->GetUserData() == (void *)10)
+        if (BodyIterator->GetUserData() == this->data)
         {
             return BodyIterator;
         }
@@ -58,6 +53,7 @@ void Physics::setType(b2BodyType type)
 
 void Physics::createBody(void * data, float SCALE)
 {
+    this->data = data;
     b2BodyDef BodyDef;
     BodyDef.position = b2Vec2(this->x/SCALE, this->y/SCALE);
     BodyDef.type = this->type;
