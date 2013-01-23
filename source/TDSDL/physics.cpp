@@ -5,7 +5,7 @@ Physics::Physics()
 {
     this->type = b2_dynamicBody;
     this->density = 10.f;
-    this->friction = 0.f;
+    this->friction = 2.f;
     this->curSpeed = 0.f;
     this->maxSpeed = 10.f;
     this->x = 0.f;
@@ -58,6 +58,7 @@ void Physics::createBody(void * data, float SCALE)
     b2BodyDef BodyDef;
     BodyDef.position = b2Vec2(this->x/SCALE, this->y/SCALE);
     BodyDef.type = this->type;
+    BodyDef.fixedRotation = true;
     this->pHbody = this->pHworld->CreateBody(&BodyDef);
     this->pHbody->SetUserData(data);
 

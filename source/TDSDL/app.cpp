@@ -73,6 +73,12 @@ bool App::Load()
     image->setSmooth(true);
     image->setRepeated(true);
     _textures->add(image,"dragon_fallRight");
+
+    image = new sf::Texture();
+    if (!image->loadFromFile("images/road.png")) return false;
+    image->setSmooth(true);
+    image->setRepeated(true);
+    _textures->add(image,"road");
     /*********************************************************************/
 
 
@@ -100,6 +106,9 @@ bool App::Load()
 
     spr = new sf::Sprite(*_textures->getRes("dragon_fallRight"));
     this->_sprites->add(spr, "dragon_fallRight");
+
+    spr = new sf::Sprite(*_textures->getRes("road"));
+    this->_sprites->add(spr, "road");
     /*********************************************************************/
 
 
@@ -127,6 +136,9 @@ bool App::Load()
 
     anim = new Animation(this->_sprites->getRes("dragon_fallRight"), 1, 1, 0);
     this->_anims->add(anim, "dragon_fallRight");
+
+    anim = new Animation(this->_sprites->getRes("road"), 1, 1, 0);
+    this->_anims->add(anim, "road");
     /*********************************************************************/
 
     return true;
@@ -155,13 +167,13 @@ bool App::Init()
     ent->addAnim(this->_anims->getRes("dragon_fallRight"), "fallRight");
     this->_entities->add(ent,"player");
 
-    ent = new Unit(this->_anims->getRes("dragon_fallLeft"),-60,200,160,64, this->world, Physics::STATIC, this->SCALE);
+    ent = new Unit(this->_anims->getRes("road"),0,200,160,64, this->world, Physics::STATIC, this->SCALE);
     this->_entities->add(ent,"dnishe1");
 
-    ent = new Unit(this->_anims->getRes("dragon_fallLeft"),-380,200,100,64, this->world, Physics::STATIC, this->SCALE);
+    ent = new Unit(this->_anims->getRes("road"),-380,200,100,64, this->world, Physics::STATIC, this->SCALE);
     this->_entities->add(ent,"dnishe2");
 
-    ent = new Unit(this->_anims->getRes("dragon_fallLeft"),180,200,100,64, this->world, Physics::STATIC, this->SCALE);
+    ent = new Unit(this->_anims->getRes("road"),180,200,100,64, this->world, Physics::STATIC, this->SCALE);
     this->_entities->add(ent,"dnishe3");
     /*********************************************************************/
 

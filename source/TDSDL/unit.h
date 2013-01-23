@@ -33,7 +33,7 @@ public:
 
 public slots:
     void setControl(Unit::ORDER order);
-    void setState(STATE state);
+    void setState(Unit::STATE state);
 
 private:
     STATE state;
