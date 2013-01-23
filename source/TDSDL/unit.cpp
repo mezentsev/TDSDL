@@ -174,7 +174,9 @@ void Unit::doPhysics(float scale)
         break;
     }
 
-    float newX = phys.getpHbody()->GetPosition().x * scale;
-    float newY = phys.getpHbody()->GetPosition().y * scale;
+    float newX = body->GetPosition().x * scale;
+    float newY = body->GetPosition().y * scale;
+    float newAngle = remainder(body->GetAngle()*180/b2_pi,360.f);
     this->setXY(newX, newY);
+    this->setAngle(newAngle);
 }

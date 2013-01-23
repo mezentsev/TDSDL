@@ -44,6 +44,16 @@ Entity * Entity::setHW(int h, int w)
     return this;
 }
 
+Entity * Entity::setAngle(float angle)
+{
+    this->angle = angle;
+    if (!this->anim.contains(this->animName))
+        this->setDefault();
+    this->anim[this->animName]->getSprite()->setRotation(angle);
+    return this;
+}
+
+
 float Entity::getX()
 {
     return this->x;

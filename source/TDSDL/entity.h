@@ -15,6 +15,7 @@ class Entity : public QObject
 private:
     QMap<QString, Animation*> anim;
     float x,y;
+    float angle;
 
     int w,h;
     QString animName;
@@ -31,6 +32,8 @@ public:
 
     Entity * setXY(float x, float y);
     Entity * setHW(int h, int w);
+    Entity * setAngle(float angle);
+
     float getX();
     float getY();
     int getW();

@@ -19,6 +19,8 @@ App::App()
     this->world = new b2World(b2Vec2(0.f, 9.8f));
 
     this->SCALE = 30.f;
+
+
 }
 
 bool App::Load()
@@ -153,10 +155,10 @@ bool App::Init()
     ent->addAnim(this->_anims->getRes("dragon_fallRight"), "fallRight");
     this->_entities->add(ent,"player");
 
-    ent = new Unit(this->_anims->getRes("dragon_fallLeft"),-1,200,100,64, this->world, Physics::STATIC, this->SCALE);
+    ent = new Unit(this->_anims->getRes("dragon_fallLeft"),-60,200,160,64, this->world, Physics::STATIC, this->SCALE);
     this->_entities->add(ent,"dnishe1");
 
-    ent = new Unit(this->_anims->getRes("dragon_fallLeft"),-180,200,100,64, this->world, Physics::STATIC, this->SCALE);
+    ent = new Unit(this->_anims->getRes("dragon_fallLeft"),-380,200,100,64, this->world, Physics::STATIC, this->SCALE);
     this->_entities->add(ent,"dnishe2");
 
     ent = new Unit(this->_anims->getRes("dragon_fallLeft"),180,200,100,64, this->world, Physics::STATIC, this->SCALE);

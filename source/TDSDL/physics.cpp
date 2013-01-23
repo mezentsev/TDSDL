@@ -5,7 +5,7 @@ Physics::Physics()
 {
     this->type = b2_dynamicBody;
     this->density = 10.f;
-    this->friction = 1.f;
+    this->friction = 0.f;
     this->curSpeed = 0.f;
     this->maxSpeed = 10.f;
     this->x = 0.f;
@@ -67,8 +67,8 @@ void Physics::createBody(void * data, float SCALE)
     FixtureDef.density = this->density;
     FixtureDef.friction = this->friction;
     FixtureDef.shape = &Shape;
+    FixtureDef.restitution = 0;
     this->pHfixture = this->pHbody->CreateFixture(&FixtureDef);
-    this->pHfixture->SetRestitution(0);
 }
 
 //void CreateGround()
