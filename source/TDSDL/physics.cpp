@@ -63,7 +63,7 @@ void Physics::createBody(void * data, float SCALE)
     this->pHbody->SetUserData(data);
 
     b2PolygonShape Shape;
-    Shape.SetAsBox((this->w/2.f)/SCALE, (this->h/2.f)/SCALE);
+    Shape.SetAsBox((this->w/2.f)/SCALE, (this->h/2.f)/SCALE, b2Vec2((this->w/2.f)/SCALE,(this->h/2.f)/SCALE),0.f);
     b2FixtureDef FixtureDef;
     FixtureDef.density = this->density;
     FixtureDef.friction = this->friction;

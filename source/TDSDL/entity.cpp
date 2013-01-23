@@ -76,9 +76,7 @@ int Entity::getH()
 
 sf::Sprite * Entity::refresh(sf::Time time)
 {
-    sf::Sprite * spr = this->animate(time);
-    spr->setOrigin(spr->getTextureRect().width/2, spr->getTextureRect().height/2);
-    return spr;
+    return this->animate(time);
 }
 
 bool Entity::addAnim(Animation *anim, QString name)
