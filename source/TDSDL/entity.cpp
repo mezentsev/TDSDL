@@ -115,3 +115,16 @@ sf::Sprite * Entity::animate(sf::Time time)
     this->anim[this->animName]->getSprite()->setTextureRect(rct);
     return this->anim[this->animName]->getSprite();
 }
+
+void Entity::doPhysics(float scale)
+{
+    b2Body * body = this->phys.getpHbody();
+
+    float newX = body->GetPosition().x * scale;
+    float newY = body->GetPosition().y * scale;
+    float newAngle = remainder(body->GetAngle()*180/b2_pi,360.f);
+    this->setXY(newX, newY);
+    this->setAngle(newAngle);
+}
+
+
