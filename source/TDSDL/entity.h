@@ -47,7 +47,7 @@ public:
     void setDefault();
     sf::Sprite * animate(sf::Time); //Проигрывает анимацию с именем this->animName
 
-    virtual const char* get_name(){return typeid(*this).name();}
+    virtual void doPhysics(float scale);
 };
 
 #endif // ENTITY_H

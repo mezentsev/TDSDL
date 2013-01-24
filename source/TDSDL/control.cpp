@@ -49,6 +49,9 @@ void Control::doControl(sf::Event *event)
     }
     case sf::Event::MouseButtonPressed:
     {
+        int x = event->mouseButton.x;
+        int y = event->mouseButton.y;
+        emit createGround(x,y);
         break;
     }
     case sf::Event::MouseButtonReleased:

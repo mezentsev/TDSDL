@@ -19,7 +19,7 @@ Entity::Entity(Animation * default_anim, int x, int y, int w, int h, b2World * w
     this->phys.setWorld(world);
     this->phys.setType(type);
     this->phys.setShape(x, y, w, h);
-    this->phys.createBody((void *)(x*y*w*h+w+y+x+h));
+    this->phys.createBody((void *)(x*y*w*h*world->GetBodyCount()+w+y+x+h+world->GetBodyCount()));
 }
 
 Entity::~Entity()
@@ -115,3 +115,16 @@ sf::Sprite * Entity::animate(sf::Time time)
     this->anim[this->animName]->getSprite()->setTextureRect(rct);
     return this->anim[this->animName]->getSprite();
 }
+
+void Entity::doPhysics(float scale)
+{
+    b2Body * body = this->phys.getpHbody();
+
+    float newX = body->GetPosition().x * scale;
+    float newY = body->GetPosition().y * scale;
+    float newAngle = remainder(body->GetAngle()*180/b2_pi,360.f);
+    this->setXY(newX, newY);
+    this->setAngle(newAngle);
+}
+
+

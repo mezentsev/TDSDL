@@ -1,4 +1,4 @@
-#ifndef RESOURCES_H
+﻿#ifndef RESOURCES_H
 #define RESOURCES_H
 
 #include <QMap>
@@ -54,6 +54,11 @@ public:
             return true;
         }
         return false;
+    }
+
+    int size()
+    {
+        return this->map.size();
     }
 
     typename QMap<QString, T*>::iterator getBegin()

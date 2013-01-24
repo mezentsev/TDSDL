@@ -167,17 +167,20 @@ bool App::Init()
     ent->addAnim(this->_anims->getRes("dragon_fallRight"), "fallRight");
     this->_entities->add(ent,"player");
 
-    ent = new Unit(this->_anims->getRes("road"),0,200,160,64, this->world, Physics::STATIC, this->SCALE);
-    this->_entities->add(ent,"dnishe1");
+    Entity *ents = NULL;
 
-    ent = new Unit(this->_anims->getRes("road"),-380,200,100,64, this->world, Physics::STATIC, this->SCALE);
-    this->_entities->add(ent,"dnishe2");
+    ents = new Entity(this->_anims->getRes("road"),0,200,160,64, this->world, Physics::STATIC, this->SCALE);
+    this->_entities->add(ents,"dnishe1");
 
-    ent = new Unit(this->_anims->getRes("road"),180,200,100,64, this->world, Physics::STATIC, this->SCALE);
-    this->_entities->add(ent,"dnishe3");
+    ents = new Entity(this->_anims->getRes("road"),-380,200,100,64, this->world, Physics::STATIC, this->SCALE);
+    this->_entities->add(ents,"dnishe2");
+
+    ents = new Entity(this->_anims->getRes("road"),180,200,100,64, this->world, Physics::STATIC, this->SCALE);
+    this->_entities->add(ents,"dnishe3");
     /*********************************************************************/
 
     connect(this->control, SIGNAL(setEntControl(Unit::ORDER)), this->_entities->getRes("player"), SLOT(setControl(Unit::ORDER)));
+    connect(this->control, SIGNAL(createGround(int,int)), this, SLOT(createGround(int,int)));
 
 /*
     //считывание карты и создание сущностей земли
@@ -234,24 +237,10 @@ void App::Loop()
     QMap<QString, Entity*>::iterator i;
     for (i = _entities->getBegin(); i != _entities->getEnd(); ++i)
     {
-        ((Unit*)(*i))->doPhysics(this->SCALE);
-//        float x = (*i)->phys.getpHbody()->GetPosition().x * this->SCALE;
-//        float y = (*i)->phys.getpHbody()->GetPosition().y * this->SCALE;
-//        (*i)->setXY(x, y);
+        (*i)->doPhysics(this->SCALE);
     }
-//    int BodyCount = 0;
-//    for (b2Body* BodyIterator = this->world->GetBodyList(); BodyIterator != 0; BodyIterator = BodyIterator->GetNext())
-//    {
-//        if (BodyIterator->GetUserData() == "ХЬЮДЖ")
-//        {
-//            float x = BodyIterator->GetPosition().x;
-//            float y = BodyIterator->GetPosition().y;
-//            ->setXY(x, y);
-//            BodyCount++;
-//        }
 
-//    }
-    //mainCamera->setCenter(_entities->getRes("player")->getX(),_entities->getRes("player")->getY());
+    mainCamera->setCenter(_entities->getRes("player")->getX(),_entities->getRes("player")->getY());
 }
 
 // Функция занимается отображением всего на экране. Она НЕ обрабатывает манипуляции с данными - этим занимается Loop.
@@ -285,6 +274,14 @@ void App::Cleanup()
     delete this->world;
 }
 
+void App::createGround(int x, int y)
+{
+    int newX = x + this->mainCamera->getCenter().x-this->mainCamera->getSize().x/2;
+    int newY = y + this->mainCamera->getCenter().y-this->mainCamera->getSize().y/2;
+
+    Entity * ent = new Entity(this->_anims->getRes("road"), newX, newY, 100, 64, this->world, Physics::DYNAMIC, this->SCALE);
+    this->_entities->add(ent, "dnishe"+this->_entities->size());
+}
 void App::Close()
 {
     this->screen->close();

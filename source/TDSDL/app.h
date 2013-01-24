@@ -55,6 +55,7 @@ public:
 //    void readMap(QString path);
 
 public slots:
+    void createGround(int x, int y);
     void Close();
 };
 

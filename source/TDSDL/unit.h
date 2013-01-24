@@ -2,6 +2,7 @@
 #define UNIT_H
 
 #include "entity.h"
+#include <QString>
 
 class Unit : public Entity
 {

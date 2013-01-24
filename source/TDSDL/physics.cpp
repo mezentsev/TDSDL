@@ -4,8 +4,8 @@
 Physics::Physics()
 {
     this->type = b2_dynamicBody;
-    this->density = 10.f;
-    this->friction = 2.f;
+    this->density = 2.f;
+    this->friction = 1.f;
     this->curSpeed = 0.f;
     this->maxSpeed = 10.f;
     this->x = 0.f;
