@@ -52,6 +52,16 @@ void Physics::setType(B2_BODY_TYPE type)
     this->type = (b2BodyType)type;
 }
 
+float Physics::getGravity()
+{
+    return this->pHworld->GetGravity().y;
+}
+
+bool Physics::isContact()
+{//this->pHbody->GetContactList()->contact->IsTouching();
+    return this->pHbody->GetContactList();
+}
+
 void Physics::createBody(void * data, float SCALE)
 {
     this->data = data;

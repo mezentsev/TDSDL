@@ -14,8 +14,6 @@ public:
         WALK_RIGHT,
         JUMP_LEFT,
         JUMP_RIGHT,
-        FALL_LEFT,
-        FALL_RIGHT,
         HITLER_CAPUT
     };
 
@@ -25,6 +23,10 @@ public:
         STOP_LEFT,
         STOP_RIGHT,
         JUMP
+    };
+
+    enum MOVING{
+        LEFT, RIGHT, UP, DOWN, NO
     };
 
     Unit(Animation * default_anim, int x, int y, int w, int h, b2World * world, Physics::B2_BODY_TYPE type, float SCALE);
@@ -37,6 +39,14 @@ public slots:
 
 private:
     STATE state;
+    MOVING moving;
+    float jump_hight;
+
+    void move_left();
+    void move_right();
+    void stop_left();
+    void stop_right();
+    void jump();
 };
 
 #endif // UNIT_H

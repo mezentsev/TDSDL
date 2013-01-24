@@ -54,6 +54,8 @@ public:
     void createBody(void * data, float SCALE = 30.f);
     void setType(B2_BODY_TYPE type);
     b2Body * getpHbody();
+    float getGravity();
+    bool isContact();
 };
 
 #endif // PHYSICS_H
