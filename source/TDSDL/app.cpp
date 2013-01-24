@@ -168,6 +168,7 @@ bool App::Init()
     this->_entities->add(ent,"player");
 
     Entity *ents = NULL;
+
     ents = new Entity(this->_anims->getRes("road"),0,200,160,64, this->world, Physics::STATIC, this->SCALE);
     this->_entities->add(ents,"dnishe1");
 
@@ -179,6 +180,7 @@ bool App::Init()
     /*********************************************************************/
 
     connect(this->control, SIGNAL(setEntControl(Unit::ORDER)), this->_entities->getRes("player"), SLOT(setControl(Unit::ORDER)));
+    connect(this->control, SIGNAL(createGround(int,int)), this, SLOT(createGround(int,int)));
 
 /*
     //считывание карты и создание сущностей земли
@@ -270,6 +272,15 @@ void App::Cleanup()
     //delete this->_maps;
     delete this->_cameras;
     delete this->world;
+}
+
+void App::createGround(int x, int y)
+{
+    int newX = x + this->mainCamera->getCenter().x-this->mainCamera->getSize().x/2;
+    int newY = y + this->mainCamera->getCenter().y-this->mainCamera->getSize().y/2;
+
+    Entity * ent = new Entity(this->_anims->getRes("road"), newX, newY, 100, 64, this->world, Physics::DYNAMIC, this->SCALE);
+    this->_entities->add(ent, "dnishe"+this->_entities->size());
 }
 void App::Close()
 {

@@ -6,6 +6,7 @@
 #include <QObject>
 #include "SFML/Window/Event.hpp"
 #include "unit.h"
+#include "resources.h"
 
 class Control : public QObject
 {
@@ -17,9 +18,8 @@ public:
     void doControl(sf::Event *event);
 
 signals:
-    void setCamControl(int state);
-   // void setEntControl(int state);
     void setEntControl(Unit::ORDER order);
+    void createGround(int x, int y);
     void end();
 
 };

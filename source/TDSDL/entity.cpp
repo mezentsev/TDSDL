@@ -19,7 +19,7 @@ Entity::Entity(Animation * default_anim, int x, int y, int w, int h, b2World * w
     this->phys.setWorld(world);
     this->phys.setType(type);
     this->phys.setShape(x, y, w, h);
-    this->phys.createBody((void *)(x*y*w*h+w+y+x+h));
+    this->phys.createBody((void *)(x*y*w*h*world->GetBodyCount()+w+y+x+h+world->GetBodyCount()));
 }
 
 Entity::~Entity()
