@@ -134,7 +134,7 @@ void Unit::stop_left()
     if (this->state == WALK_LEFT || this->state == JUMP_LEFT)
     {
         moving = NO;
-        this->phys.getpHbody()->SetLinearVelocity(b2Vec2(0, this->phys.getpHbody()->GetLinearVelocity().y));
+//        this->phys.getpHbody()->SetLinearVelocity(b2Vec2(0, this->phys.getpHbody()->GetLinearVelocity().y));
         if (this->state == WALK_LEFT)
             this->setState(LOOK_LEFT);
     }
@@ -145,7 +145,7 @@ void Unit::stop_right()
     if (this->state == WALK_RIGHT || this->state == JUMP_RIGHT)
     {
         moving = NO;
-        this->phys.getpHbody()->SetLinearVelocity(b2Vec2(0, this->phys.getpHbody()->GetLinearVelocity().y));
+//        this->phys.getpHbody()->SetLinearVelocity(b2Vec2(0, this->phys.getpHbody()->GetLinearVelocity().y));
         if (this->state == WALK_RIGHT)
             this->setState(LOOK_RIGHT);
     }
