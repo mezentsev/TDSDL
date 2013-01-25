@@ -38,7 +38,7 @@ Entity * Entity::setAngle(float angle)
     this->angle = angle;
     if (!this->anim.contains(this->animName))
         this->setDefault();
-    this->anim[this->animName]->getSprite()->setRotation(angle);
+    this->polygon.setRotation(angle);
     return this;
 }
 
