@@ -17,7 +17,7 @@ private:
     float x,y;
     float angle;
 
-    int w,h;
+    sf::ConvexShape polygon;
     QString animName;
 
     float SCALE;
@@ -25,27 +25,24 @@ private:
 public:
     Physics phys;
 
-    Entity(Animation * default_anim, int x, int y, int w, int h, b2World * world, Physics::B2_BODY_TYPE type, float SCALE);
+    Entity(Animation * default_anim, int x, int y, sf::ConvexShape shape, b2World * world, Physics::B2_BODY_TYPE type, float SCALE);
     ~Entity();
 
     sf::IntRect rect; //спрайт
 
     Entity * setXY(float x, float y);
-    Entity * setHW(int h, int w);
     Entity * setAngle(float angle);
 
     float getX();
     float getY();
-    int getW();
-    int getH();
 
-    sf::Sprite * refresh(sf::Time);
+    sf::ConvexShape refresh(sf::Time);
     void move(float freq);
 
     bool addAnim(Animation * anim, QString name); //Привязывает анимацию с именем
     bool setAnim(QString name); // Устанавливает анимацию с именем name
     void setDefault();
-    sf::Sprite * animate(sf::Time); //Проигрывает анимацию с именем this->animName
+    sf::ConvexShape animate(sf::Time); //Проигрывает анимацию с именем this->animName
 
     virtual void doPhysics(float scale);
 };

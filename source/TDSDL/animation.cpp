@@ -35,6 +35,16 @@ void Animation::setCurFrame(int frame)
         this->curFrame = frame;
 }
 
+int Animation::getFrameHeight()
+{
+    return this->rect.height / this->cnt;
+}
+
+int Animation::getFrameWidth()
+{
+    return this->rect.width;
+}
+
 sf::IntRect Animation::animate(sf::Time time)
 {
     this->sumTime += time.asSeconds();

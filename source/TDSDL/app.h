@@ -5,9 +5,6 @@
 #include <QDebug>
 #include "entity.h"
 #include "resources.h"
-//#include "e_enemy.h"
-//#include "e_tower.h"
-//#include "e_ground.h"
 #include "map.h"
 #include "control.h"
 #include "unit.h"
@@ -15,7 +12,6 @@
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
 #include <Box2D/Box2D.h>
-#include "cxxabi.h"
 
 class App : public QObject
 {
@@ -31,7 +27,6 @@ private:
     Resources<Animation>   * _anims;
     Resources<Map>         * _maps;
     Resources<sf::View>    * _cameras;
-//    Resources<sf::Text>       * _texts;
     Control *control;
     sf::Clock clock;
     sf::Time freq;

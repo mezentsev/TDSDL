@@ -2,7 +2,7 @@
 
 #include <QDebug>
 
-Unit::Unit(Animation *default_anim, int x, int y, int w, int h, b2World * world, Physics::B2_BODY_TYPE type, float SCALE) : Entity(default_anim,x,y,w,h,world,type,SCALE)
+Unit::Unit(Animation *default_anim, int x, int y, sf::ConvexShape shape, b2World * world, Physics::B2_BODY_TYPE type, float SCALE) : Entity(default_anim,x,y,shape,world,type,SCALE)
 {
     this->setState(LOOK_RIGHT);
     this->moving = NO;

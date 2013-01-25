@@ -22,6 +22,8 @@ public:
     // Возвращает номер текущего кадра
     int getCurFrame();
     void setCurFrame(int frame);
+    int getFrameHeight();
+    int getFrameWidth();
 
     // Цикл смены кадров
     sf::IntRect animate(sf::Time);

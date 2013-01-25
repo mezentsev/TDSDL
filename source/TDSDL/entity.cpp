@@ -1,7 +1,7 @@
 ﻿#include "entity.h"
 #include <QDebug>
 
-Entity::Entity(Animation * default_anim, int x, int y, int w, int h, b2World * world, Physics::B2_BODY_TYPE type, float SCALE)
+Entity::Entity(Animation * default_anim, int x, int y, sf::ConvexShape shape, b2World * world, Physics::B2_BODY_TYPE type, float SCALE)
 {
     this->x      = x;
     this->y      = y;
@@ -9,17 +9,12 @@ Entity::Entity(Animation * default_anim, int x, int y, int w, int h, b2World * w
     this->setDefault();
     this->SCALE = SCALE;
 
-    sf::IntRect rct;
-    rct.left = 0;
-    rct.top = 0;
-    rct.height = h;
-    rct.width = w;
-    this->rect = rct;
+    this->polygon = shape;
 
     this->phys.setWorld(world);
     this->phys.setType(type);
-    this->phys.setShape(x, y, w, h);
-    this->phys.createBody((void *)(x*y*w*h*world->GetBodyCount()+w+y+x+h+world->GetBodyCount()));
+    this->phys.setShape(x, y, 64, 64);
+    this->phys.createBody((void *)(x*y*world->GetBodyCount()+y+x+world->GetBodyCount()));
 }
 
 Entity::~Entity()
@@ -34,13 +29,7 @@ Entity * Entity::setXY(float x, float y)
     if (!this->anim.contains(this->animName))
         this->setDefault();
     this->anim[this->animName]->getSprite()->setPosition(x, y);
-    return this;
-}
-
-Entity * Entity::setHW(int h, int w)
-{
-    this->h = h;
-    this->w = w;
+    this->polygon.setPosition(x, y);
     return this;
 }
 
@@ -53,7 +42,6 @@ Entity * Entity::setAngle(float angle)
     return this;
 }
 
-
 float Entity::getX()
 {
     return this->x;
@@ -64,17 +52,7 @@ float Entity::getY()
     return this->y;
 }
 
-int Entity::getW()
-{
-    return this->w;
-}
-
-int Entity::getH()
-{
-    return this->h;
-}
-
-sf::Sprite * Entity::refresh(sf::Time time)
+sf::ConvexShape Entity::refresh(sf::Time time)
 {
     return this->animate(time);
 }
@@ -102,18 +80,24 @@ void Entity::setDefault()
     this->animName = "default";
 }
 
-sf::Sprite * Entity::animate(sf::Time time)
+sf::ConvexShape Entity::animate(sf::Time time)
 {
     if (!this->anim.contains(this->animName))
     {
         this->setDefault();
     }
+
+    // Окно кадра
     sf::IntRect rct;
     rct = this->anim[this->animName]->animate(time);
-    rct.width = this->rect.width;
-    rct.height = this->rect.height;
-    this->anim[this->animName]->getSprite()->setTextureRect(rct);
-    return this->anim[this->animName]->getSprite();
+
+    const sf::Texture * tt = this->anim[this->animName]->getSprite()->getTexture();
+
+    //Зададим окно текстуры полигону
+    this->polygon.setTexture(tt);
+    this->polygon.setTextureRect(rct);
+
+    return this->polygon;
 }
 
 void Entity::doPhysics(float scale)
