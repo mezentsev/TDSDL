@@ -153,13 +153,11 @@ bool App::Init()
     if (!this->Load()) return 0;
 
     sf::ConvexShape polygon(5);
-    polygon.setOutlineColor(sf::Color::Red);
     polygon.setPoint(0, sf::Vector2f(0,0));
-    polygon.setPoint(1, sf::Vector2f(64,0));
-    polygon.setPoint(2, sf::Vector2f(30,30));
-    polygon.setPoint(3, sf::Vector2f(64,64));
-    polygon.setPoint(4, sf::Vector2f(0,64));
-    polygon.setOutlineThickness(1.0f);
+    polygon.setPoint(1, sf::Vector2f(45,0));
+    polygon.setPoint(2, sf::Vector2f(64,32));
+    polygon.setPoint(3, sf::Vector2f(45,64));
+    polygon.setPoint(4, sf::Vector2f(32,64));
     /***************  Создание игрока, назначение стандартной анимации ********************/
     Unit *ent = new Unit(this->_anims->getRes("dragon_stayRight"), 0, 0, polygon, this->world, Physics::DYNAMIC, this->SCALE);
     ent->addAnim(this->_anims->getRes("dragon_runRight"), "runRight");

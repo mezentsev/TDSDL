@@ -14,7 +14,6 @@ Physics::Physics()
     this->h = 0.f;
     this->pHworld = NULL;
     this->pHbody = NULL;
-
 }
 
 Physics::~Physics()
@@ -39,13 +38,27 @@ b2Body * Physics::getpHbody()
     return NULL;
 }
 
-void Physics::setShape(float x, float y, float w, float h)
+void Physics::setShape(float x, float y, float w, float h, b2PolygonShape shape)
 {
     this->x = x;
     this->y = y;
     this->w = w;
     this->h = h;
+    this->shape = shape;
 }
+
+void Physics::setShape(float x, float y, float w, float h, sf::ConvexShape shape)
+{
+    b2PolygonShape tob2shape;
+    b2Vec2 verts[shape.getPointCount()];
+    for(int i = 0; i < shape.getPointCount(); ++i)
+        // TODO: 30.f -> SCALE
+        verts[i] = b2Vec2(shape.getPoint(i).x/30.f, shape.getPoint(i).y/30.f);
+
+    tob2shape.Set(verts, shape.getPointCount());
+    this->setShape(x,y,w,h,tob2shape);
+}
+
 
 void Physics::setType(B2_BODY_TYPE type)
 {
@@ -72,12 +85,13 @@ void Physics::createBody(void * data, float SCALE)
     this->pHbody = this->pHworld->CreateBody(&BodyDef);
     this->pHbody->SetUserData(data);
 
-    b2PolygonShape Shape;
-    Shape.SetAsBox((this->w/2.f)/SCALE, (this->h/2.f)/SCALE, b2Vec2((this->w/2.f)/SCALE,(this->h/2.f)/SCALE),0.f);
+    //b2PolygonShape Shape;
+    //Shape.SetAsBox((this->w/2.f)/SCALE, (this->h/2.f)/SCALE, b2Vec2((this->w/2.f)/SCALE,(this->h/2.f)/SCALE),0.f);
+
     b2FixtureDef FixtureDef;
     FixtureDef.density = this->density;
     FixtureDef.friction = this->friction;
-    FixtureDef.shape = &Shape;
+    FixtureDef.shape = &this->shape;
     FixtureDef.restitution = 0;
     this->pHfixture = this->pHbody->CreateFixture(&FixtureDef);
 }

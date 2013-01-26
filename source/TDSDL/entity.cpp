@@ -13,7 +13,7 @@ Entity::Entity(Animation * default_anim, int x, int y, sf::ConvexShape shape, b2
 
     this->phys.setWorld(world);
     this->phys.setType(type);
-    this->phys.setShape(x, y, 64, 64);
+    this->phys.setShape(x, y, 64, 64, shape);
     this->phys.createBody((void *)(x*y*world->GetBodyCount()+y+x+world->GetBodyCount()));
 }
 
