@@ -208,7 +208,7 @@ int App::Execute()
     sf::Event event;
     while (this->screen->isOpen())
     {
-        this->world->Step(1/60.f, 8, 8);
+        this->world->Step(freq.asSeconds(), 8, 8);
 
         this->freq = clock.getElapsedTime();
 
