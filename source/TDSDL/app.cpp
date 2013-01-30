@@ -154,15 +154,25 @@ bool App::Init()
 
     sf::ConvexShape polygon_Player(4);
     polygon_Player.setPoint(0, sf::Vector2f(0,0));
-    polygon_Player.setPoint(1, sf::Vector2f(128,0));
-    polygon_Player.setPoint(2, sf::Vector2f(128,170));
-    polygon_Player.setPoint(3, sf::Vector2f(0,170));
+    polygon_Player.setPoint(1, sf::Vector2f(170,0));
+    polygon_Player.setPoint(2, sf::Vector2f(170,128));
+    polygon_Player.setPoint(3, sf::Vector2f(0,128));
 
     sf::ConvexShape polygon_PlayerPhys(4);
-    polygon_PlayerPhys.setPoint(0, sf::Vector2f(40,0));
-    polygon_PlayerPhys.setPoint(1, sf::Vector2f(88,0));
-    polygon_PlayerPhys.setPoint(2, sf::Vector2f(88,170));
-    polygon_PlayerPhys.setPoint(3, sf::Vector2f(40,170));
+    polygon_PlayerPhys.setPoint(0, sf::Vector2f(40,10));
+    polygon_PlayerPhys.setPoint(1, sf::Vector2f(120,10));
+    polygon_PlayerPhys.setPoint(2, sf::Vector2f(120,110));
+    polygon_PlayerPhys.setPoint(3, sf::Vector2f(40,110));
+
+    sf::ConvexShape polygon_PlayerPhys2(4);
+    polygon_PlayerPhys2.setPoint(0, sf::Vector2f(40,110));
+    polygon_PlayerPhys2.setPoint(1, sf::Vector2f(120,110));
+    polygon_PlayerPhys2.setPoint(2, sf::Vector2f(90,128));
+    polygon_PlayerPhys2.setPoint(3, sf::Vector2f(70,128));
+
+    QList<sf::ConvexShape> polygon_PlayerPhysList;
+    polygon_PlayerPhysList.append(polygon_PlayerPhys);
+    polygon_PlayerPhysList.append(polygon_PlayerPhys2);
 
     sf::ConvexShape polygon_Ground(4);
     polygon_Ground.setPoint(0, sf::Vector2f(0,0));
@@ -171,13 +181,12 @@ bool App::Init()
     polygon_Ground.setPoint(3, sf::Vector2f(0,64));
 
     sf::ConvexShape polygon_GroundPhys(4);
-    polygon_GroundPhys.setPoint(0, sf::Vector2f(0,25));
-    polygon_GroundPhys.setPoint(1, sf::Vector2f(64,25));
-    polygon_GroundPhys.setPoint(2, sf::Vector2f(64,64));
-    polygon_GroundPhys.setPoint(3, sf::Vector2f(0,64));
+    polygon_GroundPhys.setPoint(0, sf::Vector2f(0,24));
+    polygon_GroundPhys.setPoint(1, sf::Vector2f(64,24));
+    polygon_GroundPhys.setPoint(2, sf::Vector2f(60,40));
+    polygon_GroundPhys.setPoint(3, sf::Vector2f(4,40));
 
-    QList<sf::ConvexShape> polygon_PlayerPhysList;
-    polygon_PlayerPhysList.append(polygon_PlayerPhys);
+
 
     QList<sf::ConvexShape> polygon_GroundPhysList;
     polygon_GroundPhysList.append(polygon_GroundPhys);
@@ -198,14 +207,29 @@ bool App::Init()
     /***************  Создание окружения, назначение стандартной анимации ********************/
     Entity *ents = NULL;
 
-    ents = new Entity(this->_anims->getRes("road"), 0,180, polygon_Ground, polygon_GroundPhysList, this->world, Physics::STATIC, this->SCALE);
+    ents = new Entity(this->_anims->getRes("road"), 0,190, polygon_Ground, polygon_GroundPhysList, this->world, Physics::STATIC, this->SCALE);
     this->_entities->add(ents,"dnishe1");
 
-    ents = new Entity(this->_anims->getRes("road"), -380,200, polygon_Ground, polygon_GroundPhysList, this->world, Physics::STATIC, this->SCALE);
+    ents = new Entity(this->_anims->getRes("road"), 64,190, polygon_Ground, polygon_GroundPhysList, this->world, Physics::STATIC, this->SCALE);
     this->_entities->add(ents,"dnishe2");
 
-    ents = new Entity(this->_anims->getRes("road"), 180,220, polygon_Ground, polygon_GroundPhysList, this->world, Physics::STATIC, this->SCALE);
+    ents = new Entity(this->_anims->getRes("road"), 128,200, polygon_Ground, polygon_GroundPhysList, this->world, Physics::STATIC, this->SCALE);
     this->_entities->add(ents,"dnishe3");
+
+    ents = new Entity(this->_anims->getRes("road"), 192,210, polygon_Ground, polygon_GroundPhysList, this->world, Physics::STATIC, this->SCALE);
+    this->_entities->add(ents,"dnishe4");
+
+    ents = new Entity(this->_anims->getRes("road"), 256,220, polygon_Ground, polygon_GroundPhysList, this->world, Physics::STATIC, this->SCALE);
+    this->_entities->add(ents,"dnishe5");
+
+    ents = new Entity(this->_anims->getRes("road"), 320,230, polygon_Ground, polygon_GroundPhysList, this->world, Physics::STATIC, this->SCALE);
+    this->_entities->add(ents,"dnishe6");
+
+    ents = new Entity(this->_anims->getRes("road"), 384,240, polygon_Ground, polygon_GroundPhysList, this->world, Physics::STATIC, this->SCALE);
+    this->_entities->add(ents,"dnishe7");
+
+    ents = new Entity(this->_anims->getRes("road"), -380,0, polygon_Ground, polygon_GroundPhysList, this->world, Physics::STATIC, this->SCALE);
+    this->_entities->add(ents,"dnishe8");
     /*********************************************************************/
 
     connect(this->control, SIGNAL(setEntControl(Unit::ORDER)), this->_entities->getRes("player"), SLOT(setControl(Unit::ORDER)));

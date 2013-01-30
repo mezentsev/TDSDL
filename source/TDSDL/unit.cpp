@@ -7,7 +7,7 @@ Unit::Unit(Animation *default_anim, int x, int y, sf::ConvexShape shape, QList<s
     this->setState(LOOK_RIGHT);
     this->moving = NO;
     this->jump_hight = 4;
-    this->rate = 6;
+    this->rate = 8;
 }
 
 void Unit::setControl(ORDER order)
