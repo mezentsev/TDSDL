@@ -51,10 +51,14 @@ sf::IntRect Animation::animate(sf::Time time)
     if ((1 / this->rate) > this->sumTime)
     {
         sf::IntRect area;
-        area.left   =  this->rect.left;
-        area.top    = (this->rect.height * this->curFrame) / this->cnt;
-        area.width  =  this->rect.width;
-        area.height = (this->rect.height / this->cnt);
+//        area.left   =  this->rect.left;
+//        area.top    = (this->rect.height * this->curFrame) / this->cnt;
+//        area.width  =  this->rect.width;
+//        area.height = (this->rect.height / this->cnt);
+        area.left   = (this->rect.width * this->curFrame) / this->cnt;
+        area.top    = this->rect.top;
+        area.width  = this->rect.width / this->cnt;
+        area.height = this->rect.height;
         return area;
     }
 
@@ -62,10 +66,16 @@ sf::IntRect Animation::animate(sf::Time time)
     this->setCurFrame(this->getCurFrame() + 1);
 
     sf::IntRect area;
-    area.left   =  this->rect.left;
-    area.top    = (this->rect.height * this->curFrame) / this->cnt;
-    area.width  =  this->rect.width;
-    area.height = (this->rect.height / this->cnt);
+// для сверху вниз
+//    area.left   =  this->rect.left;
+//    area.top    = (this->rect.height * this->curFrame) / this->cnt;
+//    area.width  =  this->rect.width;
+//    area.height = (this->rect.height / this->cnt);
+// для слева направо
+    area.left   = (this->rect.width * this->curFrame) / this->cnt;
+    area.top    = this->rect.top;
+    area.width  = this->rect.width / this->cnt;
+    area.height = this->rect.height;
 
     return area;
 }

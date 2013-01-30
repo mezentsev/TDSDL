@@ -42,6 +42,7 @@ private:
     STATE state;
     MOVING moving;
     float jump_hight;
+    float rate;
 
     void move_left();
     void move_right();
