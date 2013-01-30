@@ -25,7 +25,7 @@ private:
 public:
     Physics phys;
 
-    Entity(Animation * default_anim, int x, int y, sf::ConvexShape shape, b2World * world, Physics::B2_BODY_TYPE type, float SCALE);
+    Entity(Animation * default_anim, int x, int y, sf::ConvexShape shape, QList<sf::ConvexShape> physShapes, b2World * world, Physics::B2_BODY_TYPE type, float SCALE);
     ~Entity();
 
     sf::IntRect rect; //спрайт
@@ -42,7 +42,7 @@ public:
     bool addAnim(Animation * anim, QString name); //Привязывает анимацию с именем
     bool setAnim(QString name); // Устанавливает анимацию с именем name
     void setDefault();
-    sf::ConvexShape animate(sf::Time); //Проигрывает анимацию с именем this->animName
+    sf::ConvexShape animate(sf::Time); //Проигрывает анимацию с именем this->animName и возвращает полигон
 
     virtual void doPhysics(float scale);
 };

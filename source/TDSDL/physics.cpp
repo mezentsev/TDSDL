@@ -38,16 +38,14 @@ b2Body * Physics::getpHbody()
     return NULL;
 }
 
-void Physics::setShape(float x, float y, float w, float h, b2PolygonShape shape)
+void Physics::setShape(float x, float y, b2PolygonShape shape)
 {
     this->x = x;
     this->y = y;
-    this->w = w;
-    this->h = h;
-    this->shape = shape;
+    this->shape.append(shape);
 }
 
-void Physics::setShape(float x, float y, float w, float h, sf::ConvexShape shape)
+void Physics::setShape(float x, float y, sf::ConvexShape shape)
 {
     b2PolygonShape tob2shape;
     b2Vec2 verts[shape.getPointCount()];
@@ -56,7 +54,7 @@ void Physics::setShape(float x, float y, float w, float h, sf::ConvexShape shape
         verts[i] = b2Vec2(shape.getPoint(i).x/30.f, shape.getPoint(i).y/30.f);
 
     tob2shape.Set(verts, shape.getPointCount());
-    this->setShape(x,y,w,h,tob2shape);
+    this->setShape(x,y,tob2shape);
 }
 
 
@@ -71,7 +69,7 @@ float Physics::getGravity()
 }
 
 bool Physics::isContact()
-{//this->pHbody->GetContactList()->contact->IsTouching();
+{
     return this->pHbody->GetContactList();
 }
 
@@ -85,32 +83,16 @@ void Physics::createBody(void * data, float SCALE)
     this->pHbody = this->pHworld->CreateBody(&BodyDef);
     this->pHbody->SetUserData(data);
 
-    //b2PolygonShape Shape;
-    //Shape.SetAsBox((this->w/2.f)/SCALE, (this->h/2.f)/SCALE, b2Vec2((this->w/2.f)/SCALE,(this->h/2.f)/SCALE),0.f);
-
     b2FixtureDef FixtureDef;
-    FixtureDef.density = this->density;
-    FixtureDef.friction = this->friction;
-    FixtureDef.shape = &this->shape;
-    FixtureDef.restitution = 0;
-    this->pHfixture = this->pHbody->CreateFixture(&FixtureDef);
+    if (!this->shape.isEmpty())
+    {
+        for (QList<b2PolygonShape>::iterator i = this->shape.begin(); i != this->shape.end(); i++)
+        {
+            FixtureDef.density = this->density;
+            FixtureDef.friction = this->friction;
+            FixtureDef.shape = &(*i);
+            FixtureDef.restitution = 0;
+            this->pHbody->CreateFixture(&FixtureDef);
+        }
+    }
 }
-
-//void CreateGround()
-//{
-//    b2BodyDef BodyDef;
-//    BodyDef.position = b2Vec2(X/SCALE, Y/SCALE);
-//    BodyDef.angle = 0.3f;
-//    BodyDef.type = b2_staticBody;
-//    BodyDef.bullet = true;
-//    b2Body* Body = World.CreateBody(&BodyDef);
-
-//    b2PolygonShape Shape;
-//    Shape.SetAsBox((800.f/2)/SCALE, (16.f/2)/SCALE);
-//    b2FixtureDef FixtureDef;
-//    FixtureDef.density = 0.f;
-//    FixtureDef.shape = &Shape;
-//    char * ch = "ground";
-//    FixtureDef.userData = ch;
-//    Body->CreateFixture(&FixtureDef);
-//}

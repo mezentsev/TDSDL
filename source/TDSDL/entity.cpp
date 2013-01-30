@@ -1,7 +1,7 @@
 ﻿#include "entity.h"
 #include <QDebug>
 
-Entity::Entity(Animation * default_anim, int x, int y, sf::ConvexShape shape, b2World * world, Physics::B2_BODY_TYPE type, float SCALE)
+Entity::Entity(Animation * default_anim, int x, int y, sf::ConvexShape shape, QList<sf::ConvexShape> physShapes, b2World * world, Physics::B2_BODY_TYPE type, float SCALE)
 {
     this->x      = x;
     this->y      = y;
@@ -13,7 +13,13 @@ Entity::Entity(Animation * default_anim, int x, int y, sf::ConvexShape shape, b2
 
     this->phys.setWorld(world);
     this->phys.setType(type);
-    this->phys.setShape(x, y, 64, 64, shape);
+
+    QList<sf::ConvexShape>::iterator i;
+    for(i = physShapes.begin(); i != physShapes.end(); i++)
+    {
+        this->phys.setShape(x, y, *i);
+    }
+
     this->phys.createBody((void *)(x*y*world->GetBodyCount()+y+x+world->GetBodyCount()));
 }
 

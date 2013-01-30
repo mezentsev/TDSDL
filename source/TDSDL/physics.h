@@ -17,7 +17,7 @@ private:
     float w, h;
     QList< QPair<float, float> > vertex; // Вершины против часовой
 
-    b2PolygonShape shape;
+    QList< b2PolygonShape > shape;
     b2BodyType type; //тип объекта (static/dynamic)
     void * data; // Инфа по объекту
     float density; // Плотность
@@ -52,8 +52,8 @@ public:
     Physics();
     ~Physics();
     void setWorld(b2World *);
-    void setShape(float x, float y, float w, float h, b2PolygonShape);
-    void setShape(float x, float y, float w, float h, sf::ConvexShape);
+    void setShape(float x, float y, b2PolygonShape);
+    void setShape(float x, float y, sf::ConvexShape);
     void createBody(void * data, float SCALE = 30.f);
     void setType(B2_BODY_TYPE type);
     b2Body * getpHbody();

@@ -30,7 +30,7 @@ public:
         LEFT, RIGHT, UP, DOWN, NO
     };
 
-    Unit(Animation * default_anim, int x, int y, sf::ConvexShape shape, b2World * world, Physics::B2_BODY_TYPE type, float SCALE);
+    Unit(Animation * default_anim, int x, int y, sf::ConvexShape shape, QList<sf::ConvexShape> physShapes, b2World * world, Physics::B2_BODY_TYPE type, float SCALE);
     int  getState();
     void doPhysics(float scale);
 

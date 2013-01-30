@@ -152,14 +152,38 @@ bool App::Init()
 
     if (!this->Load()) return 0;
 
-    sf::ConvexShape polygon(5);
-    polygon.setPoint(0, sf::Vector2f(0,0));
-    polygon.setPoint(1, sf::Vector2f(45,0));
-    polygon.setPoint(2, sf::Vector2f(64,32));
-    polygon.setPoint(3, sf::Vector2f(45,64));
-    polygon.setPoint(4, sf::Vector2f(32,64));
+    sf::ConvexShape polygon_Player(4);
+    polygon_Player.setPoint(0, sf::Vector2f(0,0));
+    polygon_Player.setPoint(1, sf::Vector2f(64,0));
+    polygon_Player.setPoint(2, sf::Vector2f(64,64));
+    polygon_Player.setPoint(3, sf::Vector2f(0,64));
+
+    sf::ConvexShape polygon_PlayerPhys(4);
+    polygon_PlayerPhys.setPoint(0, sf::Vector2f(0,0));
+    polygon_PlayerPhys.setPoint(1, sf::Vector2f(64,0));
+    polygon_PlayerPhys.setPoint(2, sf::Vector2f(64,64));
+    polygon_PlayerPhys.setPoint(3, sf::Vector2f(0,64));
+
+    sf::ConvexShape polygon_Ground(4);
+    polygon_Ground.setPoint(0, sf::Vector2f(0,0));
+    polygon_Ground.setPoint(1, sf::Vector2f(100,0));
+    polygon_Ground.setPoint(2, sf::Vector2f(100,64));
+    polygon_Ground.setPoint(3, sf::Vector2f(0,64));
+
+    sf::ConvexShape polygon_GroundPhys(4);
+    polygon_GroundPhys.setPoint(0, sf::Vector2f(0,25));
+    polygon_GroundPhys.setPoint(1, sf::Vector2f(100,25));
+    polygon_GroundPhys.setPoint(2, sf::Vector2f(100,64));
+    polygon_GroundPhys.setPoint(3, sf::Vector2f(0,64));
+
+    QList<sf::ConvexShape> polygon_PlayerPhysList;
+    polygon_PlayerPhysList.append(polygon_PlayerPhys);
+
+    QList<sf::ConvexShape> polygon_GroundPhysList;
+    polygon_GroundPhysList.append(polygon_GroundPhys);
+
     /***************  Создание игрока, назначение стандартной анимации ********************/
-    Unit *ent = new Unit(this->_anims->getRes("dragon_stayRight"), 0, 0, polygon, this->world, Physics::DYNAMIC, this->SCALE);
+    Unit *ent = new Unit(this->_anims->getRes("dragon_stayRight"), 0, 0, polygon_Player, polygon_PlayerPhysList, this->world, Physics::DYNAMIC, this->SCALE);
     ent->addAnim(this->_anims->getRes("dragon_runRight"), "runRight");
     ent->addAnim(this->_anims->getRes("dragon_runLeft"), "runLeft");
     ent->addAnim(this->_anims->getRes("dragon_stayLeft"), "stayLeft");
@@ -174,13 +198,13 @@ bool App::Init()
     /***************  Создание окружения, назначение стандартной анимации ********************/
     Entity *ents = NULL;
 
-    ents = new Entity(this->_anims->getRes("road"), 0,200, polygon, this->world, Physics::STATIC, this->SCALE);
+    ents = new Entity(this->_anims->getRes("road"), 0,180, polygon_Ground, polygon_GroundPhysList, this->world, Physics::STATIC, this->SCALE);
     this->_entities->add(ents,"dnishe1");
 
-    ents = new Entity(this->_anims->getRes("road"), -380,200, polygon, this->world, Physics::STATIC, this->SCALE);
+    ents = new Entity(this->_anims->getRes("road"), -380,200, polygon_Ground, polygon_GroundPhysList, this->world, Physics::STATIC, this->SCALE);
     this->_entities->add(ents,"dnishe2");
 
-    ents = new Entity(this->_anims->getRes("road"), 180,200, polygon, this->world, Physics::STATIC, this->SCALE);
+    ents = new Entity(this->_anims->getRes("road"), 180,220, polygon_Ground, polygon_GroundPhysList, this->world, Physics::STATIC, this->SCALE);
     this->_entities->add(ents,"dnishe3");
     /*********************************************************************/
 
