@@ -2,7 +2,7 @@
 
 App::App()
 {
-    this->screen = new sf::RenderWindow(sf::VideoMode(800, 600, 32), "SFML window", sf::Style::Close, sf::ContextSettings(0,0,8));
+    this->screen = new sf::RenderWindow(sf::VideoMode(1000, 800, 32), "SFML window", sf::Style::Close, sf::ContextSettings(0,0,8));
     this->screen->setFramerateLimit(60); // Ограничение для правильной работы физ.движка
     this->screen->setVerticalSyncEnabled(true);
 
@@ -24,49 +24,49 @@ bool App::Load()
 {
     /**********************  Загрузка изображений ************************/
     sf::Texture *image = new sf::Texture();
-    if (!image->loadFromFile("images/dragon_runLeft.png")) return false;
+    if (!image->loadFromFile("images/units/main_hero/hero_runLeft.png")) return false;
     image->setSmooth(true);
     image->setRepeated(true);
     _textures->add(image,"dragon_runLeft");
 
     image = new sf::Texture();
-    if (!image->loadFromFile("images/dragon_runRight.png")) return false;
+    if (!image->loadFromFile("images/units/main_hero/hero_runRight.png")) return false;
     image->setSmooth(true);
     image->setRepeated(true);
     _textures->add(image,"dragon_runRight");
 
     image = new sf::Texture();
-    if (!image->loadFromFile("images/dragon_stayLeft.png")) return false;
+    if (!image->loadFromFile("images/units/main_hero/hero_stayLeft.png")) return false;
     image->setSmooth(true);
     image->setRepeated(true);
     _textures->add(image,"dragon_stayLeft");
 
     image = new sf::Texture();
-    if (!image->loadFromFile("images/dragon_stayRight.png")) return false;
+    if (!image->loadFromFile("images/units/main_hero/hero_stayRight.png")) return false;
     image->setSmooth(true);
     image->setRepeated(true);
     _textures->add(image,"dragon_stayRight");
 
     image = new sf::Texture();
-    if (!image->loadFromFile("images/dragon_jumpLeft.png")) return false;
+    if (!image->loadFromFile("images/units/main_hero/hero_jumpLeft.png")) return false;
     image->setSmooth(true);
     image->setRepeated(true);
     _textures->add(image,"dragon_jumpLeft");
 
     image = new sf::Texture();
-    if (!image->loadFromFile("images/dragon_jumpRight.png")) return false;
+    if (!image->loadFromFile("images/units/main_hero/hero_jumpRight.png")) return false;
     image->setSmooth(true);
     image->setRepeated(true);
     _textures->add(image,"dragon_jumpRight");
 
     image = new sf::Texture();
-    if (!image->loadFromFile("images/dragon_fallLeft.png")) return false;
+    if (!image->loadFromFile("images/units/main_hero/dragon_fallLeft.png")) return false;
     image->setSmooth(true);
     image->setRepeated(true);
     _textures->add(image,"dragon_fallLeft");
 
     image = new sf::Texture();
-    if (!image->loadFromFile("images/dragon_fallRight.png")) return false;
+    if (!image->loadFromFile("images/units/main_hero/dragon_fallRight.png")) return false;
     image->setSmooth(true);
     image->setRepeated(true);
     _textures->add(image,"dragon_fallRight");
@@ -110,16 +110,16 @@ bool App::Load()
 
 
     /***************  Создание анимаций из спрайта  **********************/
-    Animation * anim = new Animation(this->_sprites->getRes("dragon_runLeft"), 8, 8, 0);
+    Animation * anim = new Animation(this->_sprites->getRes("dragon_runLeft"), 6, 9, 0);
     this->_anims->add(anim, "dragon_runLeft");
 
-    anim = new Animation(this->_sprites->getRes("dragon_runRight"), 8, 8, 0);
+    anim = new Animation(this->_sprites->getRes("dragon_runRight"), 6, 9, 0);
     this->_anims->add(anim, "dragon_runRight");
 
-    anim = new Animation(this->_sprites->getRes("dragon_stayLeft"), 1, 1, 0);
+    anim = new Animation(this->_sprites->getRes("dragon_stayLeft"), 5, 7, 0);
     this->_anims->add(anim, "dragon_stayLeft");
 
-    anim = new Animation(this->_sprites->getRes("dragon_stayRight"), 1, 1, 0);
+    anim = new Animation(this->_sprites->getRes("dragon_stayRight"), 5, 7, 0);
     this->_anims->add(anim, "dragon_stayRight");
 
     anim = new Animation(this->_sprites->getRes("dragon_jumpLeft"), 1, 1, 0);
@@ -152,12 +152,12 @@ bool App::Init()
 
     if (!this->Load()) return 0;
 
-    sf::ConvexShape polygon(5);
+    sf::ConvexShape polygon(4);
     polygon.setPoint(0, sf::Vector2f(0,0));
-    polygon.setPoint(1, sf::Vector2f(45,0));
-    polygon.setPoint(2, sf::Vector2f(64,32));
-    polygon.setPoint(3, sf::Vector2f(45,64));
-    polygon.setPoint(4, sf::Vector2f(32,64));
+    polygon.setPoint(1, sf::Vector2f(128,0));
+    polygon.setPoint(2, sf::Vector2f(128,170));
+    polygon.setPoint(3, sf::Vector2f(0,170));
+  //  polygon.setPoint(4, sf::Vector2f(0,32));
     /***************  Создание игрока, назначение стандартной анимации ********************/
     Unit *ent = new Unit(this->_anims->getRes("dragon_stayRight"), 0, 0, polygon, this->world, Physics::DYNAMIC, this->SCALE);
     ent->addAnim(this->_anims->getRes("dragon_runRight"), "runRight");
@@ -176,6 +176,9 @@ bool App::Init()
 
     ents = new Entity(this->_anims->getRes("road"), 0,200, polygon, this->world, Physics::STATIC, this->SCALE);
     this->_entities->add(ents,"dnishe1");
+
+    ents = new Entity(this->_anims->getRes("road"), 64,200, polygon, this->world, Physics::STATIC, this->SCALE);
+    this->_entities->add(ents,"dnishe11");
 
     ents = new Entity(this->_anims->getRes("road"), -380,200, polygon, this->world, Physics::STATIC, this->SCALE);
     this->_entities->add(ents,"dnishe2");

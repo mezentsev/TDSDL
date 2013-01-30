@@ -6,7 +6,8 @@ Unit::Unit(Animation *default_anim, int x, int y, sf::ConvexShape shape, b2World
 {
     this->setState(LOOK_RIGHT);
     this->moving = NO;
-    jump_hight = 4;
+    this->jump_hight = 4;
+    this->rate = 6;
 }
 
 void Unit::setControl(ORDER order)
@@ -97,9 +98,9 @@ void Unit::doPhysics(float scale)
 
     //движение
     if (moving == LEFT)
-        body->SetLinearVelocity(b2Vec2(-4, body->GetLinearVelocity().y));
+        body->SetLinearVelocity(b2Vec2(-this->rate, body->GetLinearVelocity().y));
     if (moving == RIGHT)
-        body->SetLinearVelocity(b2Vec2(4, body->GetLinearVelocity().y));
+        body->SetLinearVelocity(b2Vec2(this->rate, body->GetLinearVelocity().y));
 
     //обновление координат
     float newX = body->GetPosition().x * scale;
