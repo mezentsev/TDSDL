@@ -1,4 +1,5 @@
-﻿DEFINES += _WIN32 WIN32
+﻿DEFINES += _WIN32 WIN32 \
+           _UNIX UNIX
 TEMPLATE = app
 
 win32 {
@@ -12,6 +13,15 @@ win32 {
         -llibsfml-graphics \
         -L"C:\BOX2D\lib" \
         -llibBox2D
+}
+
+unix {
+    LIBS += -L/usr/local/lib/ -lsfml-graphics -lBox2D
+
+    INCLUDEPATH += /usr/local/include
+    DEPENDPATH += /usr/local/include
+
+    PRE_TARGETDEPS += /usr/local/lib/libBox2D.a
 }
 
 HEADERS += \
