@@ -35,6 +35,7 @@ private:
                      // Обычный мальчик
                      // Коробки
     float SCALE;
+    QString resPath;
 
 public:
     App();
@@ -42,11 +43,15 @@ public:
     int Execute();
 
     bool Init();
+    bool saveRes(QByteArray&);
+    QByteArray loadRes();
     bool Load();
     void Event(sf::Event *event);
     void Loop();
     void Render();
     void Cleanup();
+
+    void levels();
 //    void readMap(QString path);
 
 public slots:

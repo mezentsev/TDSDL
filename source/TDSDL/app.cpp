@@ -18,6 +18,9 @@ App::App()
     this->world = new b2World(b2Vec2(0.f, 9.8f));
 
     this->SCALE = 30.f;
+    this->resPath = "resource.tdsdl";
+
+    this->levels();
 }
 
 bool App::Load()
@@ -176,14 +179,14 @@ bool App::Init()
 
     sf::ConvexShape polygon_Ground(4);
     polygon_Ground.setPoint(0, sf::Vector2f(0,0));
-    polygon_Ground.setPoint(1, sf::Vector2f(64,0));
-    polygon_Ground.setPoint(2, sf::Vector2f(64,64));
+    polygon_Ground.setPoint(1, sf::Vector2f(44,24));
+    polygon_Ground.setPoint(2, sf::Vector2f(44,64));
     polygon_Ground.setPoint(3, sf::Vector2f(0,64));
 
     sf::ConvexShape polygon_GroundPhys(4);
-    polygon_GroundPhys.setPoint(0, sf::Vector2f(0,24));
-    polygon_GroundPhys.setPoint(1, sf::Vector2f(64,24));
-    polygon_GroundPhys.setPoint(2, sf::Vector2f(60,40));
+    polygon_GroundPhys.setPoint(0, sf::Vector2f(0,10));
+    polygon_GroundPhys.setPoint(1, sf::Vector2f(44,34));
+    polygon_GroundPhys.setPoint(2, sf::Vector2f(44,40));
     polygon_GroundPhys.setPoint(3, sf::Vector2f(4,40));
 
 
@@ -242,6 +245,44 @@ bool App::Init()
     this->control.setCamera(this->mainCamera);
 */
     return true;
+}
+
+bool App::saveRes(QByteArray &arr)
+{
+    QFile file(this->resPath);
+    if (!file.open(QIODevice::WriteOnly))
+    {
+        printf("Unable to open file\n");
+        return false;
+    }
+    QDataStream out(&file);
+    out.setVersion(QDataStream::Qt_4_8); //  явно указываем версию Qt, для сериализации;
+
+    // сохранение данных
+    out << arr;
+
+    bool isFlush = file.flush();
+    file.close();
+    return isFlush;
+}
+
+QByteArray App::loadRes()
+{
+    QByteArray arr;
+    QFile file(this->resPath);
+    if (!file.open(QIODevice::ReadOnly))
+    {
+        printf("Unable to open file\n");
+        return false;
+    }
+    QDataStream in(&file);
+    in.setVersion(QDataStream::Qt_4_8); //  явно указываем версию Qt, для сериализации;
+
+    // сохранение данных
+    in >> arr;
+
+    file.close();
+    return arr;
 }
 
 // Запуск приложения
@@ -371,3 +412,312 @@ void App::Close()
 //        }
 //    }
 //}
+
+void App::levels()
+{
+    //////////// Сохранение в файл уровней /////////
+    QByteArray arr;
+    int nul = 0;
+    arr.append(1); // Количество уровней
+    arr.append(1); // Начало первого уровня
+
+    arr.append(9); // 9 картинок на уровне
+        arr.append("images/units/main_hero/hero_runLeft.png");
+            arr.append("dragon_runLeft"); // название к текстуре, спрайту, анимации
+            arr.append(6); // Количество кадров
+            arr.append(9); // Частота
+            arr.append(nul); // Тип
+        arr.append("images/units/main_hero/hero_runRight.png");
+            arr.append("dragon_runRight");
+            arr.append(6); // Количество кадров
+            arr.append(9); // Частота
+            arr.append(nul); // Тип
+        arr.append("images/units/main_hero/hero_stayLeft.png");
+            arr.append("dragon_stayLeft");
+            arr.append(5); // Количество кадров
+            arr.append(7); // Частота
+            arr.append(nul); // Тип
+        arr.append("images/units/main_hero/hero_jumpLeft.png");
+            arr.append("dragon_stayRight");
+            arr.append(5); // Количество кадров
+            arr.append(7); // Частота
+            arr.append(nul); // Тип
+        arr.append("images/units/main_hero/hero_jumpRight.png");
+            arr.append("dragon_jumpLeft");
+            arr.append(1); // Количество кадров
+            arr.append(1); // Частота
+            arr.append(nul); // Тип
+        arr.append("images/units/main_hero/hero_stayRight.png");
+            arr.append("dragon_jumpRight");
+            arr.append(1); // Количество кадров
+            arr.append(1); // Частота
+            arr.append(nul); // Тип
+        arr.append("images/units/main_hero/dragon_fallLeft.png");
+            arr.append("dragon_fallLeft");
+            arr.append(1); // Количество кадров
+            arr.append(1); // Частота
+            arr.append(nul); // Тип
+        arr.append("images/units/main_hero/dragon_fallRight.png");
+            arr.append("dragon_fallRight");
+            arr.append(1); // Количество кадров
+            arr.append(1); // Частота
+            arr.append(nul); // Тип
+        arr.append("images/road.png");
+            arr.append("road");
+            arr.append(1); // Количество кадров
+            arr.append(1); // Частота
+            arr.append(nul); // Тип
+
+        arr.append(1); // 1 юнит на уровне
+        ////////////////////////////////////////////////////
+            arr.append("dragon_stayRight"); //анимация юнита
+            arr.append(nul); // Начальные координаты юнита
+            arr.append(nul);
+
+            arr.append(1); // 1 полигон для текстуры
+            arr.append(4); // 4 точки
+            arr.append(nul);    arr.append(nul);
+            arr.append(170);    arr.append(nul);
+            arr.append(170);    arr.append(128);
+            arr.append(nul);    arr.append(128);
+
+            arr.append(2); // 2 полигона для физики
+            arr.append(4); // 4 точки
+            arr.append(40);     arr.append(10);
+            arr.append(120);    arr.append(10);
+            arr.append(120);    arr.append(110);
+            arr.append(40);     arr.append(110);
+
+            arr.append(4);
+            arr.append(40);     arr.append(110);
+            arr.append(120);    arr.append(110);
+            arr.append(90);     arr.append(128);
+            arr.append(70);     arr.append(128);
+
+            // добавление списка полигонов физики
+            arr.append("DYNAMIC");
+            arr.append(8); // Количество анимаций
+            arr.append("dragon_runRight");
+                arr.append("runRight");
+            arr.append("dragon_runLeft");
+                arr.append("runLeft");
+            arr.append("dragon_stayLeft");
+                arr.append("stayLeft");
+            arr.append("dragon_stayRight");
+                arr.append("stayRight");
+            arr.append("dragon_jumpLeft");
+                arr.append("jumpLeft");
+            arr.append("dragon_jumpRight");
+                arr.append("jumpRight");
+            arr.append("dragon_fallLeft");
+                arr.append("fallLeft");
+            arr.append("dragon_fallRight");
+                arr.append("fallRight");
+
+            arr.append("player");// Имя юнита
+        ////////////////////////////////////////////////////
+
+        arr.append(8); //8 entity
+        ////////////////////////////////////////////////////
+            arr.append("road"); //анимация юнита
+            arr.append(nul); // Начальные координаты юнита
+            arr.append(190);
+
+            arr.append(1); // 1 полигон для текстуры
+            arr.append(4); // 4 точки
+            arr.append(nul);    arr.append(nul);
+            arr.append(44);     arr.append(24);
+            arr.append(44);     arr.append(64);
+            arr.append(nul);    arr.append(64);
+
+            arr.append(1); // 2 полигона для физики
+            arr.append(4); // 4 точки
+            arr.append(nul);    arr.append(10);
+            arr.append(44);     arr.append(34);
+            arr.append(44);     arr.append(40);
+            arr.append(4);      arr.append(40);
+
+            // добавление списка полигонов физики
+            arr.append("STATIC");
+            arr.append(nul); // Количество анимаций
+
+            arr.append("dnishe1");// Имя юнита
+        ////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////
+            arr.append("road"); //анимация юнита
+            arr.append(64); // Начальные координаты юнита
+            arr.append(190);
+
+            arr.append(1); // 1 полигон для текстуры
+            arr.append(4); // 4 точки
+            arr.append(nul);    arr.append(nul);
+            arr.append(44);     arr.append(24);
+            arr.append(44);     arr.append(64);
+            arr.append(nul);    arr.append(64);
+
+            arr.append(1); // 2 полигона для физики
+            arr.append(4); // 4 точки
+            arr.append(nul);    arr.append(10);
+            arr.append(44);     arr.append(34);
+            arr.append(44);     arr.append(40);
+            arr.append(4);      arr.append(40);
+
+            // добавление списка полигонов физики
+            arr.append("STATIC");
+            arr.append(nul); // Количество анимаций
+
+            arr.append("dnishe2");// Имя юнита
+        ////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////
+            arr.append("road"); //анимация юнита
+            arr.append(nul); // Начальные координаты юнита
+            arr.append(128);
+
+            arr.append(1); // 1 полигон для текстуры
+            arr.append(4); // 4 точки
+            arr.append(nul);    arr.append(nul);
+            arr.append(44);     arr.append(24);
+            arr.append(44);     arr.append(64);
+            arr.append(nul);    arr.append(64);
+
+            arr.append(1); // 2 полигона для физики
+            arr.append(4); // 4 точки
+            arr.append(nul);    arr.append(10);
+            arr.append(44);     arr.append(34);
+            arr.append(44);     arr.append(40);
+            arr.append(4);      arr.append(40);
+
+            // добавление списка полигонов физики
+            arr.append("STATIC");
+            arr.append(nul); // Количество анимаций
+
+            arr.append("dnishe3");// Имя юнита
+        ////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////
+            arr.append("road"); //анимация юнита
+            arr.append(nul); // Начальные координаты юнита
+            arr.append(220);
+
+            arr.append(1); // 1 полигон для текстуры
+            arr.append(4); // 4 точки
+            arr.append(nul);    arr.append(nul);
+            arr.append(44);     arr.append(24);
+            arr.append(44);     arr.append(64);
+            arr.append(nul);    arr.append(64);
+
+            arr.append(1); // 2 полигона для физики
+            arr.append(4); // 4 точки
+            arr.append(nul);    arr.append(10);
+            arr.append(44);     arr.append(34);
+            arr.append(44);     arr.append(40);
+            arr.append(4);      arr.append(40);
+
+            // добавление списка полигонов физики
+            arr.append("STATIC");
+            arr.append(nul); // Количество анимаций
+
+            arr.append("dnishe4");// Имя юнита
+        ////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////
+            arr.append("road"); //анимация юнита
+            arr.append(nul); // Начальные координаты юнита
+            arr.append(300);
+
+            arr.append(1); // 1 полигон для текстуры
+            arr.append(4); // 4 точки
+            arr.append(nul);    arr.append(nul);
+            arr.append(44);     arr.append(24);
+            arr.append(44);     arr.append(64);
+            arr.append(nul);    arr.append(64);
+
+            arr.append(1); // 2 полигона для физики
+            arr.append(4); // 4 точки
+            arr.append(nul);    arr.append(10);
+            arr.append(44);     arr.append(34);
+            arr.append(44);     arr.append(40);
+            arr.append(4);      arr.append(40);
+
+            // добавление списка полигонов физики
+            arr.append("STATIC");
+            arr.append(nul); // Количество анимаций
+
+            arr.append("dnishe5");// Имя юнита
+        ////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////
+            arr.append("road"); //анимация юнита
+            arr.append(nul); // Начальные координаты юнита
+            arr.append(380);
+
+            arr.append(1); // 1 полигон для текстуры
+            arr.append(4); // 4 точки
+            arr.append(nul);    arr.append(nul);
+            arr.append(44);     arr.append(24);
+            arr.append(44);     arr.append(64);
+            arr.append(nul);    arr.append(64);
+
+            arr.append(1); // 2 полигона для физики
+            arr.append(4); // 4 точки
+            arr.append(nul);    arr.append(10);
+            arr.append(44);     arr.append(34);
+            arr.append(44);     arr.append(40);
+            arr.append(4);      arr.append(40);
+
+            // добавление списка полигонов физики
+            arr.append("STATIC");
+            arr.append(nul); // Количество анимаций
+
+            arr.append("dnishe6");// Имя юнита
+        ////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////
+            arr.append("road"); //анимация юнита
+            arr.append(nul); // Начальные координаты юнита
+            arr.append(450);
+
+            arr.append(1); // 1 полигон для текстуры
+            arr.append(4); // 4 точки
+            arr.append(nul);    arr.append(nul);
+            arr.append(44);     arr.append(24);
+            arr.append(44);     arr.append(64);
+            arr.append(nul);    arr.append(64);
+
+            arr.append(1); // 2 полигона для физики
+            arr.append(4); // 4 точки
+            arr.append(nul);    arr.append(10);
+            arr.append(44);     arr.append(34);
+            arr.append(44);     arr.append(40);
+            arr.append(4);      arr.append(40);
+
+            // добавление списка полигонов физики
+            arr.append("STATIC");
+            arr.append(nul); // Количество анимаций
+
+            arr.append("dnishe7");// Имя юнита
+        ////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////
+            arr.append("road"); //анимация юнита
+            arr.append(nul); // Начальные координаты юнита
+            arr.append(580);
+
+            arr.append(1); // 1 полигон для текстуры
+            arr.append(4); // 4 точки
+            arr.append(nul);    arr.append(nul);
+            arr.append(44);     arr.append(24);
+            arr.append(44);     arr.append(64);
+            arr.append(nul);    arr.append(64);
+
+            arr.append(1); // 2 полигона для физики
+            arr.append(4); // 4 точки
+            arr.append(nul);    arr.append(10);
+            arr.append(44);     arr.append(34);
+            arr.append(44);     arr.append(40);
+            arr.append(4);      arr.append(40);
+
+            // добавление списка полигонов физики
+            arr.append("STATIC");
+            arr.append(nul); // Количество анимаций
+
+            arr.append("dnishe8");// Имя юнита
+        ////////////////////////////////////////////////////
+
+        this->saveRes(arr);
+}

@@ -70,7 +70,7 @@ float Physics::getGravity()
 
 bool Physics::isContact()
 {
-    return this->pHbody->GetContactList();
+    return this->getpHbody()->GetContactList();
 }
 
 void Physics::createBody(void * data, float SCALE)
