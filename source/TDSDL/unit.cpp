@@ -67,7 +67,7 @@ void Unit::doPhysics(float scale)
     b2Body * body = this->phys.getpHbody();
 
     //старт прыжка
-    if (!this->phys.isContact())
+    if (!this->phys.isContactDown())
     {
         if (this->state == WALK_LEFT || this->state == LOOK_LEFT)
             this->setState(JUMP_LEFT);
@@ -75,7 +75,7 @@ void Unit::doPhysics(float scale)
             this->setState(JUMP_RIGHT);
     }
     //приземление
-    if (this->phys.isContact())
+    if (this->phys.isContactDown())
     {
         if (this->state == JUMP_LEFT)
         {
@@ -92,15 +92,14 @@ void Unit::doPhysics(float scale)
                 this->setState(WALK_RIGHT);
         }
     }
-//    if (!this->phys.isContact())
-//        qDebug()<<111;
-//    else qDebug()<<222;
 
     //движение
-    if (moving == LEFT)
+    if (this->moving == LEFT  && !(this->state == JUMP_LEFT && this->phys.isContactLeft()))
         body->SetLinearVelocity(b2Vec2(-this->rate, body->GetLinearVelocity().y));
-    if (moving == RIGHT)
+    if (this->moving == RIGHT && !(this->state == JUMP_RIGHT && this->phys.isContactRight()))
         body->SetLinearVelocity(b2Vec2(this->rate, body->GetLinearVelocity().y));
+    if (this->moving == NO && (this->state == LOOK_LEFT || this->state == LOOK_RIGHT))
+        body->SetLinearVelocity(b2Vec2(0, body->GetLinearVelocity().y));
 
     //обновление координат
     float newX = body->GetPosition().x * scale;

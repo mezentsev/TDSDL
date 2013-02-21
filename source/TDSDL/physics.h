@@ -58,7 +58,9 @@ public:
     void setType(B2_BODY_TYPE type);
     b2Body * getpHbody();
     float getGravity();
-    bool isContact();
+    bool isContactDown();
+    bool isContactRight();
+    bool isContactLeft();
 };
 
 #endif // PHYSICS_H

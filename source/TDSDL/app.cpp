@@ -27,49 +27,49 @@ bool App::Load()
     if (!image->loadFromFile("images/units/main_hero/hero_runLeft.png")) return false;
     image->setSmooth(true);
     image->setRepeated(true);
-    _textures->add(image,"dragon_runLeft");
+    _textures->add(image,"hero_runLeft");
 
     image = new sf::Texture();
     if (!image->loadFromFile("images/units/main_hero/hero_runRight.png")) return false;
     image->setSmooth(true);
     image->setRepeated(true);
-    _textures->add(image,"dragon_runRight");
+    _textures->add(image,"hero_runRight");
 
     image = new sf::Texture();
     if (!image->loadFromFile("images/units/main_hero/hero_stayLeft.png")) return false;
     image->setSmooth(true);
     image->setRepeated(true);
-    _textures->add(image,"dragon_stayLeft");
+    _textures->add(image,"hero_stayLeft");
 
     image = new sf::Texture();
     if (!image->loadFromFile("images/units/main_hero/hero_stayRight.png")) return false;
     image->setSmooth(true);
     image->setRepeated(true);
-    _textures->add(image,"dragon_stayRight");
+    _textures->add(image,"hero_stayRight");
 
     image = new sf::Texture();
     if (!image->loadFromFile("images/units/main_hero/hero_jumpLeft.png")) return false;
     image->setSmooth(true);
     image->setRepeated(true);
-    _textures->add(image,"dragon_jumpLeft");
+    _textures->add(image,"hero_jumpLeft");
 
     image = new sf::Texture();
     if (!image->loadFromFile("images/units/main_hero/hero_jumpRight.png")) return false;
     image->setSmooth(true);
     image->setRepeated(true);
-    _textures->add(image,"dragon_jumpRight");
+    _textures->add(image,"hero_jumpRight");
 
     image = new sf::Texture();
-    if (!image->loadFromFile("images/units/main_hero/dragon_fallLeft.png")) return false;
+    if (!image->loadFromFile("images/units/main_hero/hero_fightLeft.png")) return false;
     image->setSmooth(true);
     image->setRepeated(true);
-    _textures->add(image,"dragon_fallLeft");
+    _textures->add(image,"hero_fightLeft");
 
     image = new sf::Texture();
-    if (!image->loadFromFile("images/units/main_hero/dragon_fallRight.png")) return false;
+    if (!image->loadFromFile("images/units/main_hero/hero_fightRight.png")) return false;
     image->setSmooth(true);
     image->setRepeated(true);
-    _textures->add(image,"dragon_fallRight");
+    _textures->add(image,"hero_fightRight");
 
     image = new sf::Texture();
     if (!image->loadFromFile("images/road.png")) return false;
@@ -80,29 +80,29 @@ bool App::Load()
 
 
     /***************  Установка изображений справйтам  *******************/
-    sf::Sprite *spr = new sf::Sprite(*_textures->getRes("dragon_runLeft"));
-    this->_sprites->add(spr, "dragon_runLeft");
+    sf::Sprite *spr = new sf::Sprite(*_textures->getRes("hero_runLeft"));
+    this->_sprites->add(spr, "hero_runLeft");
 
-    spr = new sf::Sprite(*_textures->getRes("dragon_runRight"));
-    this->_sprites->add(spr, "dragon_runRight");
+    spr = new sf::Sprite(*_textures->getRes("hero_runRight"));
+    this->_sprites->add(spr, "hero_runRight");
 
-    spr = new sf::Sprite(*_textures->getRes("dragon_stayLeft"));
-    this->_sprites->add(spr, "dragon_stayLeft");
+    spr = new sf::Sprite(*_textures->getRes("hero_stayLeft"));
+    this->_sprites->add(spr, "hero_stayLeft");
 
-    spr = new sf::Sprite(*_textures->getRes("dragon_stayRight"));
-    this->_sprites->add(spr, "dragon_stayRight");
+    spr = new sf::Sprite(*_textures->getRes("hero_stayRight"));
+    this->_sprites->add(spr, "hero_stayRight");
 
-    spr = new sf::Sprite(*_textures->getRes("dragon_jumpLeft"));
-    this->_sprites->add(spr, "dragon_jumpLeft");
+    spr = new sf::Sprite(*_textures->getRes("hero_jumpLeft"));
+    this->_sprites->add(spr, "hero_jumpLeft");
 
-    spr = new sf::Sprite(*_textures->getRes("dragon_jumpRight"));
-    this->_sprites->add(spr, "dragon_jumpRight");
+    spr = new sf::Sprite(*_textures->getRes("hero_jumpRight"));
+    this->_sprites->add(spr, "hero_jumpRight");
 
-    spr = new sf::Sprite(*_textures->getRes("dragon_fallLeft"));
-    this->_sprites->add(spr, "dragon_fallLeft");
+    spr = new sf::Sprite(*_textures->getRes("hero_fightLeft"));
+    this->_sprites->add(spr, "hero_fightLeft");
 
-    spr = new sf::Sprite(*_textures->getRes("dragon_fallRight"));
-    this->_sprites->add(spr, "dragon_fallRight");
+    spr = new sf::Sprite(*_textures->getRes("hero_fightRight"));
+    this->_sprites->add(spr, "hero_fightRight");
 
     spr = new sf::Sprite(*_textures->getRes("road"));
     this->_sprites->add(spr, "road");
@@ -110,29 +110,29 @@ bool App::Load()
 
 
     /***************  Создание анимаций из спрайта  **********************/
-    Animation * anim = new Animation(this->_sprites->getRes("dragon_runLeft"), 6, 9, 0);
-    this->_anims->add(anim, "dragon_runLeft");
+    Animation * anim = new Animation(this->_sprites->getRes("hero_runLeft"), 6, 9, 0);
+    this->_anims->add(anim, "hero_runLeft");
 
-    anim = new Animation(this->_sprites->getRes("dragon_runRight"), 6, 9, 0);
-    this->_anims->add(anim, "dragon_runRight");
+    anim = new Animation(this->_sprites->getRes("hero_runRight"), 6, 9, 0);
+    this->_anims->add(anim, "hero_runRight");
 
-    anim = new Animation(this->_sprites->getRes("dragon_stayLeft"), 5, 7, 0);
-    this->_anims->add(anim, "dragon_stayLeft");
+    anim = new Animation(this->_sprites->getRes("hero_stayLeft"), 5, 7, 0);
+    this->_anims->add(anim, "hero_stayLeft");
 
-    anim = new Animation(this->_sprites->getRes("dragon_stayRight"), 5, 7, 0);
-    this->_anims->add(anim, "dragon_stayRight");
+    anim = new Animation(this->_sprites->getRes("hero_stayRight"), 5, 7, 0);
+    this->_anims->add(anim, "hero_stayRight");
 
-    anim = new Animation(this->_sprites->getRes("dragon_jumpLeft"), 1, 1, 0);
-    this->_anims->add(anim, "dragon_jumpLeft");
+    anim = new Animation(this->_sprites->getRes("hero_jumpLeft"), 1, 1, 0);
+    this->_anims->add(anim, "hero_jumpLeft");
 
-    anim = new Animation(this->_sprites->getRes("dragon_jumpRight"), 1, 1, 0);
-    this->_anims->add(anim, "dragon_jumpRight");
+    anim = new Animation(this->_sprites->getRes("hero_jumpRight"), 1, 1, 0);
+    this->_anims->add(anim, "hero_jumpRight");
 
-    anim = new Animation(this->_sprites->getRes("dragon_fallLeft"), 1, 1, 0);
-    this->_anims->add(anim, "dragon_fallLeft");
+    anim = new Animation(this->_sprites->getRes("hero_fightLeft"), 1, 1, 0);
+    this->_anims->add(anim, "hero_fightLeft");
 
-    anim = new Animation(this->_sprites->getRes("dragon_fallRight"), 1, 1, 0);
-    this->_anims->add(anim, "dragon_fallRight");
+    anim = new Animation(this->_sprites->getRes("hero_fightRight"), 1, 1, 0);
+    this->_anims->add(anim, "hero_fightRight");
 
     anim = new Animation(this->_sprites->getRes("road"), 1, 1, 0);
     this->_anims->add(anim, "road");
@@ -154,21 +154,21 @@ bool App::Init()
 
     sf::ConvexShape polygon_Player(4);
     polygon_Player.setPoint(0, sf::Vector2f(0,0));
-    polygon_Player.setPoint(1, sf::Vector2f(170,0));
-    polygon_Player.setPoint(2, sf::Vector2f(170,128));
+    polygon_Player.setPoint(1, sf::Vector2f(150,0));
+    polygon_Player.setPoint(2, sf::Vector2f(150,128));
     polygon_Player.setPoint(3, sf::Vector2f(0,128));
 
     sf::ConvexShape polygon_PlayerPhys(4);
     polygon_PlayerPhys.setPoint(0, sf::Vector2f(40,10));
     polygon_PlayerPhys.setPoint(1, sf::Vector2f(120,10));
-    polygon_PlayerPhys.setPoint(2, sf::Vector2f(120,110));
-    polygon_PlayerPhys.setPoint(3, sf::Vector2f(40,110));
+    polygon_PlayerPhys.setPoint(2, sf::Vector2f(120,120));
+    polygon_PlayerPhys.setPoint(3, sf::Vector2f(40,120));
 
     sf::ConvexShape polygon_PlayerPhys2(4);
-    polygon_PlayerPhys2.setPoint(0, sf::Vector2f(40,110));
-    polygon_PlayerPhys2.setPoint(1, sf::Vector2f(120,110));
-    polygon_PlayerPhys2.setPoint(2, sf::Vector2f(90,128));
-    polygon_PlayerPhys2.setPoint(3, sf::Vector2f(70,128));
+    polygon_PlayerPhys2.setPoint(0, sf::Vector2f(40,127));
+    polygon_PlayerPhys2.setPoint(1, sf::Vector2f(120,127));
+    polygon_PlayerPhys2.setPoint(2, sf::Vector2f(85,128));
+    polygon_PlayerPhys2.setPoint(3, sf::Vector2f(75,128));
 
     QList<sf::ConvexShape> polygon_PlayerPhysList;
     polygon_PlayerPhysList.append(polygon_PlayerPhys);
@@ -181,10 +181,10 @@ bool App::Init()
     polygon_Ground.setPoint(3, sf::Vector2f(0,64));
 
     sf::ConvexShape polygon_GroundPhys(4);
-    polygon_GroundPhys.setPoint(0, sf::Vector2f(0,24));
-    polygon_GroundPhys.setPoint(1, sf::Vector2f(64,24));
-    polygon_GroundPhys.setPoint(2, sf::Vector2f(60,40));
-    polygon_GroundPhys.setPoint(3, sf::Vector2f(4,40));
+    polygon_GroundPhys.setPoint(0, sf::Vector2f(0,0));
+    polygon_GroundPhys.setPoint(1, sf::Vector2f(64,0));
+    polygon_GroundPhys.setPoint(2, sf::Vector2f(64,64));
+    polygon_GroundPhys.setPoint(3, sf::Vector2f(0,64));
 
 
 
@@ -192,17 +192,21 @@ bool App::Init()
     polygon_GroundPhysList.append(polygon_GroundPhys);
 
     /***************  Создание игрока, назначение стандартной анимации ********************/
-    Unit *ent = new Unit(this->_anims->getRes("dragon_stayRight"), 0, 0, polygon_Player, polygon_PlayerPhysList, this->world, Physics::DYNAMIC, this->SCALE);
-    ent->addAnim(this->_anims->getRes("dragon_runRight"), "runRight");
-    ent->addAnim(this->_anims->getRes("dragon_runLeft"), "runLeft");
-    ent->addAnim(this->_anims->getRes("dragon_stayLeft"), "stayLeft");
-    ent->addAnim(this->_anims->getRes("dragon_stayRight"), "stayRight");
-    ent->addAnim(this->_anims->getRes("dragon_jumpLeft"), "jumpLeft");
-    ent->addAnim(this->_anims->getRes("dragon_jumpRight"), "jumpRight");
-    ent->addAnim(this->_anims->getRes("dragon_fallLeft"), "fallLeft");
-    ent->addAnim(this->_anims->getRes("dragon_fallRight"), "fallRight");
+    Unit *ent = new Unit(this->_anims->getRes("hero_stayRight"), 0, 0, polygon_Player, polygon_PlayerPhysList, this->world, Physics::DYNAMIC, this->SCALE);
+    ent->addAnim(this->_anims->getRes("hero_runRight"), "runRight");
+    ent->addAnim(this->_anims->getRes("hero_runLeft"), "runLeft");
+    ent->addAnim(this->_anims->getRes("hero_stayLeft"), "stayLeft");
+    ent->addAnim(this->_anims->getRes("hero_stayRight"), "stayRight");
+    ent->addAnim(this->_anims->getRes("hero_jumpLeft"), "jumpLeft");
+    ent->addAnim(this->_anims->getRes("hero_jumpRight"), "jumpRight");
+    ent->addAnim(this->_anims->getRes("hero_fightLeft"), "fightLeft");
+    ent->addAnim(this->_anims->getRes("hero_fightRight"), "fightRight");
     this->_entities->add(ent,"player");
     /**************************************************************************************/
+   // Unit *ent2 = new Unit(this->_anims->getRes("hero_stayLeft"), 250, 0, polygon_Player, polygon_PlayerPhysList, this->world, Physics::DYNAMIC, this->SCALE);
+   // this->_entities->add(ent2,"enemy");
+    /**************************************************************************************/
+
 
     /***************  Создание окружения, назначение стандартной анимации ********************/
     Entity *ents = NULL;
@@ -213,23 +217,26 @@ bool App::Init()
     ents = new Entity(this->_anims->getRes("road"), 64,190, polygon_Ground, polygon_GroundPhysList, this->world, Physics::STATIC, this->SCALE);
     this->_entities->add(ents,"dnishe2");
 
-    ents = new Entity(this->_anims->getRes("road"), 128,200, polygon_Ground, polygon_GroundPhysList, this->world, Physics::STATIC, this->SCALE);
+    ents = new Entity(this->_anims->getRes("road"), 128,190, polygon_Ground, polygon_GroundPhysList, this->world, Physics::STATIC, this->SCALE);
     this->_entities->add(ents,"dnishe3");
 
-    ents = new Entity(this->_anims->getRes("road"), 192,210, polygon_Ground, polygon_GroundPhysList, this->world, Physics::STATIC, this->SCALE);
+    ents = new Entity(this->_anims->getRes("road"), 192,190, polygon_Ground, polygon_GroundPhysList, this->world, Physics::STATIC, this->SCALE);
     this->_entities->add(ents,"dnishe4");
 
-    ents = new Entity(this->_anims->getRes("road"), 256,220, polygon_Ground, polygon_GroundPhysList, this->world, Physics::STATIC, this->SCALE);
+    ents = new Entity(this->_anims->getRes("road"), 256,190, polygon_Ground, polygon_GroundPhysList, this->world, Physics::STATIC, this->SCALE);
     this->_entities->add(ents,"dnishe5");
 
-    ents = new Entity(this->_anims->getRes("road"), 320,230, polygon_Ground, polygon_GroundPhysList, this->world, Physics::STATIC, this->SCALE);
+    ents = new Entity(this->_anims->getRes("road"), 256,-60, polygon_Ground, polygon_GroundPhysList, this->world, Physics::STATIC, this->SCALE);
     this->_entities->add(ents,"dnishe6");
 
-    ents = new Entity(this->_anims->getRes("road"), 384,240, polygon_Ground, polygon_GroundPhysList, this->world, Physics::STATIC, this->SCALE);
+    ents = new Entity(this->_anims->getRes("road"), 320,190, polygon_Ground, polygon_GroundPhysList, this->world, Physics::STATIC, this->SCALE);
     this->_entities->add(ents,"dnishe7");
 
-    ents = new Entity(this->_anims->getRes("road"), -380,0, polygon_Ground, polygon_GroundPhysList, this->world, Physics::STATIC, this->SCALE);
+    ents = new Entity(this->_anims->getRes("road"), 384,190, polygon_Ground, polygon_GroundPhysList, this->world, Physics::STATIC, this->SCALE);
     this->_entities->add(ents,"dnishe8");
+
+    ents = new Entity(this->_anims->getRes("road"), -380,0, polygon_Ground, polygon_GroundPhysList, this->world, Physics::STATIC, this->SCALE);
+    this->_entities->add(ents,"dnishe9");
     /*********************************************************************/
 
     connect(this->control, SIGNAL(setEntControl(Unit::ORDER)), this->_entities->getRes("player"), SLOT(setControl(Unit::ORDER)));
