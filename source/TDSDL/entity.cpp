@@ -58,9 +58,26 @@ float Entity::getY()
     return this->y;
 }
 
-sf::ConvexShape Entity::refresh(sf::Time time)
+QList< sf::ConvexShape > Entity::getPhysShapeList()
 {
-    return this->animate(time);
+    b2Body * body = this->phys.getpHbody();
+
+    float newX = body->GetPosition().x * 30.f;
+    float newY = body->GetPosition().y * 30.f;
+
+    QList< b2PolygonShape > b2shapes = this->phys.getShapeList();
+    QList< sf::ConvexShape > shapes;
+    foreach (b2PolygonShape b2shape, b2shapes) {
+        sf::ConvexShape sh(b2shape.GetVertexCount());
+        for(int i = 0; i < b2shape.GetVertexCount(); ++i)
+            sh.setPoint(i, sf::Vector2f(b2shape.GetVertex(i).x * 30.f + newX, b2shape.GetVertex(i).y * 30.f + newY));
+        sh.setOutlineColor(sf::Color::Green);
+        sh.setOutlineThickness(1.f);
+        sh.setFillColor(sf::Color::Transparent);
+        shapes.append(sh);
+    }
+
+    return shapes;
 }
 
 bool Entity::addAnim(Animation *anim, QString name)

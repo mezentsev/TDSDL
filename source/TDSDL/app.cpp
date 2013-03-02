@@ -1,5 +1,7 @@
 ﻿#include "app.h"
 
+#define DEBUG
+
 App::App()
 {
     this->screen = new sf::RenderWindow(sf::VideoMode(1000, 800, 32), "SFML window", sf::Style::Close, sf::ContextSettings(0,0,8));
@@ -160,6 +162,8 @@ bool App::Init()
     polygon_Player.setPoint(1, sf::Vector2f(170,0));
     polygon_Player.setPoint(2, sf::Vector2f(170,128));
     polygon_Player.setPoint(3, sf::Vector2f(0,128));
+    polygon_Player.setOutlineColor(sf::Color::Red);
+    polygon_Player.setOutlineThickness(1.f);
 
     sf::ConvexShape polygon_PlayerPhys(4);
     polygon_PlayerPhys.setPoint(0, sf::Vector2f(40,10));
@@ -182,14 +186,14 @@ bool App::Init()
     polygon_Ground.setPoint(1, sf::Vector2f(44,24));
     polygon_Ground.setPoint(2, sf::Vector2f(44,64));
     polygon_Ground.setPoint(3, sf::Vector2f(0,64));
+    polygon_Ground.setOutlineColor(sf::Color::Red);
+    polygon_Ground.setOutlineThickness(1.f);
 
     sf::ConvexShape polygon_GroundPhys(4);
     polygon_GroundPhys.setPoint(0, sf::Vector2f(0,10));
     polygon_GroundPhys.setPoint(1, sf::Vector2f(44,34));
-    polygon_GroundPhys.setPoint(2, sf::Vector2f(44,40));
-    polygon_GroundPhys.setPoint(3, sf::Vector2f(4,40));
-
-
+    polygon_GroundPhys.setPoint(2, sf::Vector2f(44,64));
+    polygon_GroundPhys.setPoint(3, sf::Vector2f(0,64));
 
     QList<sf::ConvexShape> polygon_GroundPhysList;
     polygon_GroundPhysList.append(polygon_GroundPhys);
@@ -346,6 +350,11 @@ void App::Render()
     for (i = _entities->getBegin(); i != _entities->getEnd(); ++i)
     {
         this->screen->draw((*i)->animate(this->freq));
+        #ifdef DEBUG
+        foreach (sf::ConvexShape shape, (*i)->getPhysShapeList()) {
+            this->screen->draw(shape);
+        }
+        #endif
     }
 
     this->screen->display();

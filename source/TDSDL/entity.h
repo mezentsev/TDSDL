@@ -36,7 +36,8 @@ public:
     float getX();
     float getY();
 
-    sf::ConvexShape refresh(sf::Time);
+    QList< sf::ConvexShape > getPhysShapeList();
+
     void move(float freq);
 
     bool addAnim(Animation * anim, QString name); //Привязывает анимацию с именем

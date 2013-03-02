@@ -57,6 +57,21 @@ void Physics::setShape(float x, float y, sf::ConvexShape shape)
     this->setShape(x,y,tob2shape);
 }
 
+QList<b2PolygonShape> &Physics::getShapeList()
+{
+    b2Fixture * fixtures = this->pHbody->GetFixtureList();
+    this->shape.clear();
+    while(fixtures != NULL)
+    {
+        b2PolygonShape poly = (b2PolygonShape&)*fixtures->GetShape();
+        this->shape.append(poly);
+
+        fixtures = fixtures->GetNext();
+    }
+
+    return this->shape;
+}
+
 
 void Physics::setType(B2_BODY_TYPE type)
 {
