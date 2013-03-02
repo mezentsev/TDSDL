@@ -83,9 +83,41 @@ float Physics::getGravity()
     return this->pHworld->GetGravity().y;
 }
 
-bool Physics::isContact()
+bool Physics::isContactDown()
 {
-    return this->getpHbody()->GetContactList();
+    bool flag = false;
+    b2WorldManifold worldManifold;
+    for (b2ContactEdge *edge = this->pHbody->GetContactList(); edge; edge = edge->next)
+    {
+        edge->contact->GetWorldManifold(&worldManifold);
+        if (worldManifold.normal.y > 0.8) flag = true;
+    }
+
+    return flag;
+}
+
+bool Physics::isContactRight()
+{
+    bool flag = false;
+    b2WorldManifold worldManifold;
+    for (b2ContactEdge *edge = this->pHbody->GetContactList(); edge; edge = edge->next)
+    {
+        edge->contact->GetWorldManifold(&worldManifold);
+        if (worldManifold.normal.x > 0.8) flag = true;
+    }
+    return flag;
+}
+
+bool Physics::isContactLeft()
+{
+    bool flag = false;
+    b2WorldManifold worldManifold;
+    for (b2ContactEdge *edge = this->pHbody->GetContactList(); edge; edge = edge->next)
+    {
+        edge->contact->GetWorldManifold(&worldManifold);
+        if (worldManifold.normal.x < -0.8) flag = true;
+    }
+    return flag;
 }
 
 void Physics::createBody(void * data, float SCALE)
