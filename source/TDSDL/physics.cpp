@@ -103,7 +103,7 @@ bool Physics::isContactRight()
     for (b2ContactEdge *edge = this->pHbody->GetContactList(); edge; edge = edge->next)
     {
         edge->contact->GetWorldManifold(&worldManifold);
-        if (worldManifold.normal.x > 0.8) flag = true;
+        if (worldManifold.normal.x > 0.9) flag = true;
     }
     return flag;
 }
@@ -115,7 +115,7 @@ bool Physics::isContactLeft()
     for (b2ContactEdge *edge = this->pHbody->GetContactList(); edge; edge = edge->next)
     {
         edge->contact->GetWorldManifold(&worldManifold);
-        if (worldManifold.normal.x < -0.8) flag = true;
+        if (worldManifold.normal.x < -0.9) flag = true;
     }
     return flag;
 }

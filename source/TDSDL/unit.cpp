@@ -71,35 +71,45 @@ void Unit::doPhysics(float scale)
     {
         if (this->state == WALK_LEFT || this->state == LOOK_LEFT)
             this->setState(JUMP_LEFT);
-        if (this->state == WALK_RIGHT || this->state == LOOK_RIGHT)
+        else if (this->state == WALK_RIGHT || this->state == LOOK_RIGHT)
             this->setState(JUMP_RIGHT);
     }
     //приземление
-    if (this->phys.isContactDown())
+    else
     {
         if (this->state == JUMP_LEFT)
         {
             if (this->moving == NO)
                 this->setState(LOOK_LEFT);
-            if (this->moving == LEFT)
+            else if (this->moving == LEFT)
                 this->setState(WALK_LEFT);
         }
-        if (this->state == JUMP_RIGHT)
+        else if (this->state == JUMP_RIGHT)
         {
             if (this->moving == NO)
                 this->setState(LOOK_RIGHT);
-            if (this->moving == RIGHT)
+            else if (this->moving == RIGHT)
                 this->setState(WALK_RIGHT);
         }
     }
 
     //движение
-    if (this->moving == LEFT  && !(this->state == JUMP_LEFT && this->phys.isContactLeft()))
+    if (this->moving == LEFT  && !(this->phys.isContactLeft()))
         body->SetLinearVelocity(b2Vec2(-this->rate, body->GetLinearVelocity().y));
-    if (this->moving == RIGHT && !(this->state == JUMP_RIGHT && this->phys.isContactRight()))
+    else if (this->moving == RIGHT && !(this->phys.isContactRight()))
         body->SetLinearVelocity(b2Vec2(this->rate, body->GetLinearVelocity().y));
-    if (this->moving == NO && (this->state == LOOK_LEFT || this->state == LOOK_RIGHT))
+    else if (this->moving == NO && (this->state == LOOK_LEFT || this->state == LOOK_RIGHT))
         body->SetLinearVelocity(b2Vec2(0, body->GetLinearVelocity().y));
+
+    //фикс бага box2d
+    if (this->state == WALK_LEFT && this->phys.isContactLeft())
+    {
+        body->SetTransform(b2Vec2(body->GetPosition().x+0.01, body->GetPosition().y), 0);
+    }
+    else if (this->state == WALK_RIGHT && this->phys.isContactRight())
+    {
+        body->SetTransform(b2Vec2(body->GetPosition().x-0.01, body->GetPosition().y), 0);
+    }
 
     //обновление координат
     float newX = body->GetPosition().x * scale;
