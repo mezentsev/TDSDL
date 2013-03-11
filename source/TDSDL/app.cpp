@@ -168,14 +168,10 @@ bool App::Init()
     sf::ConvexShape polygon_PlayerPhys(4);
     polygon_PlayerPhys.setPoint(0, sf::Vector2f(40,10));
     polygon_PlayerPhys.setPoint(1, sf::Vector2f(120,10));
-    polygon_PlayerPhys.setPoint(2, sf::Vector2f(120,120));
-    polygon_PlayerPhys.setPoint(3, sf::Vector2f(40,120));
+    polygon_PlayerPhys.setPoint(2, sf::Vector2f(120,110));
+    polygon_PlayerPhys.setPoint(3, sf::Vector2f(40,110));
 
     sf::ConvexShape polygon_PlayerPhys2(4);
-//    polygon_PlayerPhys2.setPoint(0, sf::Vector2f(40,120));
-//    polygon_PlayerPhys2.setPoint(1, sf::Vector2f(120,120));
-//    polygon_PlayerPhys2.setPoint(2, sf::Vector2f(85,128));
-//    polygon_PlayerPhys2.setPoint(3, sf::Vector2f(75,128));
     polygon_PlayerPhys2.setPoint(0, sf::Vector2f(40,120));
     polygon_PlayerPhys2.setPoint(1, sf::Vector2f(120,120));
     polygon_PlayerPhys2.setPoint(2, sf::Vector2f(120,128));
@@ -183,7 +179,7 @@ bool App::Init()
 
     QList<sf::ConvexShape> polygon_PlayerPhysList;
     polygon_PlayerPhysList.append(polygon_PlayerPhys);
-    polygon_PlayerPhysList.append(polygon_PlayerPhys2);
+  //  polygon_PlayerPhysList.append(polygon_PlayerPhys2);
 
     sf::ConvexShape polygon_Ground(4);
     polygon_Ground.setPoint(0, sf::Vector2f(0,0));
@@ -214,9 +210,9 @@ bool App::Init()
     ent->addAnim(this->_anims->getRes("hero_fightLeft"), "fightLeft");
     ent->addAnim(this->_anims->getRes("hero_fightRight"), "fightRight");
     this->_entities->add(ent,"player");
-    /**************************************************************************************/
-   // Unit *ent2 = new Unit(this->_anims->getRes("hero_stayLeft"), 250, 0, polygon_Player, polygon_PlayerPhysList, this->world, Physics::DYNAMIC, this->SCALE);
-   // this->_entities->add(ent2,"enemy");
+//    /**************************************************************************************/
+    Unit *ent2 = new Unit(this->_anims->getRes("hero_stayLeft"), 250, 0, polygon_Player, polygon_PlayerPhysList, this->world, Physics::DYNAMIC, this->SCALE);
+    this->_entities->add(ent2,"enemy");
     /**************************************************************************************/
 
 

@@ -27,15 +27,19 @@ void Physics::setWorld(b2World * world)
 
 b2Body * Physics::getpHbody()
 {
-    for (b2Body* BodyIterator = this->pHworld->GetBodyList(); BodyIterator != 0; BodyIterator = BodyIterator->GetNext())
-    {
-        if (BodyIterator->GetUserData() == this->data)
-        {
-            return BodyIterator;
-        }
-    }
+//    for (b2Body* BodyIterator = this->pHworld->GetBodyList(); BodyIterator != 0; BodyIterator = BodyIterator->GetNext())
+//    {
+//        if (BodyIterator->GetUserData() == this->data)
+//       // if (this->type == b2_dynamicBody) qDebug()<<this<<(Physics*)BodyIterator->GetUserData();
+//        {
+//      //      if (this->type == b2_dynamicBody) qDebug()<<BodyIterator;
+//            return BodyIterator;
+//        }
+//    }
 
-    return NULL;
+//    return NULL;
+
+    return this->pHbody;
 }
 
 void Physics::setShape(float x, float y, b2PolygonShape shape)
@@ -85,26 +89,34 @@ float Physics::getGravity()
 
 bool Physics::isContactDown()
 {
-    bool flag = false;
+   // bool flag = false;
     b2WorldManifold worldManifold;
-    for (b2ContactEdge *edge = this->pHbody->GetContactList(); edge; edge = edge->next)
+    for (b2ContactEdge *edge = this->getpHbody()->GetContactList(); edge; edge = edge->next)
     {
         edge->contact->GetWorldManifold(&worldManifold);
-        if (worldManifold.normal.y > 0.8) flag = true;
+        b2Vec2 normal = normal = worldManifold.normal;
+        if (worldManifold.normal.y > 0.75)// flag = true;
+            return true;
     }
 
-    return flag;
+    qDebug()<<"****************";
+    qDebug()<<"****************";
+
+//    return flag;
+    return false;
 }
 
 bool Physics::isContactRight()
 {
     bool flag = false;
     b2WorldManifold worldManifold;
-    for (b2ContactEdge *edge = this->pHbody->GetContactList(); edge; edge = edge->next)
+    for (b2ContactEdge *edge = this->getpHbody()->GetContactList(); edge; edge = edge->next)
     {
         edge->contact->GetWorldManifold(&worldManifold);
         if (worldManifold.normal.x > 0.9) flag = true;
+      //  qDebug()<<worldManifold.normal.y<<pHbody->GetPosition().x;
     }
+  //  qDebug()<<"****************";
     return flag;
 }
 
@@ -112,7 +124,7 @@ bool Physics::isContactLeft()
 {
     bool flag = false;
     b2WorldManifold worldManifold;
-    for (b2ContactEdge *edge = this->pHbody->GetContactList(); edge; edge = edge->next)
+    for (b2ContactEdge *edge = this->getpHbody()->GetContactList(); edge; edge = edge->next)
     {
         edge->contact->GetWorldManifold(&worldManifold);
         if (worldManifold.normal.x < -0.9) flag = true;
@@ -129,6 +141,7 @@ void Physics::createBody(void * data, float SCALE)
     BodyDef.fixedRotation = true;
     this->pHbody = this->pHworld->CreateBody(&BodyDef);
     this->pHbody->SetUserData(data);
+  //  this->pHbody->SetUserData(this);
 
     b2FixtureDef FixtureDef;
     if (!this->shape.isEmpty())

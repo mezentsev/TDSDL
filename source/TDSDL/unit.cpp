@@ -114,9 +114,9 @@ void Unit::doPhysics(float scale)
     //обновление координат
     float newX = body->GetPosition().x * scale;
     float newY = body->GetPosition().y * scale;
-    float newAngle = remainder(body->GetAngle()*180/b2_pi,360.f);
+    //float newAngle = remainder(body->GetAngle()*180/b2_pi,360.f);
     this->setXY(newX, newY);
-    this->setAngle(newAngle);
+    //this->setAngle(newAngle);
 }
 
 
