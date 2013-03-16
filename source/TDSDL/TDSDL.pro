@@ -35,7 +35,8 @@ HEADERS += \
   #  e_ground.h \
     control.h \
     unit.h \
-    physics.h
+    physics.h \
+    contactlistener.h
 
 SOURCES += \
     main.cpp \
@@ -48,4 +49,5 @@ SOURCES += \
     #e_ground.cpp \
     control.cpp \
     unit.cpp \
-    physics.cpp
+    physics.cpp \
+    contactlistener.cpp

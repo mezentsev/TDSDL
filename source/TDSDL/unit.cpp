@@ -4,6 +4,9 @@
 
 Unit::Unit(Animation *default_anim, int x, int y, sf::ConvexShape shape, QList<sf::ConvexShape> physShapes, b2World * world, Physics::B2_BODY_TYPE type, float SCALE) : Entity(default_anim,x,y,shape,physShapes,world,type,SCALE)
 {
+    connect(&this->phys, SIGNAL(landing()), this, SLOT(landFind()));
+    connect(&this->phys, SIGNAL(jumping()), this, SLOT(landLost()));
+
     this->setState(LOOK_RIGHT);
     this->moving = NO;
     this->jump_hight = 4;
@@ -57,6 +60,36 @@ void Unit::setState(STATE state)
     setAnim(name);
 }
 
+void Unit::landLost()
+{
+    if (!this->phys.isContactDown())
+    {
+        if (this->state == WALK_LEFT || this->state == LOOK_LEFT)
+            this->setState(JUMP_LEFT);
+        else if (this->state == WALK_RIGHT || this->state == LOOK_RIGHT)
+            this->setState(JUMP_RIGHT);
+    }
+}
+
+void Unit::landFind()
+{
+    if (this->state == JUMP_LEFT)
+    {
+        if (this->moving == NO)
+            this->setState(LOOK_LEFT);
+        else if (this->moving == LEFT)
+            this->setState(WALK_LEFT);
+    }
+    else if (this->state == JUMP_RIGHT)
+    {
+        if (this->moving == NO)
+            this->setState(LOOK_RIGHT);
+        else if (this->moving == RIGHT)
+            this->setState(WALK_RIGHT);
+    }
+}
+
+
 int Unit::getState()
 {
     return this->state;
@@ -66,32 +99,32 @@ void Unit::doPhysics(float scale)
 {
     b2Body * body = this->phys.getpHbody();
 
-    //старт прыжка
-    if (!this->phys.isContactDown())
-    {
-        if (this->state == WALK_LEFT || this->state == LOOK_LEFT)
-            this->setState(JUMP_LEFT);
-        else if (this->state == WALK_RIGHT || this->state == LOOK_RIGHT)
-            this->setState(JUMP_RIGHT);
-    }
-    //приземление
-    else
-    {
-        if (this->state == JUMP_LEFT)
-        {
-            if (this->moving == NO)
-                this->setState(LOOK_LEFT);
-            else if (this->moving == LEFT)
-                this->setState(WALK_LEFT);
-        }
-        else if (this->state == JUMP_RIGHT)
-        {
-            if (this->moving == NO)
-                this->setState(LOOK_RIGHT);
-            else if (this->moving == RIGHT)
-                this->setState(WALK_RIGHT);
-        }
-    }
+//    //старт прыжка
+//    if (!this->phys.isContactDown())
+//    {
+//        if (this->state == WALK_LEFT || this->state == LOOK_LEFT)
+//            this->setState(JUMP_LEFT);
+//        else if (this->state == WALK_RIGHT || this->state == LOOK_RIGHT)
+//            this->setState(JUMP_RIGHT);
+//    }
+//    //приземление
+//    else
+//    {
+//        if (this->state == JUMP_LEFT)
+//        {
+//            if (this->moving == NO)
+//                this->setState(LOOK_LEFT);
+//            else if (this->moving == LEFT)
+//                this->setState(WALK_LEFT);
+//        }
+//        else if (this->state == JUMP_RIGHT)
+//        {
+//            if (this->moving == NO)
+//                this->setState(LOOK_RIGHT);
+//            else if (this->moving == RIGHT)
+//                this->setState(WALK_RIGHT);
+//        }
+//    }
 
     //движение
     if (this->moving == LEFT  && !(this->phys.isContactLeft()))
@@ -102,14 +135,14 @@ void Unit::doPhysics(float scale)
         body->SetLinearVelocity(b2Vec2(0, body->GetLinearVelocity().y));
 
     //фикс бага box2d
-    if (this->state == WALK_LEFT && this->phys.isContactLeft())
-    {
-        body->SetTransform(b2Vec2(body->GetPosition().x+0.01, body->GetPosition().y), 0);
-    }
-    else if (this->state == WALK_RIGHT && this->phys.isContactRight())
-    {
-        body->SetTransform(b2Vec2(body->GetPosition().x-0.01, body->GetPosition().y), 0);
-    }
+//    if (this->state == WALK_LEFT && this->phys.isContactLeft())
+//    {
+//        body->SetTransform(b2Vec2(body->GetPosition().x+0.01, body->GetPosition().y), 0);
+//    }
+//    else if (this->state == WALK_RIGHT && this->phys.isContactRight())
+//    {
+//        body->SetTransform(b2Vec2(body->GetPosition().x-0.01, body->GetPosition().y), 0);
+//    }
 
     //обновление координат
     float newX = body->GetPosition().x * scale;

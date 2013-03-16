@@ -27,18 +27,6 @@ void Physics::setWorld(b2World * world)
 
 b2Body * Physics::getpHbody()
 {
-//    for (b2Body* BodyIterator = this->pHworld->GetBodyList(); BodyIterator != 0; BodyIterator = BodyIterator->GetNext())
-//    {
-//        if (BodyIterator->GetUserData() == this->data)
-//       // if (this->type == b2_dynamicBody) qDebug()<<this<<(Physics*)BodyIterator->GetUserData();
-//        {
-//      //      if (this->type == b2_dynamicBody) qDebug()<<BodyIterator;
-//            return BodyIterator;
-//        }
-//    }
-
-//    return NULL;
-
     return this->pHbody;
 }
 
@@ -89,20 +77,19 @@ float Physics::getGravity()
 
 bool Physics::isContactDown()
 {
-   // bool flag = false;
-    b2WorldManifold worldManifold;
+    bool flag = false;
     for (b2ContactEdge *edge = this->getpHbody()->GetContactList(); edge; edge = edge->next)
     {
+        b2WorldManifold worldManifold;
         edge->contact->GetWorldManifold(&worldManifold);
-        b2Vec2 normal = normal = worldManifold.normal;
-        if (worldManifold.normal.y > 0.75)// flag = true;
+
+        if (worldManifold.normal.y > 0.75)
+        {
+  //          flag = true;
             return true;
+        }
     }
-
-    qDebug()<<"****************";
-    qDebug()<<"****************";
-
-//    return flag;
+  //      return flag;
     return false;
 }
 
@@ -116,7 +103,7 @@ bool Physics::isContactRight()
         if (worldManifold.normal.x > 0.9) flag = true;
       //  qDebug()<<worldManifold.normal.y<<pHbody->GetPosition().x;
     }
-  //  qDebug()<<"****************";
+
     return flag;
 }
 
@@ -132,6 +119,32 @@ bool Physics::isContactLeft()
     return flag;
 }
 
+void Physics::begin(b2Contact *contact)
+{
+    b2WorldManifold man;
+    contact->GetWorldManifold(&man);
+    if (man.normal.y > 0.75)
+        emit this->landing();
+}
+
+void Physics::end(b2Contact *contact)
+{
+    b2WorldManifold man;
+    contact->GetWorldManifold(&man);
+    if (man.normal.y < 0.75)
+        emit this->jumping();
+}
+
+//void Physics::BeginContact(b2Contact *contact)
+//{
+//    qDebug()<<111;
+//}
+
+//void Physics::EndContact(b2Contact *contact)
+//{
+//    qDebug()<<222;
+//}
+
 void Physics::createBody(void * data, float SCALE)
 {
     this->data = data;
@@ -140,8 +153,8 @@ void Physics::createBody(void * data, float SCALE)
     BodyDef.type = this->type;
     BodyDef.fixedRotation = true;
     this->pHbody = this->pHworld->CreateBody(&BodyDef);
-    this->pHbody->SetUserData(data);
-  //  this->pHbody->SetUserData(this);
+  //  this->pHbody->SetUserData(data);
+    this->pHbody->SetUserData(this);
 
     b2FixtureDef FixtureDef;
     if (!this->shape.isEmpty())

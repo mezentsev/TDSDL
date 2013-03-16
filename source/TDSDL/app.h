@@ -13,6 +13,8 @@
 #include <SFML/Graphics.hpp>
 #include <Box2D/Box2D.h>
 
+#include "contactlistener.h"
+
 class App : public QObject
 {
     Q_OBJECT
@@ -34,6 +36,7 @@ private:
     b2World * world; // Этот мир
                      // Обычный мальчик
                      // Коробки
+    ContactListener *listener;
     float SCALE;
     QString resPath;
 

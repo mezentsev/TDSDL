@@ -18,6 +18,8 @@ App::App()
     this->_cameras    = new Resources<sf::View>();
 
     this->world = new b2World(b2Vec2(0.f, 15.0f));
+    this->listener = new ContactListener();
+    this->world->SetContactListener(listener);
 
     this->SCALE = 30.f;
     this->resPath = "resource.tdsdl";
@@ -166,20 +168,20 @@ bool App::Init()
     polygon_Player.setOutlineThickness(1.f);
 
     sf::ConvexShape polygon_PlayerPhys(4);
-    polygon_PlayerPhys.setPoint(0, sf::Vector2f(40,10));
-    polygon_PlayerPhys.setPoint(1, sf::Vector2f(120,10));
-    polygon_PlayerPhys.setPoint(2, sf::Vector2f(120,110));
-    polygon_PlayerPhys.setPoint(3, sf::Vector2f(40,110));
+    polygon_PlayerPhys.setPoint(0, sf::Vector2f(40,0));
+    polygon_PlayerPhys.setPoint(1, sf::Vector2f(120,0));
+    polygon_PlayerPhys.setPoint(2, sf::Vector2f(120,100));
+    polygon_PlayerPhys.setPoint(3, sf::Vector2f(40,100));
 
     sf::ConvexShape polygon_PlayerPhys2(4);
-    polygon_PlayerPhys2.setPoint(0, sf::Vector2f(40,120));
-    polygon_PlayerPhys2.setPoint(1, sf::Vector2f(120,120));
+    polygon_PlayerPhys2.setPoint(0, sf::Vector2f(40,105));
+    polygon_PlayerPhys2.setPoint(1, sf::Vector2f(120,105));
     polygon_PlayerPhys2.setPoint(2, sf::Vector2f(120,128));
     polygon_PlayerPhys2.setPoint(3, sf::Vector2f(40,128));
 
     QList<sf::ConvexShape> polygon_PlayerPhysList;
     polygon_PlayerPhysList.append(polygon_PlayerPhys);
-  //  polygon_PlayerPhysList.append(polygon_PlayerPhys2);
+    //polygon_PlayerPhysList.append(polygon_PlayerPhys2);
 
     sf::ConvexShape polygon_Ground(4);
     polygon_Ground.setPoint(0, sf::Vector2f(0,0));
@@ -200,7 +202,7 @@ bool App::Init()
     polygon_GroundPhysList.append(polygon_GroundPhys);
 
     /***************  Создание игрока, назначение стандартной анимации ********************/
-    Unit *ent = new Unit(this->_anims->getRes("hero_stayRight"), 0, 0, polygon_Player, polygon_PlayerPhysList, this->world, Physics::DYNAMIC, this->SCALE);
+    Unit *ent = new Unit(this->_anims->getRes("hero_stayRight"), 200, -150, polygon_Player, polygon_PlayerPhysList, this->world, Physics::DYNAMIC, this->SCALE);
     ent->addAnim(this->_anims->getRes("hero_runRight"), "runRight");
     ent->addAnim(this->_anims->getRes("hero_runLeft"), "runLeft");
     ent->addAnim(this->_anims->getRes("hero_stayLeft"), "stayLeft");
@@ -213,6 +215,8 @@ bool App::Init()
 //    /**************************************************************************************/
     Unit *ent2 = new Unit(this->_anims->getRes("hero_stayLeft"), 250, 0, polygon_Player, polygon_PlayerPhysList, this->world, Physics::DYNAMIC, this->SCALE);
     this->_entities->add(ent2,"enemy");
+    Unit *ent3 = new Unit(this->_anims->getRes("hero_stayLeft"), 200, 0, polygon_Player, polygon_PlayerPhysList, this->world, Physics::DYNAMIC, this->SCALE);
+    this->_entities->add(ent3,"enemy1");
     /**************************************************************************************/
 
 
@@ -249,7 +253,7 @@ bool App::Init()
     ents = new Entity(this->_anims->getRes("road"), 512,-60, polygon_Ground, polygon_GroundPhysList, this->world, Physics::STATIC, this->SCALE);
     this->_entities->add(ents,"dnishe11");
 
-    ents = new Entity(this->_anims->getRes("road"), -380,0, polygon_Ground, polygon_GroundPhysList, this->world, Physics::STATIC, this->SCALE);
+    ents = new Entity(this->_anims->getRes("road"), -380,50, polygon_Ground, polygon_GroundPhysList, this->world, Physics::STATIC, this->SCALE);
     this->_entities->add(ents,"dnishe12");
     /*********************************************************************/
 

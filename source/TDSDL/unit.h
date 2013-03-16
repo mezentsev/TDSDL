@@ -4,6 +4,8 @@
 #include "entity.h"
 #include <QString>
 
+#include "contactlistener.h"
+
 class Unit : public Entity
 {
     Q_OBJECT
@@ -37,6 +39,8 @@ public:
 public slots:
     void setControl(Unit::ORDER order);
     void setState(Unit::STATE state);
+    void landLost();
+    void landFind();
 
 private:
     STATE state;

@@ -62,6 +62,13 @@ public:
     bool isContactDown();
     bool isContactRight();
     bool isContactLeft();
+
+    void begin(b2Contact *contact);
+    void end(b2Contact *contact);
+
+signals:
+    void landing();
+    void jumping();
 };
 
 #endif // PHYSICS_H
