@@ -2,17 +2,21 @@
            _UNIX UNIX
 TEMPLATE = app
 
+QMAKE_CXXFLAGS += -std=gnu++0x
+QT += opengl
+
 win32 {
     INCLUDEPATH += "C:\SFML\SFML-2.0\include" \
-                   "C:\BOX2D\include"
+                   "C:\glew-1.9.0\include"
 
     LIBS += -L"C:\SFML\SFML-2.0\lib" \
-        -llibsfml-main \
-        -llibsfml-system \
-        -llibsfml-window \
-        -llibsfml-graphics \
-        -L"C:\BOX2D\lib" \
-        -llibBox2D
+        -lsfml-system \
+        -lsfml-window \
+        -lsfml-graphics \
+        -lsfml-audio \
+        -L"C:\glew-1.9.0\lib" \
+        -lglew32 \
+        -lglu32
 }
 
 unix {
@@ -25,29 +29,26 @@ unix {
 }
 
 HEADERS += \
-    app.h \
-    entity.h \
-    #e_tower.h \
-    #e_enemy.h \
-    animation.h \
-    resources.h \
-    map.h \
-  #  e_ground.h \
-    control.h \
-    unit.h \
-    physics.h \
-    contactlistener.h
+    LTBL/ShadowFin.h \
+    LTBL/SFML_OpenGL.h \
+    LTBL/QuadTreeOccupant.h \
+    LTBL/QuadTreeNode.h \
+    LTBL/QuadTree.h \
+    LTBL/LightSystem.h \
+    LTBL/Light_Beam.h \
+    LTBL/Light.h \
+    LTBL/ConvexHull.h \
+    LTBL/Constructs.h
 
 SOURCES += \
     main.cpp \
-    app.cpp \
-    entity.cpp \
-    #e_tower.cpp \
-    #e_enemy.cpp \
-    animation.cpp \
-    map.cpp \
-    #e_ground.cpp \
-    control.cpp \
-    unit.cpp \
-    physics.cpp \
-    contactlistener.cpp
+    LTBL/ShadowFin.cpp \
+    LTBL/SFML_OpenGL.cpp \
+    LTBL/QuadTreeOccupant.cpp \
+    LTBL/QuadTreeNode.cpp \
+    LTBL/QuadTree.cpp \
+    LTBL/LightSystem.cpp \
+    LTBL/Light_Beam.cpp \
+    LTBL/Light.cpp \
+    LTBL/ConvexHull.cpp \
+    LTBL/Constructs.cpp

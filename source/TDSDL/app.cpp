@@ -4,9 +4,10 @@
 
 App::App()
 {
-    this->screen = new sf::RenderWindow(sf::VideoMode(1000, 800, 32), "SFML window", sf::Style::Close, sf::ContextSettings(0,0,8));
+    this->screen = new sf::RenderWindow(sf::VideoMode(1000, 800, 32), "SFML Game", sf::Style::Close, sf::ContextSettings(0,0,8));
     this->screen->setFramerateLimit(60); // Ограничение для правильной работы физ.движка
     this->screen->setVerticalSyncEnabled(true);
+    //glEnable(GL_TEXTURE_2D);
 
     this->control = new Control;
     connect(this->control, SIGNAL(end()), this, SLOT(Close()));
@@ -25,6 +26,21 @@ App::App()
     this->resPath = "resource.tdsdl";
 
     this->levels();
+//    ltbl::LightSystem l(
+//                         AABB(
+//                            Vec2f(0.0f, 0.0f),
+//                            Vec2f(100.f,200.f)
+//                              ),
+//                         this->screen, std::string("data/lightFin.png"), std::string("data/shaders/lightAttenuationShader.frag")
+//                         );
+
+//    this->ls = new ltbl::LightSystem(
+//                         AABB(
+//                            Vec2f(0.0f, 0.0f),
+//                            Vec2f(100.f,200.f)
+//                              ),
+//                         this->screen, std::string("data/lightFin.png"), std::string("data/shaders/lightAttenuationShader.frag")
+//                         );
 }
 
 bool App::Load()
@@ -83,6 +99,12 @@ bool App::Load()
     image->setSmooth(true);
     image->setRepeated(true);
     _textures->add(image,"road");
+
+    image = new sf::Texture();
+    if (!image->loadFromFile("images/background.png")) return false;
+    image->setSmooth(true);
+    image->setRepeated(true);
+    _textures->add(image,"background");
     /*********************************************************************/
 
 
@@ -113,6 +135,10 @@ bool App::Load()
 
     spr = new sf::Sprite(*_textures->getRes("road"));
     this->_sprites->add(spr, "road");
+
+    spr = new sf::Sprite(*_textures->getRes("background"));
+    spr->setTextureRect(sf::IntRect(0,0,1000,800)); //TODO: ширина и высота
+    this->_sprites->add(spr, "background");
     /*********************************************************************/
 
 
@@ -350,6 +376,7 @@ void App::Event(sf::Event *event)
 // Функция обрабатывает обновление данных, например движение NPC по экрану, уменьшение здоровье персонажа и так далее.
 void App::Loop()
 {
+
     QMap<QString, Entity*>::iterator i;
     for (i = _entities->getBegin(); i != _entities->getEnd(); ++i)
     {
@@ -363,6 +390,8 @@ void App::Loop()
 void App::Render()
 {
     this->screen->setView(*mainCamera);
+
+    this->screen->draw(*(_sprites->getRes("background")));
 
     QMap<QString, Entity*>::iterator i;
     for (i = _entities->getBegin(); i != _entities->getEnd(); ++i)
@@ -388,6 +417,7 @@ void App::Cleanup()
     delete this->_entities;
     delete this->_cameras;
     delete this->world;
+    //delete this->ls;
 }
 
 void App::createGround(int x, int y)
@@ -402,43 +432,6 @@ void App::Close()
 {
     this->screen->close();
 }
-
-//void App::readMap(QString path)
-//{
-//    QFile file(path);
-//    if (!file.open(QIODevice::ReadOnly))
-//    {
-//        printf("Unable to open file\n");
-//        return;
-//    }
-//    QTextStream in(&file);
-//    // а вот то, что в комментах, нужно будет для бинарников
-//    //QDataStream in(&file);
-//    //in.setVersion(QDataStream::Qt_4_3);
-
-//    int width, height;
-//    in >> width;
-//    in >> height;
-
-//    // Инициализация карт и добавление их в ресурсы
-//    Map *map1 = new Map(width,height);
-//    Map *map2 = new Map(width,height);
-//    Map *map3 = new Map(width,height);
-
-//    this->_maps->add(map1,"Ground");
-//    this->_maps->add(map2,"Enemy");
-//    this->_maps->add(map3,"Tower");
-
-//    int type;
-//    for (int y=0; y<height; y++)
-//    {
-//        for (int x=0; x<width; x++)
-//        {
-//            in >> type;
-//            map1->setCell(x,y,type);
-//        }
-//    }
-//}
 
 void App::levels()
 {

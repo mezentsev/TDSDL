@@ -12,6 +12,9 @@
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
 #include <Box2D/Box2D.h>
+//#include <LTBL/Light/Light_Point.h>
+//#include <LTBL/Utils.h>
+//#include <QtOpenGL/qgl.h>
 
 #include "contactlistener.h"
 
@@ -22,6 +25,8 @@ class App : public QObject
 private:
     sf::RenderWindow *screen;
     sf::View *mainCamera;
+
+    //Vec2f v;
 
     Resources<sf::Texture> * _textures;
     Resources<sf::Sprite>  * _sprites;
