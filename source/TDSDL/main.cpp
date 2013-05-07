@@ -29,7 +29,6 @@ unsigned int GetFrameRate(const sf::Uint32 time)
 
 int main(int argc, char** args)
 {
-    qDebug() << 111;
     sf::VideoMode vidMode;
     vidMode.width = 800;
     vidMode.height = 600;
@@ -43,14 +42,13 @@ int main(int argc, char** args)
 
     sf::Texture backgroundImage;
 
-    //assert(backgroundImage.loadFromFile("data/background.png"));
+    backgroundImage.loadFromFile("data/background.png");
 
     // Tiling background
     backgroundImage.setRepeated(true);
 
     sf::Sprite backgroundSprite(backgroundImage);
     backgroundSprite.setTextureRect(sf::IntRect(0, 0, vidMode.width, vidMode.height));
-
   sf::RectangleShape testShape(sf::Vector2f(10, 10));
   testShape.setPosition(30, 30);
 
