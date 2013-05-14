@@ -12,9 +12,7 @@
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
 #include <Box2D/Box2D.h>
-//#include <LTBL/Light/Light_Point.h>
-//#include <LTBL/Utils.h>
-//#include <QtOpenGL/qgl.h>
+#include <LTBL/LightSystem.h>
 
 #include "contactlistener.h"
 
@@ -26,7 +24,7 @@ private:
     sf::RenderWindow *screen;
     sf::View *mainCamera;
 
-    //Vec2f v;
+    ltbl::LightSystem *lights;
 
     Resources<sf::Texture> * _textures;
     Resources<sf::Sprite>  * _sprites;

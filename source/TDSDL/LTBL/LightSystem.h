@@ -1,4 +1,4 @@
-#ifndef LIGHTSYSTEM_H
+﻿#ifndef LIGHTSYSTEM_H
 #define LIGHTSYSTEM_H
 
 #include "Light.h"
@@ -94,6 +94,7 @@ namespace ltbl
 
 		void BuildLight(Light* pLight);
 
+        void SetView(const sf::View &view);
 		// Clears all lights
 		void ClearLights();
 

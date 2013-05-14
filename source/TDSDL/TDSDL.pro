@@ -16,7 +16,9 @@ win32 {
         -llibsfml-audio \
         -L"C:\glew-1.9.0\lib" \
         -lglew32 \
-        -lglu32
+        -lglu32 \
+        -L"C:\box2d\lib" \
+        -llibBox2D
 }
 
 unix {
@@ -38,7 +40,15 @@ HEADERS += \
     LTBL/Light_Beam.h \
     LTBL/Light.h \
     LTBL/ConvexHull.h \
-    LTBL/Constructs.h
+    LTBL/Constructs.h \
+    control.h \
+    resources.h \
+    animation.h \
+    entity.h \
+    unit.h \
+    physics.h \
+    contactlistener.h \
+    app.h
 
 SOURCES += \
     main.cpp \
@@ -51,4 +61,11 @@ SOURCES += \
     LTBL/Light_Beam.cpp \
     LTBL/Light.cpp \
     LTBL/ConvexHull.cpp \
-    LTBL/Constructs.cpp
+    LTBL/Constructs.cpp \
+    control.cpp \
+    animation.cpp \
+    entity.cpp \
+    unit.cpp \
+    physics.cpp \
+    contactlistener.cpp \
+    app.cpp

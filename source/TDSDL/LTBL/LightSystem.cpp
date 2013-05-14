@@ -1,4 +1,4 @@
-#include "LTBL/LightSystem.h"
+﻿#include "LTBL/LightSystem.h"
 
 #include "LTBL/ShadowFin.h"
 
@@ -84,7 +84,7 @@ LightSystem::LightSystem(const AABB &region, sf::RenderWindow* pRenderWindow)
 	: ambientColor(0, 0, 0), checkForHullIntersect(true),
 	prebuildTimer(0), pWin(pRenderWindow)
 {
-	view.setCenter(sf::Vector2f(0.0f, 0.0f));
+    view.setCenter(sf::Vector2f(0.0f, 0.0f));
 	view.setSize(sf::Vector2f(static_cast<float>(pRenderWindow->getSize().x), static_cast<float>(pRenderWindow->getSize().y)));
 
 	// Load the soft shadows texture
@@ -101,6 +101,16 @@ LightSystem::~LightSystem()
 	ClearConvexHulls();
 	ClearEmissiveLights();
 }
+
+//void LightSystem::SetView(const sf::View &view)
+//{
+//    sf::Vector2f viewSize(view.getSize());
+//    m_viewAABB.SetDims(Vec2f(viewSize.x, viewSize.y));
+//    sf::Vector2f viewCenter(view.getCenter());
+
+//    // Flipped
+//    m_viewAABB.SetCenter(Vec2f(viewCenter.x, viewSize.y - viewCenter.y));
+//}
 
 void LightSystem::CameraSetup()
 {

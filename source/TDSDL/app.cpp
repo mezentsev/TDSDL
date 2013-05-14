@@ -26,13 +26,13 @@ App::App()
     this->resPath = "resource.tdsdl";
 
     this->levels();
-//    ltbl::LightSystem l(
-//                         AABB(
-//                            Vec2f(0.0f, 0.0f),
-//                            Vec2f(100.f,200.f)
-//                              ),
-//                         this->screen, std::string("data/lightFin.png"), std::string("data/shaders/lightAttenuationShader.frag")
-//                         );
+    this->lights = new ltbl::LightSystem(
+                         qdt::AABB(
+                            Vec2f(-600.0f, -600.0f),
+                            Vec2f(300.f,300.f)
+                              ),
+                         this->screen
+                         );
 
 //    this->ls = new ltbl::LightSystem(
 //                         AABB(
@@ -342,6 +342,43 @@ int App::Execute()
         return -1;
     }
 
+    ltbl::Light* testLight = new ltbl::Light();
+    testLight->center = Vec2f(0.0f, 0.0f);
+    testLight->radius = 500.0f;
+    testLight->size = 30.0f;
+    testLight->softSpreadAngle = 0.0f;
+    testLight->CalculateAABB();
+
+    this->lights->AddLight(testLight);
+
+    // Create a hull by loading it from a file
+    ltbl::ConvexHull* testHull = new ltbl::ConvexHull();
+
+    if(!testHull->LoadShape("data/testShape.txt"))
+        abort();
+
+    // Pre-calculate certain aspects
+    testHull->CalculateNormals();
+    testHull->GenerateAABB();
+
+    testHull->SetWorldCenter(Vec2f(0.f, 0.f));
+
+    this->lights->AddConvexHull(testHull);
+
+    // Create a hull by loading it from a file
+    ltbl::ConvexHull* testHull2 = new ltbl::ConvexHull();
+
+    if(!testHull2->LoadShape("data/testShape.txt"))
+        abort();
+
+    // Pre-calculate certain aspects
+    testHull2->CalculateNormals();
+    testHull2->GenerateAABB();
+
+    testHull2->SetWorldCenter(Vec2f(-200.0f, 300.0f));
+
+    this->lights->AddConvexHull(testHull2);
+
     sf::Event event;
     while (this->screen->isOpen())
     {
@@ -360,7 +397,41 @@ int App::Execute()
 
         this->Loop();
 
-        this->Render();        
+
+        //this->screen->setView(*mainCamera);
+        this->screen->setView(*mainCamera);
+
+        // TODO написать функцию setView
+        //this->lights->view.setCenter(sf::Vector2f(this->screen->getPosition()));
+
+        sf::Vector2i mousePos = sf::Mouse::getPosition(*this->screen);
+
+        // Update light
+        testLight->center.x = static_cast<float>(mousePos.x);
+        testLight->center.y = static_cast<float>(this->screen->getSize().y - mousePos.y);
+        testLight->UpdateTreeStatus();
+
+        this->screen->draw(*(_sprites->getRes("background")));
+
+        QMap<QString, Entity*>::iterator i;
+        for (i = _entities->getBegin(); i != _entities->getEnd(); ++i)
+        {
+            this->screen->draw((*i)->animate(this->freq));
+            #ifdef DEBUG
+            foreach (sf::ConvexShape shape, (*i)->getPhysShapeList()) {
+                this->screen->draw(shape);
+            }
+            #endif
+        }
+
+        this->lights->RenderLights();
+
+                // Draw the lights
+        this->lights->RenderLightTexture(1.0f);
+
+        this->screen->display();
+
+        //this->Render();
     }
 
     this->Cleanup();
@@ -417,7 +488,7 @@ void App::Cleanup()
     delete this->_entities;
     delete this->_cameras;
     delete this->world;
-    //delete this->ls;
+    delete this->lights;
 }
 
 void App::createGround(int x, int y)
