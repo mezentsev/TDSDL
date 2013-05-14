@@ -10,10 +10,10 @@ win32 {
                    "C:\glew-1.9.0\include"
 
     LIBS += -L"C:\SFML\SFML-2.0\lib" \
-        -llibsfml-system \
-        -llibsfml-window \
-        -llibsfml-graphics \
-        -llibsfml-audio \
+        -lsfml-system \
+        -lsfml-window \
+        -lsfml-graphics \
+        -lsfml-audio \
         -L"C:\glew-1.9.0\lib" \
         -lglew32 \
         -lglu32 \
