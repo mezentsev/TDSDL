@@ -3,18 +3,20 @@
 
 #include <QObject>
 #include <QDebug>
+
 #include "entity.h"
 #include "resources.h"
 #include "map.h"
 #include "control.h"
 #include "unit.h"
+#include "contactlistener.h"
+
 #include <QFile>
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
 #include <Box2D/Box2D.h>
-#include <LTBL/LightSystem.h>
-
-#include "contactlistener.h"
+#include <LTBL/Light/LightSystem.h>
+#include <LTBL/Light/Light_Point.h>
 
 class App : public QObject
 {

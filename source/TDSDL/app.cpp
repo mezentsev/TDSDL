@@ -26,12 +26,7 @@ App::App()
     this->resPath = "resource.tdsdl";
 
     this->levels();
-    this->lights = new ltbl::LightSystem(
-                         qdt::AABB(
-                            Vec2f(-600.0f, -600.0f),
-                            Vec2f(300.f,300.f)
-                              ),
-                         this->screen
+    this->lights = new ltbl::LightSystem(AABB(Vec2f(0.0f, 0.0f), Vec2f(static_cast<float>(this->screen->getSize().x), static_cast<float>(this->screen->getSize().y))), this->screen, "data/lightFin.png", "data/shaders/lightAttenuationShader.frag"
                          );
 
 //    this->ls = new ltbl::LightSystem(
@@ -342,14 +337,40 @@ int App::Execute()
         return -1;
     }
 
-    ltbl::Light* testLight = new ltbl::Light();
-    testLight->center = Vec2f(0.0f, 0.0f);
-    testLight->radius = 500.0f;
-    testLight->size = 30.0f;
-    testLight->softSpreadAngle = 0.0f;
+    // Create a light
+    ltbl::Light_Point* testLight = new ltbl::Light_Point();
+    testLight->m_intensity = 2.0f;
+    testLight->m_center = Vec2f(200.0f, 200.0f);
+    testLight->m_radius = 600.0f;
+    testLight->m_size = 15.0f;
+    testLight->m_spreadAngle = ltbl::pifTimes2;
+    testLight->m_softSpreadAngle = 0.0f;
     testLight->CalculateAABB();
 
+    testLight->m_bleed = 0.4f;
+    testLight->m_linearizeFactor = 0.2f;
+
     this->lights->AddLight(testLight);
+
+    testLight->SetAlwaysUpdate(true);
+
+    // Create an emissive light
+    ltbl::EmissiveLight* emissiveLight = new ltbl::EmissiveLight();
+
+    sf::Texture text;
+
+    if(!text.loadFromFile("data/emissive.png"))
+        abort();
+
+    emissiveLight->SetTexture(&text);
+
+    emissiveLight->SetRotation(45.0f);
+
+    emissiveLight->m_intensity = 1.3f;
+
+    this->lights->AddEmissiveLight(emissiveLight);
+
+    emissiveLight->SetCenter(Vec2f(500.0f, 500.0f));
 
     // Create a hull by loading it from a file
     ltbl::ConvexHull* testHull = new ltbl::ConvexHull();
@@ -359,25 +380,14 @@ int App::Execute()
 
     // Pre-calculate certain aspects
     testHull->CalculateNormals();
-    testHull->GenerateAABB();
+    testHull->CalculateAABB();
 
-    testHull->SetWorldCenter(Vec2f(0.f, 0.f));
+    testHull->SetWorldCenter(Vec2f(300.0f, 300.0f));
+
+    testHull->m_renderLightOverHull = true;
 
     this->lights->AddConvexHull(testHull);
-
-    // Create a hull by loading it from a file
-    ltbl::ConvexHull* testHull2 = new ltbl::ConvexHull();
-
-    if(!testHull2->LoadShape("data/testShape.txt"))
-        abort();
-
-    // Pre-calculate certain aspects
-    testHull2->CalculateNormals();
-    testHull2->GenerateAABB();
-
-    testHull2->SetWorldCenter(Vec2f(-200.0f, 300.0f));
-
-    this->lights->AddConvexHull(testHull2);
+    this->lights->m_useBloom = true;
 
     sf::Event event;
     while (this->screen->isOpen())
@@ -397,21 +407,23 @@ int App::Execute()
 
         this->Loop();
 
-
-        //this->screen->setView(*mainCamera);
-        this->screen->setView(*mainCamera);
-
         // TODO написать функцию setView
         //this->lights->view.setCenter(sf::Vector2f(this->screen->getPosition()));
 
         sf::Vector2i mousePos = sf::Mouse::getPosition(*this->screen);
 
         // Update light
-        testLight->center.x = static_cast<float>(mousePos.x);
-        testLight->center.y = static_cast<float>(this->screen->getSize().y - mousePos.y);
-        testLight->UpdateTreeStatus();
+        testLight->SetCenter(Vec2f(static_cast<float>(mousePos.x), static_cast<float>(this->screen->getSize().y) - static_cast<float>(mousePos.y)));
+
+        this->screen->setView(*mainCamera);
+        this->lights->SetView(*mainCamera);
 
         this->screen->draw(*(_sprites->getRes("background")));
+
+        this->lights->RenderLights();
+
+                // Draw the lights
+        this->lights->RenderLightTexture();
 
         QMap<QString, Entity*>::iterator i;
         for (i = _entities->getBegin(); i != _entities->getEnd(); ++i)
@@ -423,11 +435,6 @@ int App::Execute()
             }
             #endif
         }
-
-        this->lights->RenderLights();
-
-                // Draw the lights
-        this->lights->RenderLightTexture(1.0f);
 
         this->screen->display();
 

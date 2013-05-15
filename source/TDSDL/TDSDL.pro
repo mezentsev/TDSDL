@@ -31,16 +31,6 @@ unix {
 }
 
 HEADERS += \
-    LTBL/ShadowFin.h \
-    LTBL/SFML_OpenGL.h \
-    LTBL/QuadTreeOccupant.h \
-    LTBL/QuadTreeNode.h \
-    LTBL/QuadTree.h \
-    LTBL/LightSystem.h \
-    LTBL/Light_Beam.h \
-    LTBL/Light.h \
-    LTBL/ConvexHull.h \
-    LTBL/Constructs.h \
     control.h \
     resources.h \
     animation.h \
@@ -48,24 +38,43 @@ HEADERS += \
     unit.h \
     physics.h \
     contactlistener.h \
-    app.h
+    app.h \
+    LTBL/Constructs.h \
+    LTBL/Constructs/Vec2f.h \
+    LTBL/Constructs/Point2i.h \
+    LTBL/Constructs/Color3f.h \
+    LTBL/Constructs/AABB.h \
+    LTBL/Light/ShadowFin.h \
+    LTBL/Light/LightSystem.h \
+    LTBL/Light/Light_Point.h \
+    LTBL/Light/Light.h \
+    LTBL/Light/EmissiveLight.h \
+    LTBL/Light/ConvexHull.h \
+    LTBL/QuadTree/StaticQuadTree.h \
+    LTBL/QuadTree/QuadTreeOccupant.h \
+    LTBL/QuadTree/QuadTreeNode.h \
+    LTBL/QuadTree/QuadTree.h
 
 SOURCES += \
-    main.cpp \
-    LTBL/ShadowFin.cpp \
-    LTBL/SFML_OpenGL.cpp \
-    LTBL/QuadTreeOccupant.cpp \
-    LTBL/QuadTreeNode.cpp \
-    LTBL/QuadTree.cpp \
-    LTBL/LightSystem.cpp \
-    LTBL/Light_Beam.cpp \
-    LTBL/Light.cpp \
-    LTBL/ConvexHull.cpp \
-    LTBL/Constructs.cpp \
     control.cpp \
     animation.cpp \
     entity.cpp \
     unit.cpp \
     physics.cpp \
     contactlistener.cpp \
-    app.cpp
+    app.cpp \
+    main.cpp \
+    LTBL/Constructs/Vec2f.cpp \
+    LTBL/Constructs/Point2i.cpp \
+    LTBL/Constructs/Color3f.cpp \
+    LTBL/Constructs/AABB.cpp \
+    LTBL/Light/ShadowFin.cpp \
+    LTBL/Light/LightSystem.cpp \
+    LTBL/Light/Light_Point.cpp \
+    LTBL/Light/Light.cpp \
+    LTBL/Light/EmissiveLight.cpp \
+    LTBL/Light/ConvexHull.cpp \
+    LTBL/QuadTree/StaticQuadTree.cpp \
+    LTBL/QuadTree/QuadTreeOccupant.cpp \
+    LTBL/QuadTree/QuadTreeNode.cpp \
+    LTBL/QuadTree/QuadTree.cpp
