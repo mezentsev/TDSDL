@@ -1,4 +1,4 @@
-﻿DEFINES += _WIN32 WIN32 \
+DEFINES += _WIN32 WIN32 \
            _UNIX UNIX
 TEMPLATE = app
 
