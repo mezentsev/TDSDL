@@ -62,13 +62,13 @@ void Unit::setState(STATE state)
 
 void Unit::landLost()
 {
-    if (!this->phys.isContactDown())
-    {
+    //if (!this->phys.isContactDown())
+    //{
         if (this->state == WALK_LEFT || this->state == LOOK_LEFT)
             this->setState(JUMP_LEFT);
         else if (this->state == WALK_RIGHT || this->state == LOOK_RIGHT)
             this->setState(JUMP_RIGHT);
-    }
+    //}
 }
 
 void Unit::landFind()
@@ -135,14 +135,14 @@ void Unit::doPhysics(float scale)
         body->SetLinearVelocity(b2Vec2(0, body->GetLinearVelocity().y));
 
     //фикс бага box2d
-//    if (this->state == WALK_LEFT && this->phys.isContactLeft())
-//    {
-//        body->SetTransform(b2Vec2(body->GetPosition().x+0.01, body->GetPosition().y), 0);
-//    }
-//    else if (this->state == WALK_RIGHT && this->phys.isContactRight())
-//    {
-//        body->SetTransform(b2Vec2(body->GetPosition().x-0.01, body->GetPosition().y), 0);
-//    }
+    if (this->state == WALK_LEFT && this->phys.isContactLeft())
+    {
+        body->SetTransform(b2Vec2(body->GetPosition().x+0.01, body->GetPosition().y), 0);
+    }
+    else if (this->state == WALK_RIGHT && this->phys.isContactRight())
+    {
+        body->SetTransform(b2Vec2(body->GetPosition().x-0.01, body->GetPosition().y), 0);
+    }
 
     //обновление координат
     float newX = body->GetPosition().x * scale;

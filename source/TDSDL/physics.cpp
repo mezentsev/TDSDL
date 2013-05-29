@@ -77,7 +77,6 @@ float Physics::getGravity()
 
 bool Physics::isContactDown()
 {
-    bool flag = false;
     for (b2ContactEdge *edge = this->getpHbody()->GetContactList(); edge; edge = edge->next)
     {
         b2WorldManifold worldManifold;
@@ -85,11 +84,9 @@ bool Physics::isContactDown()
 
         if (worldManifold.normal.y > 0.75)
         {
-  //          flag = true;
             return true;
         }
     }
-  //      return flag;
     return false;
 }
 
@@ -123,7 +120,8 @@ void Physics::begin(b2Contact *contact)
 {
     b2WorldManifold man;
     contact->GetWorldManifold(&man);
-    if (man.normal.y > 0.75)
+    //if (man.normal.y > 0.75)
+    if (isContactDown())
         emit this->landing();
 }
 
@@ -131,7 +129,8 @@ void Physics::end(b2Contact *contact)
 {
     b2WorldManifold man;
     contact->GetWorldManifold(&man);
-    if (man.normal.y < 0.75)
+    //if (man.normal.y < 0.75)
+    if (!isContactDown())
         emit this->jumping();
 }
 
