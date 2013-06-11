@@ -2,8 +2,8 @@
 #define ENTITY_H
 
 #include "resources.h"
-#include "animation.h"
-#include "physics.h"
+#include "Entity/animation.h"
+#include "Physics/physics.h"
 #include <SFML/Graphics.hpp>
 #include <QMap>
 #include <typeinfo>

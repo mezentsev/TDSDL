@@ -4,12 +4,11 @@
 #include <QObject>
 #include <QDebug>
 
-#include "entity.h"
+#include "Entity/entity.h"
 #include "resources.h"
-#include "map.h"
-#include "control.h"
-#include "unit.h"
-#include "contactlistener.h"
+#include "Entity/control.h"
+#include "Entity/unit.h"
+#include "Physics/contactlistener.h"
 
 #include <QFile>
 #include <SFML/Audio.hpp>
@@ -32,7 +31,6 @@ private:
     Resources<sf::Sprite>  * _sprites;
     Resources<Entity>      * _entities;
     Resources<Animation>   * _anims;
-    Resources<Map>         * _maps;
     Resources<sf::View>    * _cameras;
     Control *control;
     sf::Clock clock;
@@ -48,6 +46,8 @@ private:
 public:
     App();
 
+    enum STATE{MENU, PAUSE, GAME};
+
     int Execute();
 
     bool Init();
@@ -59,11 +59,7 @@ public:
     void Render();
     void Cleanup();
 
-    void levels();
-//    void readMap(QString path);
-
 public slots:
-    void createGround(int x, int y);
     void Close();
 };
 

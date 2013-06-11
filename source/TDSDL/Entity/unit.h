@@ -4,7 +4,7 @@
 #include "entity.h"
 #include <QString>
 
-#include "contactlistener.h"
+#include "Physics/contactlistener.h"
 
 class Unit : public Entity
 {

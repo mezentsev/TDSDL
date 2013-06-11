@@ -1,4 +1,4 @@
-DEFINES += _WIN32 WIN32 \
+﻿DEFINES += _WIN32 WIN32 \
            _UNIX UNIX
 TEMPLATE = app
 
@@ -31,13 +31,7 @@ unix {
 }
 
 HEADERS += \
-    control.h \
     resources.h \
-    animation.h \
-    entity.h \
-    unit.h \
-    physics.h \
-    contactlistener.h \
     app.h \
     LTBL/Constructs.h \
     LTBL/Constructs/Vec2f.h \
@@ -53,15 +47,15 @@ HEADERS += \
     LTBL/QuadTree/StaticQuadTree.h \
     LTBL/QuadTree/QuadTreeOccupant.h \
     LTBL/QuadTree/QuadTreeNode.h \
-    LTBL/QuadTree/QuadTree.h
+    LTBL/QuadTree/QuadTree.h \
+    Physics/physics.h \
+    Physics/contactlistener.h \
+    Entity/unit.h \
+    Entity/entity.h \
+    Entity/control.h \
+    Entity/animation.h
 
 SOURCES += \
-    control.cpp \
-    animation.cpp \
-    entity.cpp \
-    unit.cpp \
-    physics.cpp \
-    contactlistener.cpp \
     app.cpp \
     main.cpp \
     LTBL/Constructs/Vec2f.cpp \
@@ -77,4 +71,10 @@ SOURCES += \
     LTBL/QuadTree/StaticQuadTree.cpp \
     LTBL/QuadTree/QuadTreeOccupant.cpp \
     LTBL/QuadTree/QuadTreeNode.cpp \
-    LTBL/QuadTree/QuadTree.cpp
+    LTBL/QuadTree/QuadTree.cpp \
+    Physics/physics.cpp \
+    Physics/contactlistener.cpp \
+    Entity/unit.cpp \
+    Entity/entity.cpp \
+    Entity/control.cpp \
+    Entity/animation.cpp
