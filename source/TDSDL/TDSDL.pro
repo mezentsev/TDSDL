@@ -1,9 +1,10 @@
-﻿DEFINES += _WIN32 WIN32 \
-           _UNIX UNIX
+#DEFINES += _WIN32 WIN32 \
+#           _UNIX UNIX
 TEMPLATE = app
 
 QMAKE_CXXFLAGS += -std=gnu++0x
 QT += opengl
+OBJECTS_DIR=../../../build
 
 win32 {
     INCLUDEPATH += "C:\SFML\SFML-2.0\include" \
@@ -22,12 +23,14 @@ win32 {
 }
 
 unix {
-    LIBS += -L/usr/local/lib/ -lsfml-graphics -lBox2D
+    LIBS += -L/usr/local/lib/  \
+            -lsfml-system \
+            -lsfml-graphics \
+            -lsfml-audio \
+            -lsfml-window \
+            -lBox2D
 
     INCLUDEPATH += /usr/local/include
-    DEPENDPATH += /usr/local/include
-
-    PRE_TARGETDEPS += /usr/local/lib/libBox2D.a
 }
 
 HEADERS += \
