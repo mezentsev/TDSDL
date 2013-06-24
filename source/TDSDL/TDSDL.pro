@@ -1,5 +1,3 @@
-DEFINES += _WIN32 WIN32 \
-           _UNIX UNIX
 TEMPLATE = app
 
 QMAKE_CXXFLAGS += -std=gnu++0x
