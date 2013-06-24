@@ -1,10 +1,7 @@
-#DEFINES += _WIN32 WIN32 \
-#           _UNIX UNIX
 TEMPLATE = app
 
 QMAKE_CXXFLAGS += -std=gnu++0x
 QT += opengl
-OBJECTS_DIR=../../../build
 
 win32 {
     INCLUDEPATH += "C:\SFML\SFML-2.0\include" \
@@ -23,14 +20,12 @@ win32 {
 }
 
 unix {
-    LIBS += -L/usr/local/lib/  \
-            -lsfml-system \
-            -lsfml-graphics \
-            -lsfml-audio \
-            -lsfml-window \
-            -lBox2D
+    LIBS += -L/usr/local/lib/ -lsfml-graphics -lBox2D
 
     INCLUDEPATH += /usr/local/include
+    DEPENDPATH += /usr/local/include
+
+    PRE_TARGETDEPS += /usr/local/lib/libBox2D.a
 }
 
 HEADERS += \
@@ -51,12 +46,12 @@ HEADERS += \
     LTBL/QuadTree/QuadTreeOccupant.h \
     LTBL/QuadTree/QuadTreeNode.h \
     LTBL/QuadTree/QuadTree.h \
-    Physics/physics.h \
-    Physics/contactlistener.h \
     Entity/unit.h \
     Entity/entity.h \
     Entity/control.h \
-    Entity/animation.h
+    Entity/animation.h \
+    Physics/physics.h \
+    Physics/contactlistener.h
 
 SOURCES += \
     app.cpp \
@@ -75,9 +70,9 @@ SOURCES += \
     LTBL/QuadTree/QuadTreeOccupant.cpp \
     LTBL/QuadTree/QuadTreeNode.cpp \
     LTBL/QuadTree/QuadTree.cpp \
-    Physics/physics.cpp \
-    Physics/contactlistener.cpp \
     Entity/unit.cpp \
     Entity/entity.cpp \
     Entity/control.cpp \
-    Entity/animation.cpp
+    Entity/animation.cpp \
+    Physics/physics.cpp \
+    Physics/contactlistener.cpp
