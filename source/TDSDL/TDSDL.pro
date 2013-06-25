@@ -1,25 +1,26 @@
-#DEFINES += _WIN32 WIN32 \
-#           _UNIX UNIX
-TEMPLATE = app
+﻿TEMPLATE = app
 
 QMAKE_CXXFLAGS += -std=gnu++0x
 QT += opengl
-OBJECTS_DIR=../../../build
 
 win32 {
-    INCLUDEPATH += "C:\SFML\SFML-2.0\include" \
-                   "C:\glew-1.9.0\include"
+    INCLUDEPATH += "C:/SFML/SFML-2.0/include" \
+                   "C:/glew-1.9.0/include" \
+                   "C:/cegui/include/cegui-0"
 
-    LIBS += -L"C:\SFML\SFML-2.0\lib" \
+    LIBS += -L"C:/SFML/SFML-2.0/lib" \
         -lsfml-system \
         -lsfml-window \
         -lsfml-graphics \
         -lsfml-audio \
-        -L"C:\glew-1.9.0\lib" \
+        -L"C:/glew-1.9.0/lib" \
         -lglew32 \
         -lglu32 \
-        -L"C:\box2d\lib" \
-        -llibBox2D
+        -L"C:/box2d/lib" \
+        -llibBox2D \
+        -L"C:/cegui/lib" \
+        -llibCEGUIBase-0 \
+        -llibCEGUIOpenGLRenderer-0
 }
 
 unix {

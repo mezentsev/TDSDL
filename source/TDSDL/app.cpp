@@ -1,4 +1,4 @@
-﻿#include "app.h"
+#include "app.h"
 
 #define DEBUG
 
@@ -327,57 +327,30 @@ int App::Execute()
         return -1;
     }
 
-    // Create a light
-    /*ltbl::Light_Point* testLight = new ltbl::Light_Point();
-    testLight->m_intensity = 2.0f;
-    testLight->m_center = Vec2f(200.0f, 200.0f);
-    testLight->m_radius = 600.0f;
-    testLight->m_size = 15.0f;
-    testLight->m_spreadAngle = ltbl::pifTimes2;
-    testLight->m_softSpreadAngle = 0.0f;
-    testLight->CalculateAABB();
+    CEGUI::OpenGLRenderer& myRenderer = CEGUI::OpenGLRenderer::create();
+    CEGUI::System::create( myRenderer );
+    CEGUI::DefaultResourceProvider* rp = static_cast<CEGUI::DefaultResourceProvider*>
+            (CEGUI::System::getSingleton().getResourceProvider());
 
-    testLight->m_bleed = 0.4f;
-    testLight->m_linearizeFactor = 0.2f;
+    //rp->setResourceGroupDirectory("schemes","data/schemes/");
 
-    this->lights->AddLight(testLight);
+    CEGUI::SchemeManager::getSingleton().createFromFile( "TaharezLook.scheme" );
 
-    testLight->SetAlwaysUpdate(true);
+    CEGUI::WindowManager& wmgr = CEGUI::WindowManager::getSingleton();
+    CEGUI::Window* myRoot = wmgr.createWindow( "DefaultWindow", "root" );
+    CEGUI::System::getSingleton().getDefaultGUIContext().setRootWindow( myRoot );
 
-    // Create an emissive light
-    ltbl::EmissiveLight* emissiveLight = new ltbl::EmissiveLight();
+    CEGUI::FrameWindow* fWnd = static_cast< CEGUI::FrameWindow*>(
+        wmgr.createWindow( "TaharezLook/FrameWindow", "testWindow" ));
 
-    sf::Texture text;
+    myRoot->addChild( fWnd );
+    // position a quarter of the way in from the top-left of parent.
+    fWnd->setPosition( CEGUI::UVector2( CEGUI::UDim( 0.25f, 0 ), CEGUI::UDim( 0.25f, 0 ) ) );
+    // set size to be half the size of the parent
+    fWnd->setSize( CEGUI::USize( CEGUI::UDim( 0.5f, 0 ), CEGUI::UDim( 0.5f, 0 ) ) );
+    fWnd->setText((CEGUI::utf8 *)("Русский"));
 
-    if(!text.loadFromFile("data/emissive.png"))
-        abort();
-
-    emissiveLight->SetTexture(&text);
-
-    emissiveLight->SetRotation(45.0f);
-
-    emissiveLight->m_intensity = 1.3f;
-
-    this->lights->AddEmissiveLight(emissiveLight);
-
-    emissiveLight->SetCenter(Vec2f(500.0f, 500.0f));
-
-    // Create a hull by loading it from a file
-    ltbl::ConvexHull* testHull = new ltbl::ConvexHull();
-
-    if(!testHull->LoadShape("data/testShape.txt"))
-        abort();
-
-    // Pre-calculate certain aspects
-    testHull->CalculateNormals();
-    testHull->CalculateAABB();
-
-    testHull->SetWorldCenter(Vec2f(300.0f, 300.0f));
-
-    testHull->m_renderLightOverHull = true;
-
-    this->lights->AddConvexHull(testHull);
-    this->lights->m_useBloom = true;*/
+    this->screen->setMouseCursorVisible(false);
 
     sf::Event event;
     while (this->screen->isOpen())
@@ -385,11 +358,45 @@ int App::Execute()
         this->world->Step(freq.asSeconds(), 8, 8);
         this->freq = clock.getElapsedTime();
         clock.restart();
-        this->screen->clear();
+
         while (this->screen->pollEvent(event))
             this->Event(&event);
         this->Loop();
-        this->Render();
+
+        //this->Render();
+        this->screen->clear();
+        this->screen->pushGLStates();
+        sf::Vector2i mousePos = sf::Mouse::getPosition(*this->screen);
+
+        // Update light
+        //testLight->SetCenter(Vec2f(static_cast<float>(mousePos.x), static_cast<float>(this->screen->getSize().y) - static_cast<float>(mousePos.y)));
+
+        this->screen->setView(*mainCamera);
+        this->lights->SetView(*mainCamera);
+
+        this->screen->draw(*(_sprites->getRes("background")));
+
+        this->lights->RenderLights();
+
+                // Draw the lights
+        this->lights->RenderLightTexture();
+
+        QMap<QString, Entity*>::iterator i;
+        for (i = _entities->getBegin(); i != _entities->getEnd(); ++i)
+        {
+            this->screen->draw((*i)->animate(this->freq));
+            #ifdef DEBUG
+            foreach (sf::ConvexShape shape, (*i)->getPhysShapeList()) {
+                this->screen->draw(shape);
+            }
+            #endif
+        }
+
+        this->screen->popGLStates();
+        CEGUI::System::getSingleton().renderAllGUIContexts();
+        this->screen->display();
+
+
     }
 
     this->Cleanup();

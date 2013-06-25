@@ -17,6 +17,9 @@
 #include <LTBL/Light/LightSystem.h>
 #include <LTBL/Light/Light_Point.h>
 
+#include <CEGUI/CEGUI.h>
+#include <CEGUI/RendererModules/OpenGL/GLRenderer.h>
+
 class App : public QObject
 {
     Q_OBJECT
