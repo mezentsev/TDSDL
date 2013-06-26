@@ -1,4 +1,4 @@
-﻿TEMPLATE = app
+TEMPLATE = app
 
 QMAKE_CXXFLAGS += -std=gnu++0x
 QT += opengl
@@ -29,9 +29,11 @@ unix {
             -lsfml-graphics \
             -lsfml-audio \
             -lsfml-window \
-            -lBox2D
+            -lBox2D \
+            -lCEGUIBase-0 \
+            -lCEGUIOpenGLRenderer-0
 
-    INCLUDEPATH += /usr/local/include
+    INCLUDEPATH += /usr/local/include /usr/local/include/cegui-0
 }
 
 HEADERS += \
