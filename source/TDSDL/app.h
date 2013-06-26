@@ -9,6 +9,7 @@
 #include "Entity/control.h"
 #include "Entity/unit.h"
 #include "Physics/contactlistener.h"
+#include "GUI/guimanager.h"
 
 #include <QFile>
 #include <SFML/Audio.hpp>
@@ -17,9 +18,6 @@
 #include <LTBL/Light/LightSystem.h>
 #include <LTBL/Light/Light_Point.h>
 
-#include <CEGUI/CEGUI.h>
-#include <CEGUI/RendererModules/OpenGL/GLRenderer.h>
-
 class App : public QObject
 {
     Q_OBJECT
@@ -27,6 +25,8 @@ class App : public QObject
 private:
     sf::RenderWindow *screen;
     sf::View *mainCamera;
+
+    GUImanager *mgr;
 
     ltbl::LightSystem *lights;
 
@@ -64,6 +64,7 @@ public:
 
 public slots:
     void Close();
+    void menu();
 };
 
 #endif // APP_H

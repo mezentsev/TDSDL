@@ -8,25 +8,6 @@ App::App()
     this->screen->setFramerateLimit(60); // Ограничение для правильной работы физ.движка
     this->screen->setVerticalSyncEnabled(true);
     glEnable(GL_TEXTURE_2D);
-
-    this->control = new Control;
-    connect(this->control, SIGNAL(end()), this, SLOT(Close()));
-
-    this->_textures   = new Resources<sf::Texture>();
-    this->_sprites    = new Resources<sf::Sprite>();
-    this->_entities   = new Resources<Entity>();
-    this->_anims      = new Resources<Animation>();
-    this->_cameras    = new Resources<sf::View>();
-
-    this->world = new b2World(b2Vec2(0.f, 15.0f));
-    this->listener = new ContactListener();
-    this->world->SetContactListener(listener);
-
-    this->SCALE = 30.f;
-    this->resPath = "resource.tdsdl";
-
-    this->lights = new ltbl::LightSystem(AABB(Vec2f(0.0f, 0.0f), Vec2f(static_cast<float>(this->screen->getSize().x), static_cast<float>(this->screen->getSize().y))), this->screen, "data/lightFin.png", "data/shaders/lightAttenuationShader.frag"
-                         );
 }
 
 bool App::Load()
@@ -163,6 +144,28 @@ bool App::Load()
 // Инициализация окна и связанных параметров
 bool App::Init()
 {
+    this->control = new Control;
+    connect(this->control, SIGNAL(end()), this, SLOT(Close()));
+    connect(this->control, SIGNAL(menu()), this, SLOT(menu()));
+
+    this->_textures   = new Resources<sf::Texture>();
+    this->_sprites    = new Resources<sf::Sprite>();
+    this->_entities   = new Resources<Entity>();
+    this->_anims      = new Resources<Animation>();
+    this->_cameras    = new Resources<sf::View>();
+
+    this->world = new b2World(b2Vec2(0.f, 15.0f));
+    this->listener = new ContactListener();
+    this->world->SetContactListener(listener);
+
+    this->SCALE = 30.f;
+    this->resPath = "resource.tdsdl";
+
+    this->lights = new ltbl::LightSystem(AABB(Vec2f(0.0f, 0.0f), Vec2f(static_cast<float>(this->screen->getSize().x), static_cast<float>(this->screen->getSize().y))), this->screen, "data/lightFin.png", "data/shaders/lightAttenuationShader.frag"
+                         );
+
+    this->mgr = new GUImanager();
+
     sf::View *camera = new sf::View();
     this->mainCamera = camera;
     camera->setSize(this->screen->getSize().x, this->screen->getSize().y);
@@ -271,12 +274,6 @@ bool App::Init()
 
     connect(this->control, SIGNAL(setEntControl(Unit::ORDER)), this->_entities->getRes("player"), SLOT(setControl(Unit::ORDER)));
 
-/*
-    //считывание карты и создание сущностей земли
-    this->readMap("maps/map.txt");
-
-    this->control.setCamera(this->mainCamera);
-*/
     return true;
 }
 
@@ -327,30 +324,7 @@ int App::Execute()
         return -1;
     }
 
-    CEGUI::OpenGLRenderer& myRenderer = CEGUI::OpenGLRenderer::create();
-    CEGUI::System::create( myRenderer );
-    CEGUI::DefaultResourceProvider* rp = static_cast<CEGUI::DefaultResourceProvider*>
-            (CEGUI::System::getSingleton().getResourceProvider());
-
-    //rp->setResourceGroupDirectory("schemes","data/schemes/");
-
-    CEGUI::SchemeManager::getSingleton().createFromFile( "TaharezLook.scheme" );
-
-    CEGUI::WindowManager& wmgr = CEGUI::WindowManager::getSingleton();
-    CEGUI::Window* myRoot = wmgr.createWindow( "DefaultWindow", "root" );
-    CEGUI::System::getSingleton().getDefaultGUIContext().setRootWindow( myRoot );
-
-    CEGUI::FrameWindow* fWnd = static_cast< CEGUI::FrameWindow*>(
-        wmgr.createWindow( "TaharezLook/FrameWindow", "testWindow" ));
-
-    myRoot->addChild( fWnd );
-    // position a quarter of the way in from the top-left of parent.
-    fWnd->setPosition( CEGUI::UVector2( CEGUI::UDim( 0.25f, 0 ), CEGUI::UDim( 0.25f, 0 ) ) );
-    // set size to be half the size of the parent
-    fWnd->setSize( CEGUI::USize( CEGUI::UDim( 0.5f, 0 ), CEGUI::UDim( 0.5f, 0 ) ) );
-    fWnd->setText((CEGUI::utf8 *)("Русский"));
-
-    this->screen->setMouseCursorVisible(false);
+    //this->screen->setMouseCursorVisible(false);
 
     sf::Event event;
     while (this->screen->isOpen())
@@ -363,40 +337,7 @@ int App::Execute()
             this->Event(&event);
         this->Loop();
 
-        //this->Render();
-        this->screen->clear();
-        this->screen->pushGLStates();
-        sf::Vector2i mousePos = sf::Mouse::getPosition(*this->screen);
-
-        // Update light
-        //testLight->SetCenter(Vec2f(static_cast<float>(mousePos.x), static_cast<float>(this->screen->getSize().y) - static_cast<float>(mousePos.y)));
-
-        this->screen->setView(*mainCamera);
-        this->lights->SetView(*mainCamera);
-
-        this->screen->draw(*(_sprites->getRes("background")));
-
-        this->lights->RenderLights();
-
-                // Draw the lights
-        this->lights->RenderLightTexture();
-
-        QMap<QString, Entity*>::iterator i;
-        for (i = _entities->getBegin(); i != _entities->getEnd(); ++i)
-        {
-            this->screen->draw((*i)->animate(this->freq));
-            #ifdef DEBUG
-            foreach (sf::ConvexShape shape, (*i)->getPhysShapeList()) {
-                this->screen->draw(shape);
-            }
-            #endif
-        }
-
-        this->screen->popGLStates();
-        CEGUI::System::getSingleton().renderAllGUIContexts();
-        this->screen->display();
-
-
+        this->Render();
     }
 
     this->Cleanup();
@@ -412,7 +353,6 @@ void App::Event(sf::Event *event)
 // Функция обрабатывает обновление данных, например движение NPC по экрану, уменьшение здоровье персонажа и так далее.
 void App::Loop()
 {
-
     QMap<QString, Entity*>::iterator i;
     for (i = _entities->getBegin(); i != _entities->getEnd(); ++i)
     {
@@ -425,6 +365,8 @@ void App::Loop()
 // Функция занимается отображением всего на экране. Она НЕ обрабатывает манипуляции с данными - этим занимается Loop.
 void App::Render()
 {
+    this->screen->clear();
+    this->screen->pushGLStates();
     sf::Vector2i mousePos = sf::Mouse::getPosition(*this->screen);
 
     // Update light
@@ -451,6 +393,8 @@ void App::Render()
         #endif
     }
 
+    this->screen->popGLStates();
+    CEGUI::System::getSingleton().renderAllGUIContexts();
     this->screen->display();
 }
 
@@ -465,9 +409,15 @@ void App::Cleanup()
     delete this->_cameras;
     delete this->world;
     delete this->lights;
+    delete this->mgr;
 }
 
 void App::Close()
 {
     this->screen->close();
+}
+
+void App::menu()
+{
+    this->mgr->buildWindow("Меню", 0.25f, 0.25f);
 }

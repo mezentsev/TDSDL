@@ -59,7 +59,8 @@ HEADERS += \
     Entity/unit.h \
     Entity/entity.h \
     Entity/control.h \
-    Entity/animation.h
+    Entity/animation.h \
+    GUI/guimanager.h
 
 SOURCES += \
     app.cpp \
@@ -83,4 +84,5 @@ SOURCES += \
     Entity/unit.cpp \
     Entity/entity.cpp \
     Entity/control.cpp \
-    Entity/animation.cpp
+    Entity/animation.cpp \
+    GUI/guimanager.cpp

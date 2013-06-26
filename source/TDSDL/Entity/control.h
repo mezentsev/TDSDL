@@ -21,6 +21,8 @@ signals:
     void setEntControl(Unit::ORDER order);
     void createGround(int x, int y);
     void end();
+    void menu();
+
 
 };
 

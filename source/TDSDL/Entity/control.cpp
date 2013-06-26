@@ -25,10 +25,11 @@ void Control::doControl(sf::Event *event)
 //        if (event->key.code == sf::Keyboard::Left)  emit setCamControl(5);
 //        if (event->key.code == sf::Keyboard::Right) emit setCamControl(7);
 
-        if (event->key.code == sf::Keyboard::Escape) emit end();
-        if (event->key.code == sf::Keyboard::Up) emit setEntControl(Unit::JUMP);
-        if (event->key.code == sf::Keyboard::Left) emit setEntControl(Unit::MOVE_LEFT);
-        if (event->key.code == sf::Keyboard::Right) emit setEntControl(Unit::MOVE_RIGHT);
+        if (event->key.code == sf::Keyboard::Return)    emit menu();
+        if (event->key.code == sf::Keyboard::Escape)    emit end();
+        if (event->key.code == sf::Keyboard::Up)        emit setEntControl(Unit::JUMP);
+        if (event->key.code == sf::Keyboard::Left)      emit setEntControl(Unit::MOVE_LEFT);
+        if (event->key.code == sf::Keyboard::Right)     emit setEntControl(Unit::MOVE_RIGHT);
 
         break;
     }
