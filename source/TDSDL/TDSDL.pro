@@ -20,7 +20,7 @@ win32 {
 }
 
 unix {
-    LIBS += -L/usr/local/lib/ -lsfml-graphics -lBox2D
+    LIBS += -L/usr/local/lib/ -lsfml-window -lsfml-system -lsfml-graphics -lBox2D
 
     INCLUDEPATH += /usr/local/include
     DEPENDPATH += /usr/local/include
