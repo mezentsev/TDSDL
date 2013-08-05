@@ -51,7 +51,13 @@ HEADERS += \
     Entity/control.h \
     Entity/animation.h \
     Physics/physics.h \
-    Physics/contactlistener.h
+    Physics/contactlistener.h \
+    Entity/skeletal.h \
+    Entity/skeletal/XML_Helpers.h \
+    Entity/skeletal/tinyxml.h \
+    Entity/skeletal/tinystr.h \
+    Entity/skeletal/SCML_SFML.h \
+    Entity/skeletal/SCMLpp.h
 
 SOURCES += \
     app.cpp \
@@ -75,4 +81,13 @@ SOURCES += \
     Entity/control.cpp \
     Entity/animation.cpp \
     Physics/physics.cpp \
-    Physics/contactlistener.cpp
+    Physics/contactlistener.cpp \
+    Entity/skeletal.cpp \
+    Entity/skeletal/XML_Helpers.cpp \
+    Entity/skeletal/tinyxmlparser.cpp \
+    Entity/skeletal/tinyxmlerror.cpp \
+    Entity/skeletal/tinyxml.cpp \
+    Entity/skeletal/tinystr.cpp \
+    Entity/skeletal/SFML_main.cpp \
+    Entity/skeletal/SCML_SFML.cpp \
+    Entity/skeletal/SCMLpp.cpp

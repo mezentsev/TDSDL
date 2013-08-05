@@ -31,6 +31,7 @@ private:
     Resources<sf::Sprite>  * _sprites;
     Resources<Entity>      * _entities;
     Resources<Animation>   * _anims;
+    Resources<Skeletal>    * _skeletal;
     Resources<sf::View>    * _cameras;
     Control *control;
     sf::Clock clock;

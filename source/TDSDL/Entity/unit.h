@@ -33,6 +33,7 @@ public:
     };
 
     Unit(Animation * default_anim, int x, int y, sf::ConvexShape shape, QList<sf::ConvexShape> physShapes, b2World * world, Physics::B2_BODY_TYPE type, float SCALE);
+    Unit(Skeletal * skeletal, b2World * world, Physics::B2_BODY_TYPE type);
     int  getState();
     void doPhysics(float scale);
 

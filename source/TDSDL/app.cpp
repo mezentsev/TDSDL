@@ -1,6 +1,6 @@
 ﻿#include "app.h"
 
-#define DEBUG
+//#define DEBUG
 
 App::App()
 {
@@ -16,6 +16,7 @@ App::App()
     this->_sprites    = new Resources<sf::Sprite>();
     this->_entities   = new Resources<Entity>();
     this->_anims      = new Resources<Animation>();
+    this->_skeletal   = new Resources<Skeletal>();
     this->_cameras    = new Resources<sf::View>();
 
     this->world = new b2World(b2Vec2(0.f, 15.0f));
@@ -157,6 +158,9 @@ bool App::Load()
     this->_anims->add(anim, "road");
     /*********************************************************************/
 
+    Skeletal * skeletal = new Skeletal("skeletal/monster/Example.SCML", 250, 450);
+    this->_skeletal->add(skeletal, "monster");
+
     return true;
 }
 
@@ -166,7 +170,7 @@ bool App::Init()
     sf::View *camera = new sf::View();
     this->mainCamera = camera;
     camera->setSize(this->screen->getSize().x, this->screen->getSize().y);
-    camera->setCenter(0,0);
+    camera->setCenter(200,200);
     this->_cameras->add(camera, "default");
 
     if (!this->Load()) return 0;
@@ -209,7 +213,6 @@ bool App::Init()
     polygon_GroundPhys.setPoint(2, sf::Vector2f(64,64));
     polygon_GroundPhys.setPoint(3, sf::Vector2f(0,64));
 
-
     QList<sf::ConvexShape> polygon_GroundPhysList;
     polygon_GroundPhysList.append(polygon_GroundPhys);
 
@@ -225,49 +228,52 @@ bool App::Init()
     ent->addAnim(this->_anims->getRes("hero_fightRight"), "fightRight");
     this->_entities->add(ent,"player");
 //    /**************************************************************************************/
-    Unit *ent2 = new Unit(this->_anims->getRes("hero_stayLeft"), 250, 0, polygon_Player, polygon_PlayerPhysList, this->world, Physics::DYNAMIC, this->SCALE);
-    this->_entities->add(ent2,"enemy");
-    Unit *ent3 = new Unit(this->_anims->getRes("hero_stayLeft"), 200, 0, polygon_Player, polygon_PlayerPhysList, this->world, Physics::DYNAMIC, this->SCALE);
-    this->_entities->add(ent3,"enemy1");
+//    Unit *ent2 = new Unit(this->_anims->getRes("hero_stayLeft"), 250, 0, polygon_Player, polygon_PlayerPhysList, this->world, Physics::DYNAMIC, this->SCALE);
+//    this->_entities->add(ent2,"enemy");
+//    Unit *ent3 = new Unit(this->_anims->getRes("hero_stayLeft"), 200, 0, polygon_Player, polygon_PlayerPhysList, this->world, Physics::DYNAMIC, this->SCALE);
+//    this->_entities->add(ent3,"enemy1");
     /**************************************************************************************/
 
 
     /***************  Создание окружения, назначение стандартной анимации ********************/
     Entity *ents = NULL;
 
-    ents = new Entity(this->_anims->getRes("road"), 0,190, polygon_Ground, polygon_GroundPhysList, this->world, Physics::STATIC, this->SCALE);
+    ents = new Entity(this->_anims->getRes("road"), 0,490, polygon_Ground, polygon_GroundPhysList, this->world, Physics::STATIC, this->SCALE);
     this->_entities->add(ents,"dnishe1");
 
-    ents = new Entity(this->_anims->getRes("road"), 64,190, polygon_Ground, polygon_GroundPhysList, this->world, Physics::STATIC, this->SCALE);
+    ents = new Entity(this->_anims->getRes("road"), 64,490, polygon_Ground, polygon_GroundPhysList, this->world, Physics::STATIC, this->SCALE);
     this->_entities->add(ents,"dnishe2");
 
-    ents = new Entity(this->_anims->getRes("road"), 128,190, polygon_Ground, polygon_GroundPhysList, this->world, Physics::STATIC, this->SCALE);
+    ents = new Entity(this->_anims->getRes("road"), 128,490, polygon_Ground, polygon_GroundPhysList, this->world, Physics::STATIC, this->SCALE);
     this->_entities->add(ents,"dnishe3");
 
-    ents = new Entity(this->_anims->getRes("road"), 192,190, polygon_Ground, polygon_GroundPhysList, this->world, Physics::STATIC, this->SCALE);
+    ents = new Entity(this->_anims->getRes("road"), 192,490, polygon_Ground, polygon_GroundPhysList, this->world, Physics::STATIC, this->SCALE);
     this->_entities->add(ents,"dnishe4");
 
-    ents = new Entity(this->_anims->getRes("road"), 256,190, polygon_Ground, polygon_GroundPhysList, this->world, Physics::STATIC, this->SCALE);
-    this->_entities->add(ents,"dnishe5");
+//    ents = new Entity(this->_anims->getRes("road"), 256,190, polygon_Ground, polygon_GroundPhysList, this->world, Physics::STATIC, this->SCALE);
+//    this->_entities->add(ents,"dnishe5");
 
-    ents = new Entity(this->_anims->getRes("road"), 320,190, polygon_Ground, polygon_GroundPhysList, this->world, Physics::STATIC, this->SCALE);
-    this->_entities->add(ents,"dnishe6");
+//    ents = new Entity(this->_anims->getRes("road"), 320,190, polygon_Ground, polygon_GroundPhysList, this->world, Physics::STATIC, this->SCALE);
+//    this->_entities->add(ents,"dnishe6");
 
-    ents = new Entity(this->_anims->getRes("road"), 384,190, polygon_Ground, polygon_GroundPhysList, this->world, Physics::STATIC, this->SCALE);
-    this->_entities->add(ents,"dnishe7");
+//    ents = new Entity(this->_anims->getRes("road"), 384,190, polygon_Ground, polygon_GroundPhysList, this->world, Physics::STATIC, this->SCALE);
+//    this->_entities->add(ents,"dnishe7");
 
-    ents = new Entity(this->_anims->getRes("road"), 448,190, polygon_Ground, polygon_GroundPhysList, this->world, Physics::STATIC, this->SCALE);
-    this->_entities->add(ents,"dnishe9");
+//    ents = new Entity(this->_anims->getRes("road"), 448,190, polygon_Ground, polygon_GroundPhysList, this->world, Physics::STATIC, this->SCALE);
+//    this->_entities->add(ents,"dnishe9");
 
-    ents = new Entity(this->_anims->getRes("road"), 512,150, polygon_Ground, polygon_GroundPhysList, this->world, Physics::STATIC, this->SCALE);
-    this->_entities->add(ents,"dnishe10");
+//    ents = new Entity(this->_anims->getRes("road"), 512,150, polygon_Ground, polygon_GroundPhysList, this->world, Physics::STATIC, this->SCALE);
+//    this->_entities->add(ents,"dnishe10");
 
-    ents = new Entity(this->_anims->getRes("road"), 512,-60, polygon_Ground, polygon_GroundPhysList, this->world, Physics::STATIC, this->SCALE);
-    this->_entities->add(ents,"dnishe11");
+//    ents = new Entity(this->_anims->getRes("road"), 512,-60, polygon_Ground, polygon_GroundPhysList, this->world, Physics::STATIC, this->SCALE);
+//    this->_entities->add(ents,"dnishe11");
 
-    ents = new Entity(this->_anims->getRes("road"), -380,50, polygon_Ground, polygon_GroundPhysList, this->world, Physics::STATIC, this->SCALE);
-    this->_entities->add(ents,"dnishe12");
+//    ents = new Entity(this->_anims->getRes("road"), -380,50, polygon_Ground, polygon_GroundPhysList, this->world, Physics::STATIC, this->SCALE);
+//    this->_entities->add(ents,"dnishe12");
     /*********************************************************************/
+
+    ents = new Unit(this->_skeletal->getRes("monster"), world, Physics::DYNAMIC);
+    this->_entities->add(ents,"monster");
 
     connect(this->control, SIGNAL(setEntControl(Unit::ORDER)), this->_entities->getRes("player"), SLOT(setControl(Unit::ORDER)));
 
@@ -327,58 +333,6 @@ int App::Execute()
         return -1;
     }
 
-    // Create a light
-    /*ltbl::Light_Point* testLight = new ltbl::Light_Point();
-    testLight->m_intensity = 2.0f;
-    testLight->m_center = Vec2f(200.0f, 200.0f);
-    testLight->m_radius = 600.0f;
-    testLight->m_size = 15.0f;
-    testLight->m_spreadAngle = ltbl::pifTimes2;
-    testLight->m_softSpreadAngle = 0.0f;
-    testLight->CalculateAABB();
-
-    testLight->m_bleed = 0.4f;
-    testLight->m_linearizeFactor = 0.2f;
-
-    this->lights->AddLight(testLight);
-
-    testLight->SetAlwaysUpdate(true);
-
-    // Create an emissive light
-    ltbl::EmissiveLight* emissiveLight = new ltbl::EmissiveLight();
-
-    sf::Texture text;
-
-    if(!text.loadFromFile("data/emissive.png"))
-        abort();
-
-    emissiveLight->SetTexture(&text);
-
-    emissiveLight->SetRotation(45.0f);
-
-    emissiveLight->m_intensity = 1.3f;
-
-    this->lights->AddEmissiveLight(emissiveLight);
-
-    emissiveLight->SetCenter(Vec2f(500.0f, 500.0f));
-
-    // Create a hull by loading it from a file
-    ltbl::ConvexHull* testHull = new ltbl::ConvexHull();
-
-    if(!testHull->LoadShape("data/testShape.txt"))
-        abort();
-
-    // Pre-calculate certain aspects
-    testHull->CalculateNormals();
-    testHull->CalculateAABB();
-
-    testHull->SetWorldCenter(Vec2f(300.0f, 300.0f));
-
-    testHull->m_renderLightOverHull = true;
-
-    this->lights->AddConvexHull(testHull);
-    this->lights->m_useBloom = true;*/
-
     sf::Event event;
     while (this->screen->isOpen())
     {
@@ -412,7 +366,7 @@ void App::Loop()
         (*i)->doPhysics(this->SCALE);
     }
 
-    mainCamera->setCenter(_entities->getRes("player")->getX(),_entities->getRes("player")->getY());
+    //mainCamera->setCenter(_entities->getRes("player")->getX(),_entities->getRes("player")->getY());
 }
 
 // Функция занимается отображением всего на экране. Она НЕ обрабатывает манипуляции с данными - этим занимается Loop.
@@ -433,7 +387,7 @@ void App::Render()
             // Draw the lights
     this->lights->RenderLightTexture();
 
-    QMap<QString, Entity*>::iterator i;
+    QMap< QString, Entity * >::iterator i;
     for (i = _entities->getBegin(); i != _entities->getEnd(); ++i)
     {
         this->screen->draw((*i)->animate(this->freq));

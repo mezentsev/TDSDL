@@ -2,11 +2,21 @@
 
 #include <QDebug>
 
-Unit::Unit(Animation *default_anim, int x, int y, sf::ConvexShape shape, QList<sf::ConvexShape> physShapes, b2World * world, Physics::B2_BODY_TYPE type, float SCALE) : Entity(default_anim,x,y,shape,physShapes,world,type,SCALE)
+Unit::Unit(Animation *default_anim, int x, int y, sf::ConvexShape shape, QList<sf::ConvexShape> physShapes, b2World * world, Physics::B2_BODY_TYPE type, float SCALE) :
+    Entity(default_anim,x,y,shape,physShapes,world,type,SCALE)
 {
     connect(&this->phys, SIGNAL(landing()), this, SLOT(landFind()));
     connect(&this->phys, SIGNAL(jumping()), this, SLOT(landLost()));
 
+    this->setState(LOOK_RIGHT);
+    this->moving = NO;
+    this->jump_hight = 4;
+    this->rate = 8;
+}
+
+Unit::Unit(Skeletal *skeletal, b2World * world, Physics::B2_BODY_TYPE type):
+    Entity(skeletal, world, type)
+{
     this->setState(LOOK_RIGHT);
     this->moving = NO;
     this->jump_hight = 4;
