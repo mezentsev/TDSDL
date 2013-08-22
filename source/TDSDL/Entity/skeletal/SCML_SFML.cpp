@@ -19,6 +19,8 @@ bool FileSystem::loadImageFile(int folderID, int fileID, const std::string& file
     img->loadFromFile(filename);
     if(img == NULL)
         return false;
+
+    img->setSmooth(true);
     
     if(!SCML_MAP_INSERT(images, SCML_MAKE_PAIR(folderID, fileID), img))
     {

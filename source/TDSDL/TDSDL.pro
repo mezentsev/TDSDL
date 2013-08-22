@@ -9,8 +9,8 @@ win32 {
 
     LIBS += -L"C:\SFML\SFML-2.0\lib" \
         -lsfml-system \
-        #-lsfml-window \
-        #-lsfml-graphics \
+        -lsfml-window \
+        -lsfml-graphics \
         #-lsfml-audio \
         -L"C:\glew-1.10.0\lib" \
         #-lglew32 \
