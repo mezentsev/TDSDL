@@ -15,6 +15,6 @@
 *.pro.user
 *.exe
 
-build/*
+*/build/*
 
 Thumbs.db

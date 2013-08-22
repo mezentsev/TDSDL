@@ -286,44 +286,6 @@ bool App::Init()
     return true;
 }
 
-bool App::saveRes(QByteArray &arr)
-{
-    QFile file(this->resPath);
-    if (!file.open(QIODevice::WriteOnly))
-    {
-        printf("Unable to open file\n");
-        return false;
-    }
-    QDataStream out(&file);
-    out.setVersion(QDataStream::Qt_4_8); //  явно указываем версию Qt, для сериализации;
-
-    // сохранение данных
-    out << arr;
-
-    bool isFlush = file.flush();
-    file.close();
-    return isFlush;
-}
-
-QByteArray App::loadRes()
-{
-    QByteArray arr;
-    QFile file(this->resPath);
-    if (!file.open(QIODevice::ReadOnly))
-    {
-        printf("Unable to open file\n");
-        return false;
-    }
-    QDataStream in(&file);
-    in.setVersion(QDataStream::Qt_4_8); //  явно указываем версию Qt, для сериализации;
-
-    // сохранение данных
-    in >> arr;
-
-    file.close();
-    return arr;
-}
-
 // Запуск приложения
 int App::Execute()
 {

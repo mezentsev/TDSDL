@@ -5,16 +5,16 @@ QT += opengl
 
 win32 {
     INCLUDEPATH += "C:\SFML\SFML-2.0\include" \
-                   "C:\glew-1.9.0\include"
+                   "C:\box2d\include"
 
     LIBS += -L"C:\SFML\SFML-2.0\lib" \
         -lsfml-system \
-        -lsfml-window \
-        -lsfml-graphics \
-        -lsfml-audio \
-        -L"C:\glew-1.9.0\lib" \
-        -lglew32 \
-        -lglu32 \
+        #-lsfml-window \
+        #-lsfml-graphics \
+        #-lsfml-audio \
+        -L"C:\glew-1.10.0\lib" \
+        #-lglew32 \
+        #-lglu32 \
         -L"C:\box2d\lib" \
         -llibBox2D
 }
