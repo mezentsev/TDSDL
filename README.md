@@ -4,13 +4,13 @@ README
 Требования:
 
 
-Qt 4.8.4<br>
-GCC 4.4
+Qt 5.1<br>
+GCC 4.8
 
 Сборка для Ubuntu 13.04:
 
 В системе должны быть установлены:<br>
-libglew-dev libfreetype6-dev libjpeg-dev libopenal-dev libsndfile-dev libbox2d-dev libxi-dev cmake-gui
+libfreetype6-dev libjpeg-dev libopenal-dev libsndfile-dev libxi-dev cmake-gui
 
 1. Установка SFML:<br>
 $ cd ~/<br>
@@ -32,7 +32,7 @@ $ sudo make install -j2<br>
 $ cd ~/<br>
 $ git clone git@github.com:xCryogenx/TDSDL.git<br>
 $ mkdir build<br>
-$ cp -r TDSDL/resource/* build/<br>
+Копируем ресурсы из resources в build 
 <br>
 3.1. Запускаем Qt и выбираем ~/TDSDL/source/TDSDL/TDSDL.pro<br>
 3.2. Компилим ^_^<br>
